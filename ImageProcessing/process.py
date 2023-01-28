@@ -47,14 +47,12 @@ def find_min_bounding_box(analyze_img, view_image):
         rect = cv.minAreaRect(cntr)
         box = np.int0(cv.boxPoints(rect))
         cv.drawContours(view_image, [box], 0, (36,255,12), 3) 
-
-        get_data_from_box(rect)
         number += 1
 
-    return view_image, number
+    return view_image, rect, number
 
-# https://theailearner.com/2020/11/03/opencv-minimum-area-rectangle/
-# Clarification of angle_of_rot
+
+# For Debugging, see process_data.py
 def get_data_from_box(rect):
     center_x, center_y = rect[0]
     box_width, box_height = rect[1]
