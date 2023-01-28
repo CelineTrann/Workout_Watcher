@@ -47,6 +47,26 @@ def find_min_bounding_box(analyze_img, view_image):
         rect = cv.minAreaRect(cntr)
         box = np.int0(cv.boxPoints(rect))
         cv.drawContours(view_image, [box], 0, (36,255,12), 3) 
+
+        get_data_from_box(rect)
         number += 1
 
     return view_image, number
+
+# https://theailearner.com/2020/11/03/opencv-minimum-area-rectangle/
+# Clarification of angle_of_rot
+def get_data_from_box(rect):
+    center_x, center_y = rect[0]
+    box_width, box_height = rect[1]
+    angle_of_rot = rect[2]
+
+    print(f"centeroid: {center_x}, {center_y}")
+    print(f"box dimensions: {box_width} x {box_height}")
+    print(f"Angle of rotation: {angle_of_rot} degrees")
+
+# Used for debugging
+if __name__ == "__main__":
+    img = read_rescale("Images\Left_foot\\1-4.jpeg")
+    p_img = process_image(img, threshold=10)
+    filtered_c_img, c_img = connect_objects(p_img)
+    bb_img, number = find_min_bounding_box(filtered_c_img, c_img)
