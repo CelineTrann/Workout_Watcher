@@ -11,7 +11,7 @@ def create_data_csv(data_list: list[pd.Bounding_Box], filename):
         with open(filename, "w", newline='') as f:
             writer = csv.writer(f)
             for d in data_list:
-                writer.writerow([d.centroid_x, d.centroid_y, d.height, d.rotation, d.rotation, d.filepath])
+                writer.writerow([d.centroid_x, d.centroid_y, d.height, d.width, d.rotation, d.filepath])
     except BaseException as e:
         print("BaseException: ", filename)
     else:
@@ -24,8 +24,13 @@ def main(path):
     for file in dir_list:
         filepath = os.path.join(path, file)
         img = p.read_rescale(filepath)
+        cv.imshow("image", img)
+
         p_img = p.process_image(img, threshold=10)
+        cv.imshow("p img", p_img)
         filtered_c_img, c_img = p.connect_objects(p_img)
+        cv.imshow("c image", c_img)
+        cv.imshow("filtered", filtered_c_img)
         bb_img, data, number = p.find_min_bounding_box(filtered_c_img, img)
 
         box_data = pd.Bounding_Box(filepath, data)
@@ -37,11 +42,10 @@ def main(path):
 
     create_data_csv(box_data_list, "test.csv")
 
-# if __name__ == "__main__":
-#     if len(sys.argv) < 2:
-#         raise SystemExit(f"Usage: {sys.argv[0]} <directory_to_images>")
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        raise SystemExit(f"Usage: {sys.argv[0]} <directory_to_images>")
 
-#     path = sys.argv[1]
-#     main(path)
+    path = sys.argv[1]
+    main(path)
 
-main("Images\Left_foot")
