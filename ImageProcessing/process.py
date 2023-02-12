@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+import process_data as pd
 
 def read_rescale(filepath, scale=0.2):
     img = cv.imread(filepath)
@@ -43,13 +44,17 @@ def find_min_bounding_box(analyze_img, view_image):
     contours = contours[0] if len(contours) == 2 else contours[1]
 
     number = 0
+    rects = []
     for cntr in contours:
         rect = cv.minAreaRect(cntr)
         box = np.int0(cv.boxPoints(rect))
         cv.drawContours(view_image, [box], 0, (36,255,12), 3) 
+        
         number += 1
+        rects.append(rect)
 
-    return view_image, rect, number
+
+    return view_image, rects, number
 
 
 # For Debugging, see process_data.py
@@ -61,6 +66,24 @@ def get_data_from_box(rect):
     print(f"centeroid: {center_x}, {center_y}")
     print(f"box dimensions: {box_width} x {box_height}")
     print(f"Angle of rotation: {angle_of_rot} degrees")
+
+def crop_minarearect(img, rect):
+    # rotate img
+    angle = rect[2]
+    rows,cols = img.shape[0], img.shape[1]
+    M = cv.getRotationMatrix2D((cols/2,rows/2), angle, 1)
+    img_rot = cv.warpAffine(img,M,(cols,rows))
+
+    # rotate bounding box
+    box = cv.boxPoints(rect)
+    pts = np.int0(cv.transform(np.array([box]), M))[0]    
+    pts[pts < 0] = 0
+
+    # crop
+    img_crop = img_rot[pts[1][1]:pts[0][1], pts[1][0]:pts[2][0]]
+
+    return img_crop
+
 
 # Used for debugging
 if __name__ == "__main__":

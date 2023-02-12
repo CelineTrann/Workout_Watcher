@@ -24,28 +24,36 @@ def main(path):
     for file in dir_list:
         filepath = os.path.join(path, file)
         img = p.read_rescale(filepath)
-        cv.imshow("image", img)
+        # cv.imshow("image", img)
 
         p_img = p.process_image(img, threshold=10)
-        cv.imshow("p img", p_img)
+        # cv.imshow("p img", p_img)
         filtered_c_img, c_img = p.connect_objects(p_img)
-        cv.imshow("c image", c_img)
-        cv.imshow("filtered", filtered_c_img)
-        bb_img, data, number = p.find_min_bounding_box(filtered_c_img, img)
+        # cv.imshow("c image", c_img)
+        # cv.imshow("filtered", filtered_c_img)
+        bb_img, rects, number = p.find_min_bounding_box(filtered_c_img, img)
+        # cv.imshow("bb-img", bb_img)
 
-        box_data = pd.Bounding_Box(filepath, data)
-        box_data_list.append(box_data)
+        for rect in rects:
+            # Save Data
+            box_data = pd.Bounding_Box(filepath, rect)
+            box_data_list.append(box_data)
 
-        cv.imshow(filepath, bb_img)
-        cv.waitKey(0)
+            # Rotate and Crop Image
+            crop_img = p.crop_minarearect(img, rect)
+            cv.imshow(f"{filepath}", crop_img)
+
         print(f"{filepath} - {number} objects")
-
+        
+        cv.waitKey(0)
+        
     create_data_csv(box_data_list, "test.csv")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        raise SystemExit(f"Usage: {sys.argv[0]} <directory_to_images>")
+    # if len(sys.argv) < 2:
+    #     raise SystemExit(f"Usage: {sys.argv[0]} <directory_to_images>")
 
-    path = sys.argv[1]
+    # path = sys.argv[1]
+    path = "Images\Left_foot" 
     main(path)
 
