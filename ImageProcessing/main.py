@@ -41,10 +41,10 @@ def main(path):
 
             # Rotate and Crop Image
             crop_img = p.crop_minarearect(img, rect)
-            cv.imshow(f"{filepath}", crop_img)
+            cv.imshow("crop", crop_img)
+            cv.waitKey(0)
 
         print(f"{filepath} - {number} objects")
-        
         cv.waitKey(0)
         
     create_data_csv(box_data_list, "test.csv")
