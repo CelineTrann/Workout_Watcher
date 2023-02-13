@@ -1,0 +1,35 @@
+print('Let us start setting you up!')
+
+# Prompt user for weight measurement in lbs
+weight = input('What is your weight in lbs?')
+
+# Prompt user for hip width in cm
+hipWidth = input('What is your hip width in cm?')
+
+# Prompt user for shoulder width in cm
+shoulderWidth = input('What is your shoulder width in cm?')
+
+# Ask user for hand length
+HandLength = input('What is your hand length from the tip of your middle finger to the base of your wrist?')
+
+# Ask user to place hands on mat to recognize their hands
+hand = input('Place your hands on the mat!')
+
+# While hand on mat, verify that it is a hand 
+while hand > 0:
+    print('I see your hands!') # confirm hand on mat
+
+
+# Ask user for feet length
+feetLength = input('What is your feet length from the tip of your second toe to your edge of your heel?')
+
+# Ask user to place feet on mat to recognize their feet
+feet = input('Place your feet on the mat')
+
+# While feet on mat, verify it is feet
+while feet > 0:
+    print('I see your feet!') # confirm feet on mat
+
+# delay
+
+print('SET UP COMPLETE')
