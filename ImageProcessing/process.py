@@ -57,16 +57,6 @@ def find_min_bounding_box(analyze_img, view_image):
     return view_image, rects, number
 
 
-# For Debugging, see process_data.py
-def get_data_from_box(rect):
-    center_x, center_y = rect[0]
-    box_width, box_height = rect[1]
-    angle_of_rot = rect[2]
-
-    print(f"centeroid: {center_x}, {center_y}")
-    print(f"box dimensions: {box_width} x {box_height}")
-    print(f"Angle of rotation: {angle_of_rot} degrees")
-
 def crop_minarearect(img, rect):
     # rotate img
     angle = rect[2]
@@ -83,6 +73,17 @@ def crop_minarearect(img, rect):
     img_crop = img_rot[pts[1][1]:pts[0][1], pts[1][0]:pts[2][0]]
 
     return img_crop
+
+
+# For Debugging, see process_data.py
+def get_data_from_box(rect):
+    center_x, center_y = rect[0]
+    box_width, box_height = rect[1]
+    angle_of_rot = rect[2]
+
+    print(f"centeroid: {center_x}, {center_y}")
+    print(f"box dimensions: {box_width} x {box_height}")
+    print(f"Angle of rotation: {angle_of_rot} degrees")
 
 
 # Used for debugging
