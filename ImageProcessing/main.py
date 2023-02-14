@@ -24,15 +24,15 @@ def main(path):
     for file in dir_list:
         filepath = os.path.join(path, file)
         img = p.read_rescale(filepath)
-        # cv.imshow("image", img)
+        cv.imshow("image", img)
 
         p_img = p.process_image(img, threshold=10)
-        # cv.imshow("p img", p_img)
+        cv.imshow("p img", p_img)
         filtered_c_img, c_img = p.connect_objects(p_img)
-        # cv.imshow("c image", c_img)
-        # cv.imshow("filtered", filtered_c_img)
+        cv.imshow("c image", c_img)
+        cv.imshow("filtered", filtered_c_img)
         bb_img, rects, number = p.find_min_bounding_box(filtered_c_img, img)
-        # cv.imshow("bb-img", bb_img)
+        cv.imshow("bb-img", bb_img)
 
         for rect in rects:
             # Save Data

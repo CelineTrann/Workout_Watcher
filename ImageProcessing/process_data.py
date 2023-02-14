@@ -10,5 +10,8 @@ class Bounding_Box:
         self.height = rect[1][1]
         self.rotation = rect[2]
 
+    def set_label(self, label) -> None:
+        self.label = label
+
     def get_dimension_ratio(self):
         return self.height / self.width
