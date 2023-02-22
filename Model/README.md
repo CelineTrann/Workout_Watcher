@@ -40,3 +40,8 @@ Therefore, the following data points can be used to identify it
 * height to width ratio of bounding box
 * segment side that has more pressure (left or right foot arc)
 * side with the lowest convexity [convexity defects](https://theailearner.com/2020/11/09/convexity-defects-opencv/) (left or right hand)
+
+Note: This is subject to change
+
+## Model to Use
+Based on [this article](https://towardsdatascience.com/machine-learning-classifiers-comparison-with-python-33149aecdbca), given that we are trying to classify our data with less then 100k samples, we should use Linear SVC. If that model is not working we can use KNeighbours, SVC, or Ensemble Classifiers (Random Forest, AdaBoost).
