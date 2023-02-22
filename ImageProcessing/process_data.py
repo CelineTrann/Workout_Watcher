@@ -1,3 +1,4 @@
+import csv
 
 # https://theailearner.com/2020/11/03/opencv-minimum-area-rectangle/
 # Clarification of angle_of_rot
@@ -15,3 +16,14 @@ class Bounding_Box:
 
     def get_dimension_ratio(self):
         return self.height / self.width
+    
+def create_data_csv(data_list: list[Bounding_Box], filename):
+    try: 
+        with open(filename, "w", newline='') as f:
+            writer = csv.writer(f)
+            for d in data_list:
+                writer.writerow([d.centroid_x, d.centroid_y, d.height, d.width, d.rotation, d.filepath])
+    except BaseException as e:
+        print("BaseException: ", filename)
+    else:
+        print("Data has been loaded successfully!")

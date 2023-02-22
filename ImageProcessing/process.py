@@ -1,20 +1,14 @@
 import cv2 as cv
 import numpy as np
-import process_data as pd
-
-def read_rescale(filepath, scale=0.2):
-    img = cv.imread(filepath)
-    img = cv.resize(img, (0, 0), fx = scale, fy = scale) 
-    img = cv.bitwise_not(img)
-    return img
+from read import show_img
 
 def process_image(img, kernal=(3,3), threshold=0):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    blur = cv.blur(gray, kernal)
-    ret, thresh = cv.threshold(blur, threshold, 255, 0)
+    # blur = cv.blur(gray, kernal)
+    ret, thresh = cv.threshold(gray, threshold, 255, 0)
     return thresh
 
-def connect_objects(img, kernal=(10,10), min_area=1000, min_height=100, min_width=100):
+def connect_objects(img, kernal=(10,10), min_area=0, min_height=10, min_width=10):
     # Closing of images
     kernel = np.ones(kernal, np.uint8)
     closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
@@ -48,7 +42,7 @@ def find_min_bounding_box(analyze_img, view_image):
     for cntr in contours:
         rect = cv.minAreaRect(cntr)
         box = np.int0(cv.boxPoints(rect))
-        cv.drawContours(view_image, [box], 0, (36,255,12), 3) 
+        cv.drawContours(view_image, [box], 0, (36,255,12), 1) 
         
         number += 1
         rects.append(rect)
@@ -74,6 +68,15 @@ def crop_minarearect(img, rect):
 
     return img_crop
 
+def get_sections_mean(img):
+    rows, cols = img.shape[0], img.shape[1]
+    row_mid, col_mid = int(rows/2), int(cols/2)
+    Ltop = img[0:row_mid, 0:col_mid]
+    Rtop = img[0:row_mid, col_mid:cols]
+
+    Lbottom = img[row_mid:rows, 0:col_mid]
+    Rbottom = img[row_mid:rows, col_mid:cols]
+    return (Ltop.mean(), Rtop.mean(), Lbottom.mean(), Rbottom.mean())
 
 # For Debugging, see process_data.py
 def get_data_from_box(rect):
@@ -91,4 +94,7 @@ if __name__ == "__main__":
     img = read_rescale("Images\Left_foot\\1-4.jpeg")
     p_img = process_image(img, threshold=10)
     filtered_c_img, c_img = connect_objects(p_img)
-    bb_img, number = find_min_bounding_box(filtered_c_img, c_img)
+    bb_img, rect, number = find_min_bounding_box(filtered_c_img, c_img)
+
+    result = get_sections_mean(p_img)
+    print(result)
