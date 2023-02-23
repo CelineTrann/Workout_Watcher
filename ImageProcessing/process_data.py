@@ -19,7 +19,7 @@ class Bounding_Box:
     
 def create_data_csv(data_list: list[Bounding_Box], filename):
     try: 
-        with open(filename, "w", newline='') as f:
+        with open(filename, "a", newline='') as f:
             writer = csv.writer(f)
             for d in data_list:
                 writer.writerow([d.centroid_x, d.centroid_y, d.height, d.width, d.rotation, d.filepath])

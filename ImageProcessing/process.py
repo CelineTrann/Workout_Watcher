@@ -4,8 +4,8 @@ from read import show_img
 
 def process_image(img, kernal=(3,3), threshold=0):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    # blur = cv.blur(gray, kernal)
-    ret, thresh = cv.threshold(gray, threshold, 255, 0)
+    blur = cv.blur(gray, kernal)
+    ret, thresh = cv.threshold(blur, threshold, 255, 0)
     return thresh
 
 def connect_objects(img, kernal=(10,10), min_area=0, min_height=10, min_width=10):
@@ -24,10 +24,12 @@ def connect_objects(img, kernal=(10,10), min_area=0, min_height=10, min_width=10
         area = values[i, cv.CC_STAT_AREA]  
         height = values[i, cv.CC_STAT_HEIGHT]
         width = values[i, cv.CC_STAT_WIDTH]
+
+        print(f"A: {area}, H: {height}, W: {width}")
     
         # If component greater than value add to mask 
         # Used to further filter out noise
-        if (area > min_area) and (height > min_height) and (width > min_width):
+        if (area >= min_area) and (height >= min_height) and (width >= min_width):
             componentMask = (label_ids == i).astype("uint8") * 255
             output = cv.bitwise_or(output, componentMask)
 
