@@ -25,7 +25,7 @@ def connect_objects(img, kernal=(10,10), min_area=0, min_height=10, min_width=10
         height = values[i, cv.CC_STAT_HEIGHT]
         width = values[i, cv.CC_STAT_WIDTH]
 
-        print(f"A: {area}, H: {height}, W: {width}")
+        # print(f"A: {area}, H: {height}, W: {width}")
     
         # If component greater than value add to mask 
         # Used to further filter out noise

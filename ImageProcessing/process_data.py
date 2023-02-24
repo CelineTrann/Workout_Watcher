@@ -1,6 +1,5 @@
 import csv
 
-
 # https://theailearner.com/2020/11/03/opencv-minimum-area-rectangle/
 # Clarification of angle_of_rot
 class Bounding_Box:
@@ -23,7 +22,7 @@ class Bounding_Box:
         self.lbottom_mean = means[2]
         self.rbottom_mean = means[3]
 
-    def get_dimension_ratio(self):
+    def get_hw_ratio(self):
         return self.height / self.width
     
 class Boxes:
