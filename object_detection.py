@@ -27,6 +27,8 @@ def process_img(base, data, filepath):
 
         # Rotate and Crop Image
         crop_img = ip.crop_minarearect(img, rect)
+        section_mean = ip.get_sections_mean(crop_img)
+        box_data.set_mean(section_mean)
 
         boxes.add_box(box_data)
         
@@ -37,9 +39,8 @@ def detect_object(model, object: ipd.Bounding_Box):
     result = model.predict(x)
     print(result)
      
-
-
-
-base_data = np.genfromtxt("Data\Data (02.21)\Left Foot\\baself1.txt", delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
-data = np.genfromtxt("Data\Data (02.21)\Left Foot\leftf1_par.txt", delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
-result = process_img(base_data, data, "C:\\Users\\crona\\Downloads\\4B_tron\\Capstone\\Workout_Watcher\\Model\\or_kneighbour.pkl")
+# Debugging
+if __name__ == '__main__':
+    base_data = np.genfromtxt("Data\Data (02.21)\Left Foot\\baself1.txt", delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
+    data = np.genfromtxt("Data\Data (02.21)\Left Foot\leftf1_par.txt", delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
+    result = process_img(base_data, data, "C:\\Users\\crona\\Downloads\\4B_tron\\Capstone\\Workout_Watcher\\Model\\or_kneighbour.pkl")

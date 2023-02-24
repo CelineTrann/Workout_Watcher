@@ -78,7 +78,7 @@ def get_sections_mean(img):
 
     Lbottom = img[row_mid:rows, 0:col_mid]
     Rbottom = img[row_mid:rows, col_mid:cols]
-    return (Ltop.mean(), Rtop.mean(), Lbottom.mean(), Rbottom.mean())
+    return [Ltop.mean(), Rtop.mean(), Lbottom.mean(), Rbottom.mean()]
 
 # For Debugging, see process_data.py
 def get_data_from_box(rect):
@@ -92,11 +92,11 @@ def get_data_from_box(rect):
 
 
 # Used for debugging
-if __name__ == "__main__":
-    img = read_rescale("Images\Left_foot\\1-4.jpeg")
-    p_img = process_image(img, threshold=10)
-    filtered_c_img, c_img = connect_objects(p_img)
-    bb_img, rect, number = find_min_bounding_box(filtered_c_img, c_img)
+# if __name__ == "__main__":
+#     img = read_rescale("Images\Left_foot\\1-4.jpeg")
+#     p_img = process_image(img, threshold=10)
+#     filtered_c_img, c_img = connect_objects(p_img)
+#     bb_img, rect, number = find_min_bounding_box(filtered_c_img, c_img)
 
-    result = get_sections_mean(p_img)
-    print(result)
+#     result = get_sections_mean(p_img)
+#     print(result)
