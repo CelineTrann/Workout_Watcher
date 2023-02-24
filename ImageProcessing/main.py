@@ -1,12 +1,10 @@
 import process as p
-import sys
 import os
 
-import cv2 as cv
 import process_data as pd
 from read import read_file, show_img
 
-def main(path, display_img=False, data_label="foot", output="test1.csv"):
+def main(path, display_img=False, data_label="foot", output="test2.csv"):
     box_data_list = []
 
     for base_file, data_file in zip(base_files, data_files):
@@ -27,7 +25,9 @@ def main(path, display_img=False, data_label="foot", output="test1.csv"):
 
         for rect in rects:
             # Save Data
-            box_data = pd.Bounding_Box(data_filepath, rect, data_label)
+            box_data = pd.Bounding_Box(rect)
+            box_data.set_filepath(data_filepath)
+            box_data.set_label(data_label)
             box_data_list.append(box_data)
 
             # Rotate and Crop Image

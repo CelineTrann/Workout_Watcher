@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-from read import show_img
+from ImageProcessing.read import show_img
 
 def process_image(img, kernal=(3,3), threshold=0):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -29,7 +29,7 @@ def connect_objects(img, kernal=(10,10), min_area=0, min_height=10, min_width=10
     
         # If component greater than value add to mask 
         # Used to further filter out noise
-        if (area >= min_area) and (height >= min_height) and (width >= min_width):
+        if (area >= min_area) and ((height >= min_height) and (width >= min_width)):
             componentMask = (label_ids == i).astype("uint8") * 255
             output = cv.bitwise_or(output, componentMask)
 

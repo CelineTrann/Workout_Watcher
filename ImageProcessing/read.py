@@ -9,8 +9,9 @@ def show_img(name, img):
     cv.waitKey(0)
 
 
-def convert_to_img(name, nparray, img_show=False, threshold=0):
+def convert_to_img(name, base_nparray, data_nparray, img_show=False, threshold=0):
     heatmapshow = None
+    nparray = data_nparray - base_nparray
     nparray[nparray < threshold] = 0
     heatmapshow = cv.normalize(nparray, heatmapshow, alpha=0, beta=255, norm_type=cv.NORM_MINMAX, dtype=cv.CV_8U)
     heatmapshow = cv.applyColorMap(heatmapshow, cv.COLORMAP_BONE)
@@ -45,8 +46,7 @@ def read_file(base, file, img_show=False, threshold=0):
     base_data = np.genfromtxt(base, delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
     data = np.genfromtxt(file, delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
 
-    subtract = data - base_data
-    img = convert_to_img("subtract", subtract, img_show, threshold)
+    img = convert_to_img("subtract", base_data, data, img_show, threshold)
     return img
 
 

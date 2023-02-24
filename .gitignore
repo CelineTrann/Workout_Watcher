@@ -1,5 +1,5 @@
 # Test Files
-test.*
+*.csv
 Data/
 
 # Byte-compiled / optimized / DLL files
