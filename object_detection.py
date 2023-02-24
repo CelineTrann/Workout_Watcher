@@ -6,11 +6,7 @@ import numpy as np
 import pandas as pd
 import pickle
 
-def process_img(base, data, filepath):
-    # Load modelfrom file
-    with open(filepath, 'rb') as file:
-        model = pickle.load(file)
-
+def process_img(base, data, model):
     # process data as image
     img = ir.convert_to_img("curr", base, data, threshold=0)
     p_img = ip.process_image(img, threshold=40)
@@ -43,4 +39,9 @@ def detect_object(model, object: ipd.Bounding_Box):
 if __name__ == '__main__':
     base_data = np.genfromtxt("Data\Data (02.21)\Left Foot\\baself1.txt", delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
     data = np.genfromtxt("Data\Data (02.21)\Left Foot\leftf1_par.txt", delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
-    result = process_img(base_data, data, "C:\\Users\\crona\\Downloads\\4B_tron\\Capstone\\Workout_Watcher\\Model\\or_kneighbour.pkl")
+    
+    # Load model from file
+    with open("C:\\Users\\crona\\Downloads\\4B_tron\\Capstone\\Workout_Watcher\\Model\\or_kneighbour.pkl", 'rb') as file:
+        model = pickle.load(file)
+        
+    result = process_img(base_data, data, model)
