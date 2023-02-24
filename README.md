@@ -1,4 +1,7 @@
 # Workout_Watcher
 
 ## Image Processing
-see folder for more detail
+See folder for more detail
+
+## Model
+See folder for more detail

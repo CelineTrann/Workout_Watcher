@@ -1,3 +1,10 @@
+## Analyze Data
+Used data gotten from `ImageProcessing/main.py` to train various model. Model with best result is then saved to be used in the main program.
+
+## Comparison Classifier
+Compares various classifier. Used to research what model to use.
+
+# Old Information (Ignore)
 ## Data
 The data needs to be a numerical 2D array as seen below.
 
