@@ -17,6 +17,12 @@ class Bounding_Box:
     def set_filepath(self, filepath) -> None:
         self.filepath = filepath
 
+    def set_mean(self, means: list) -> None:
+        self.ltop_mean = means[0]
+        self.rtop_mean = means[1]
+        self.lbottom_mean = means[2]
+        self.rbottom_mean = means[3]
+
     def get_dimension_ratio(self):
         return self.height / self.width
     
