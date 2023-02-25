@@ -48,13 +48,14 @@ def main():
             object_list = process_img(base, data, model)
 
             # Check and correct posture
-            data = helper.extract_centroid_data(object_list)
+            position_data = helper.extract_position_data(object_list)
+            pressure_data = helper.extract_pressure_data(object_list)
 
             # if bad data then read mat again for better data
-            if not data:
+            if not position_data:
                 break
 
-            if not check_pose(pose, data):
+            if not check_pose(pose, position_data):
                 correct_pose(pose)
 
 
