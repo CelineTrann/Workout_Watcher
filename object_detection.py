@@ -33,7 +33,9 @@ def process_img(base, data, model):
 def detect_object(model, object: ipd.Bounding_Box):  
     x = pd.DataFrame({' height': [object.height], ' width': [object.width]})
     result = model.predict(x)
-    print(result)
+    print(result[0])
+
+    return result[0]
      
 # Debugging
 if __name__ == '__main__':
