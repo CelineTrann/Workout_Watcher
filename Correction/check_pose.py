@@ -1,3 +1,6 @@
+import helper
+
+# Function returns if pose is 90% correct
 def check_tree():
     pass
 

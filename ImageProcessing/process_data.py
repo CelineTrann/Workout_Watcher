@@ -27,7 +27,7 @@ class Bounding_Box:
     
 class Boxes:
     def __init__(self) -> None:
-        self.boxes = []
+        self.boxes: list[Bounding_Box] = []
 
     def add_box(self, box: Bounding_Box) -> None:
         self.boxes.append(box)
