@@ -1,9 +1,9 @@
 import Correction.check_pose as check
 import Correction.correct_pose as correct
-import helper
 
 from object_detection import process_img
 
+import helper
 import pickle
 
 def check_pose(pose, data):
@@ -48,6 +48,7 @@ def main():
             object_list = process_img(base, data, model)
 
             # Check and correct posture
+            # Assume max only 2 hands, 2 feet
             data = helper.extract_centroid_data(object_list)
             if not check_pose(pose, data):
                 correct_pose(pose)
