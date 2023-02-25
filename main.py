@@ -48,8 +48,12 @@ def main():
             object_list = process_img(base, data, model)
 
             # Check and correct posture
-            # Assume max only 2 hands, 2 feet
             data = helper.extract_centroid_data(object_list)
+
+            # if bad data then read mat again for better data
+            if not data:
+                break
+
             if not check_pose(pose, data):
                 correct_pose(pose)
 

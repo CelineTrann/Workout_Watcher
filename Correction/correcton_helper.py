@@ -1,5 +1,8 @@
 import numpy as np
 
+def label_side(centroids: list[list]) -> list:
+    pass
+
 def check_distance(centroids: list[list], x_distance=0, y_distance=0, tol=5) -> bool:
     arr = np.array(centroids)
     distance = np.ptp(arr, axis=0)
