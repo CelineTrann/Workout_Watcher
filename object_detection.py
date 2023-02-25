@@ -18,10 +18,11 @@ def process_img(base, data, model):
         # Save Data
         box_data = ipd.Bounding_Box(rect)
 
+        # label the data
         label = detect_object(model, box_data)
         box_data.set_label(label)
 
-        # Rotate and Crop Image
+        # Get the pressure of each region
         crop_img = ip.crop_minarearect(img, rect)
         section_mean = ip.get_sections_mean(crop_img)
         box_data.set_mean(section_mean)

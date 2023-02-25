@@ -1,15 +1,17 @@
 import Correction.check_pose as check
 import Correction.correct_pose as correct
+import helper
+
 from object_detection import process_img
 
 import pickle
 
-def check_pose(pose):
+def check_pose(pose, data):
     switch = {
-        "tree": check.check_tree(),
-        "warrior1": check.check_warrior1(),
-        "downwardDog": check.check_downwardDog(),
-        "triangle": check.check_triangle()
+        "tree": check.check_tree(data),
+        "warrior1": check.check_warrior1(data),
+        "downwardDog": check.check_downwardDog(data),
+        "triangle": check.check_triangle(data)
     }
 
     return switch.get(pose)
@@ -46,7 +48,8 @@ def main():
             object_list = process_img(base, data, model)
 
             # Check and correct posture
-            if not check_pose(pose):
+            data = helper.extract_centroid_data(object_list)
+            if not check_pose(pose, data):
                 correct_pose(pose)
 
 
