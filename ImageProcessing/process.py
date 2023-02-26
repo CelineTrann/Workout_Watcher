@@ -73,9 +73,9 @@ def crop_minarearect(img, rect):
 def get_sections_mean(img):
     rows, cols = img.shape[0], img.shape[1]
     row_mid, col_mid = int(rows/2), int(cols/2)
+
     Ltop = img[0:row_mid, 0:col_mid]
     Rtop = img[0:row_mid, col_mid:cols]
-
     Lbottom = img[row_mid:rows, 0:col_mid]
     Rbottom = img[row_mid:rows, col_mid:cols]
     return [Ltop.mean(), Rtop.mean(), Lbottom.mean(), Rbottom.mean()]
