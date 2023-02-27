@@ -60,7 +60,7 @@ data_files = ['leftf10_par.txt', 'leftf11_par.txt', 'leftf12_par.txt', 'leftf13_
               'leftf33_ang.txt', 'leftf34_ang.txt', 'leftf35_ang.txt', 'leftf36_ang.txt', 'leftf3_par.txt', 
               'leftf4_par.txt', 'leftf5_par.txt', 'leftf6_par.txt', 'leftf7_par.txt', 'leftf8_par.txt', 'leftf9_par.txt']
 
-main("Data\Data (02.21)\Left Foot", False, pd.limb.FOOT)
+main("Data\Data (02.21)\Left Foot", False, pd.limb.FOOT.value)
 
 # ----------------------------------------------------------------------------------------------------------------------------
 
@@ -81,7 +81,7 @@ data_files = ['rightf10_par.txt', 'rightf11_par.txt', 'rightf12_par.txt', 'right
               'rightf33_ang.txt', 'rightf34_ang.txt', 'rightf35_ang.txt', 'rightf36_ang.txt', 'rightf3_par.txt', 
               'rightf4_par.txt', 'rightf5_par.txt', 'rightf6_par.txt', 'rightf7_par.txt', 'rightf8_par.txt', 'rightf9_par.txt']
 
-main("Data\Data (02.21)\Right Foot", False, pd.limb.FOOT)
+main("Data\Data (02.21)\Right Foot", False, pd.limb.FOOT.value)
 
 # ----------------------------------------------------------------------------------------------------------------------------
 
@@ -102,7 +102,7 @@ data_files = ['lefth10_per.txt', 'lefth11_per.txt', 'lefth12_per.txt', 'lefth13_
               'lefth33_ang.txt', 'lefth34_ang.txt', 'lefth35_ang.txt', 'lefth36_ang.txt', 'lefth3_per.txt', 
               'lefth4_per.txt', 'lefth5_per.txt', 'lefth6_per.txt', 'lefth7_per.txt', 'lefth8_per.txt', 'lefth9_per.txt']
 
-main("Data\Data (02.21)\Left Hand", False, pd.limb.HAND)
+main("Data\Data (02.21)\Left Hand", False, pd.limb.HAND.value)
 
 # ----------------------------------------------------------------------------------------------------------------------------
 
@@ -125,6 +125,6 @@ data_files = ['righth10_per.txt', 'righth11_per.txt', 'righth12_per.txt', 'right
               'righth3_per.txt', 'righth4_per.txt', 'righth5_per.txt', 'righth6_per.txt', 'righth7_per.txt', 
               'righth8_per.txt', 'righth9_per.txt']
 
-main("Data\Data (02.21)\Right Hand", False, pd.limb.HAND)
+main("Data\Data (02.21)\Right Hand", False, pd.limb.HAND.value)
 
 

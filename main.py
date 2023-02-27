@@ -28,7 +28,7 @@ def correct_pose(pose):
 
 def main():
     # Load ML model
-    with open("or_kneighbour.pkl", 'rb') as file:
+    with open("Model\or3_kneighbour.pkl", 'rb') as file:
         model = pickle.load(file)
 
     # While On:

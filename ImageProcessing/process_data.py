@@ -57,7 +57,7 @@ class Boxes:
         self.hands: list[Bounding_Box] = []
 
     def add_box(self, box: Bounding_Box) -> None:
-        if box.label == limb.FOOT:
+        if box.label == limb.FOOT.value:
             self.feet.append(box)
         else:
             self.hands.append(box)
@@ -71,7 +71,7 @@ class Boxes:
     def get_distance(self):
         pass
 
-    def set_side(self, obj: str) -> None:
+    def set_side(self, obj: limb) -> None:
         if obj == limb.FOOT:
             foot1 = self.feet[0]
             foot2 = self.feet[1]
