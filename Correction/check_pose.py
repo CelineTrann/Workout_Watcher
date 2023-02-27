@@ -20,19 +20,27 @@ def check_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> bool:
 
 # Function returns if pose is 90% correct
 def check_tree(data: pd.Boxes) -> bool:
+    data.set_side(pd.limb.FOOT)
+
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
 
 def check_warrior1(data: pd.Boxes) -> bool:
+    data.set_side(pd.limb.FOOT)
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
 
 def check_downwardDog(data: pd.Boxes) -> bool:
+    data.set_side(pd.limb.FOOT)
+    data.set_side(pd.limb.HAND)
+
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
     elif not check_distance(data, pd.limb.HAND, 0, 0, 0, 0):
         return False
 
 def check_triangle(data: pd.Boxes) -> bool:
+    data.set_side(pd.limb.FOOT)
+    
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
