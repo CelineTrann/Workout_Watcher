@@ -3,7 +3,6 @@ import Correction.correct_pose as correct
 
 from object_detection import process_img
 
-import helper
 import pickle
 
 def check_pose(pose, data):
