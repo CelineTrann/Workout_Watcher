@@ -1,4 +1,19 @@
 import csv
+import numpy as np
+from enum import Enum
+
+class pressure(Enum):
+    HIGH = 1
+    MEDIUM = 2
+    LOW = 3
+
+class limb(Enum):
+    HAND = 'hand'
+    FOOT = 'foot'
+
+class side(Enum):
+    RIGHT = 1
+    LEFT = 2
 
 # https://theailearner.com/2020/11/03/opencv-minimum-area-rectangle/
 # Clarification of angle_of_rot
@@ -11,18 +26,21 @@ class Bounding_Box:
         self.rotation = rect[2]
 
     def set_label(self, label) -> None:
-        self.label = label
+        self.label: limb = label
 
     def set_filepath(self, filepath) -> None:
         self.filepath = filepath
 
-    def map_pressure(self, pressure) -> str:
-        if pressure > 10:
-            return 'HIGH'
-        elif pressure < 5:
-            return 'LOW'
+    def set_side(self, side_val) -> None:
+        self.side = side_val
+
+    def map_pressure(self, pressure_val) -> str:
+        if pressure_val > 10:
+            return pressure.HIGH
+        elif pressure_val < 5:
+            return pressure.LOW
         else:
-            return 'MEDIUM'
+            return pressure.MEDIUM
 
     def set_mean(self, means: list) -> None:
         self.ltop_mean = self.map_pressure(means[0])
@@ -35,13 +53,49 @@ class Bounding_Box:
     
 class Boxes:
     def __init__(self) -> None:
-        self.boxes: list[Bounding_Box] = []
+        self.feet: list[Bounding_Box] = []
+        self.hands: list[Bounding_Box] = []
 
     def add_box(self, box: Bounding_Box) -> None:
-        self.boxes.append(box)
+        if box.label == limb.FOOT:
+            self.feet.append(box)
+        else:
+            self.hands.append(box)
 
-    def get_box(self, index: int):
-        return self.boxes[index]
+    def is_valid(self) -> bool:
+        if len(self.feet) > 2 or len(self.hands) > 2:
+            return False
+        
+        return True
+    
+    def get_distance(self):
+        pass
+
+    def set_side(self, obj: str) -> None:
+        if obj == limb.FOOT:
+            foot1 = self.feet[0]
+            foot2 = self.feet[1]
+            
+            if foot1.centroid_x > foot2.centroid_x:
+                foot1.set_side(side.RIGHT)
+                foot2.set_side(side.LEFT)
+            else:
+                foot1.set_side(side.LEFT)
+                foot2.set_side(side.RIGHT)
+
+        else: 
+            hand1 = self.hands[0]
+            hand2 = self.hands[1]
+            
+            if hand1.centroid_x > hand2.centroid_x:
+                hand1.set_side(side.RIGHT)
+                hand2.set_side(side.LEFT)
+            else:
+                hand1.set_side(side.LEFT)
+                hand2.set_side(side.RIGHT)
+
+    def set_side_vertical(self, obj: str):
+        pass
 
 def create_data_csv(data_list: list[Bounding_Box], filename):
     try: 
