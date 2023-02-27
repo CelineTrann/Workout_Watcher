@@ -1,56 +1,38 @@
-import check_helper as cp
+import ImageProcessing.process_data as pd
 
-# Function returns if pose is 90% correct
-def check_tree(data: dict[list], pressure) -> bool:
-    lf_desired_pressure = {
-        'ltop': 'LOW',
-        'lbottom': 'HIGH',
-        'rtop': 'HIGH',
-        'rbottom': 'HIGH'
-    }
-
-    rf_desired_pressure = {
-        'ltop': 'HIGH',
-        'lbottom': 'HIGH',
-        'rtop': 'LOW',
-        'rbottom': 'HIGH'
-    }
-
-    foot_label = cp.label_side(data['foot'])
-
-    if not cp.check_distance(data['foot'], 10, 10, 5):
+def check_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> bool:
+    '''
+    Key Arguments:
+    data: current boxes
+    obj: hands or feet
+    ux: upper limit of distances between obj on x-axis
+    lx: lower limit of distances between obj on x-axis
+    uy: upper limit of distances between obj on y-axis
+    ly: lower limit of distances between obj on y-axis
+    '''
+    foot_distance_x, foot_distance_y = data.get_distance(obj)
+    if foot_distance_x + tol > ux or foot_distance_x - tol < lx:
+        return False
+    elif foot_distance_y + tol > uy or foot_distance_y - tol < ly:
         return False
     
-    elif not cp.check_angle(data['foot'], 0, 0, 5):
-        return False
-    
-    elif not cp.check_pressure(pressure['foot']):
-        return False
-
     return True
 
-def check_warrior1(data) -> bool:
-    if not cp.check_distance(data['foot'], 10, 10, 5):
-        return False
-    
-    elif not cp.check_angle(data['foot'], 0, 45, 5):
+# Function returns if pose is 90% correct
+def check_tree(data: pd.Boxes) -> bool:
+    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
 
-def check_downwardDog(data) -> bool:
-    if not cp.check_distance(data['foot'], 10, 10, 5):
-        return False
-    elif not cp.check_distance(data['hand'], 10, 10, 5):
-        return False
-    
-    elif not cp.check_angle(data['foot'], 0, 0, 5):
-        return False
-    elif not cp.check_angle(data['hand'], 0, 0, 5):
+def check_warrior1(data: pd.Boxes) -> bool:
+    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
 
-def check_triangle(data) -> bool:
-    if not cp.check_distance(data['foot'], 10, 10, 5):
+def check_downwardDog(data: pd.Boxes) -> bool:
+    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
-    
-    # TODO: determine way to get 90 degrees
-    elif not cp.check_angle(data['foot'], 0, 0, 5):
+    elif not check_distance(data, pd.limb.HAND, 0, 0, 0, 0):
+        return False
+
+def check_triangle(data: pd.Boxes) -> bool:
+    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
