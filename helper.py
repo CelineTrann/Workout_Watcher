@@ -17,13 +17,17 @@ def extract_position_data(obj: Boxes) -> dict[list]:
     return results
 
 def extract_pressure_data(obj: Boxes):
-    result = {}
-    for box, i in enumerate(obj.boxes):
-        result[f"{i}"] = {
+    results = {
+        'foot': [],
+        'hand': [],
+    }
+
+    for box in obj.boxes:
+        results[f'{box.label}'].append({
             'ltop': box.ltop_mean,
             'lbottom': box.lbottom_mean,
             'rtop': box.rtop_mean,
             'rbottom': box.rbottom_mean
-        }
+        })
 
-    return result
+    return results

@@ -55,7 +55,7 @@ def main():
             if not position_data:
                 break
 
-            if not check_pose(pose, position_data):
+            if not check_pose(pose, position_data, pressure_data):
                 correct_pose(pose)
 
 

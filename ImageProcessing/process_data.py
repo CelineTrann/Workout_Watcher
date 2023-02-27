@@ -16,11 +16,19 @@ class Bounding_Box:
     def set_filepath(self, filepath) -> None:
         self.filepath = filepath
 
+    def map_pressure(self, pressure) -> str:
+        if pressure > 10:
+            return 'HIGH'
+        elif pressure < 5:
+            return 'LOW'
+        else:
+            return 'MEDIUM'
+
     def set_mean(self, means: list) -> None:
-        self.ltop_mean = means[0]
-        self.rtop_mean = means[1]
-        self.lbottom_mean = means[2]
-        self.rbottom_mean = means[3]
+        self.ltop_mean = self.map_pressure(means[0])
+        self.rtop_mean = self.map_pressure(means[1])
+        self.lbottom_mean = self.map_pressure(means[2])
+        self.rbottom_mean = self.map_pressure(means[3])
 
     def get_hw_ratio(self):
         return self.height / self.width
