@@ -1,19 +1,5 @@
 import numpy as np
 
-def label_side(centroids: list[list], tol) -> list:
-    '''
-    Keyword Arguments:
-    centroids -- [centroid_x, centroid_y, rotation] of an object
-    tol -- tolerance in distance between objects
-
-    Return: list of right of left label
-    '''
-    difference = np.subtract(centroids[0] - centroids[1])
-    if difference[0][0] > 0:
-        return ['left', 'right']
-    
-    return ['rigth', 'left']
-
 def check_distance(centroids: list[list], x_distance, y_distance, tol=5) -> bool:
     '''
     postion -- [centroid_x, centroid_y, rotationt] of an object

@@ -68,34 +68,41 @@ class Boxes:
         
         return True
     
-    def get_distance(self):
-        pass
+    def get_obj(self, obj: limb) -> tuple[Bounding_Box, Bounding_Box]:
+        if obj == limb.FOOT:
+            obj1 = self.feet[0]
+            obj2 = self.feet[1]
+        else:
+            obj1 = self.hands[0]
+            obj2 = self.hands[1]
+
+        return obj1, obj2
 
     def set_side(self, obj: limb) -> None:
-        if obj == limb.FOOT:
-            foot1 = self.feet[0]
-            foot2 = self.feet[1]
+        obj1, obj2 = self.get_obj(obj)
             
-            if foot1.centroid_x > foot2.centroid_x:
-                foot1.set_side(side.RIGHT)
-                foot2.set_side(side.LEFT)
-            else:
-                foot1.set_side(side.LEFT)
-                foot2.set_side(side.RIGHT)
+        if obj1.centroid_x > obj2.centroid_x:
+            obj1.set_side(side.RIGHT)
+            obj2.set_side(side.LEFT)
+        else:
+            obj1.set_side(side.LEFT)
+            obj2.set_side(side.RIGHT)
 
-        else: 
-            hand1 = self.hands[0]
-            hand2 = self.hands[1]
-            
-            if hand1.centroid_x > hand2.centroid_x:
-                hand1.set_side(side.RIGHT)
-                hand2.set_side(side.LEFT)
-            else:
-                hand1.set_side(side.LEFT)
-                hand2.set_side(side.RIGHT)
+    def set_side_vertical(self, obj: limb, bottom_side: side, top_side: side) -> None:
+        obj1, obj2 = self.get_obj(obj)
 
-    def set_side_vertical(self, obj: str):
-        pass
+        if obj1.centroid_y < obj2.centroid_y:
+            obj1.set_side(bottom_side)
+            obj2.set_side(top_side)
+        else:
+            obj1.set_side(top_side)
+            obj2.set_side(bottom_side)
+
+    def get_distance(self, obj: limb) -> float:
+        obj1, obj2 = self.get_obj(obj)
+        distance_x = abs(obj1.centroid_x - obj2.centroid_x)
+        distance_y = abs(obj1.centroid_y - obj2.centroid_y)
+        return distance_x, distance_y
 
 def create_data_csv(data_list: list[Bounding_Box], filename):
     try: 

@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pickle
 
-def process_img(base, data, model):
+def process_img(base, data, model) -> ipd.Boxes:
     # process data as image
     img = ir.convert_to_img("curr", base, data, threshold=0)
     p_img = ip.process_image(img, threshold=40)

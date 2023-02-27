@@ -1,4 +1,4 @@
-import correcton_helper as cp
+import check_helper as cp
 
 # Function returns if pose is 90% correct
 def check_tree(data: dict[list], pressure) -> bool:

@@ -47,15 +47,10 @@ def main():
             # compile data (object type, location, rotation, pressure regions) 
             object_list = process_img(base, data, model)
 
-            # Check and correct posture
-            position_data = helper.extract_position_data(object_list)
-            pressure_data = helper.extract_pressure_data(object_list)
-
-            # if bad data then read mat again for better data
-            if not position_data:
+            if not object_list.is_valid():
                 break
 
-            if not check_pose(pose, position_data, pressure_data):
+            if not check_pose(pose, object_list):
                 correct_pose(pose)
 
 
