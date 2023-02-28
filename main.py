@@ -60,6 +60,7 @@ def main():
             # send result to phone
             # break
         
-
-
+if __name__ == "__main__":
+    print("working")
+    main()
     

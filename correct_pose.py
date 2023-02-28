@@ -8,14 +8,14 @@ class distance(Enum):
     FURTHER_Y = "further away vertically",
     PERFECT = "Perfect!"
 
-class rotation(Enum, ):
+class rotation(Enum):
     CLOSER_LEFT = "on  your left side closer to your body",
     FURTHER_LEFT = "on your left side away from your body", 
     CLOSER_RIGHT = "on your right side closer to your body",
     FURTHER_RIGHT = "on your right side away from your body",
     PERFECT = "Perfect!"
 
-def print_distance_results(results: dict[distance.name, bool], obj: pd.limb) -> None:
+def print_distance_results(results: dict, obj: pd.limb) -> None:
     if results[distance.PERFECT.name]:
         print(f"{distance.PERFECT.value}")
         return
@@ -32,7 +32,7 @@ def print_distance_results(results: dict[distance.name, bool], obj: pd.limb) -> 
     elif results[distance.FURTHER_Y.name]:
         print(f'Move your {obj_name} {distance.FURTHER_Y.value}.')
 
-def print_rotation_results(results: dict[distance.name, bool], obj: pd.limb) -> None:
+def print_rotation_results(results: dict, obj: pd.limb) -> None:
     if results[rotation.PERFECT.name]:
         print(f"{rotation.PERFECT.value}")
         return
@@ -48,7 +48,7 @@ def print_rotation_results(results: dict[distance.name, bool], obj: pd.limb) -> 
         print(f'Rotate your {obj} {rotation.FURTHER_RIGHT.value}.')
 
 
-def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict[distance.name, bool]:
+def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict:
     foot_distance_x, foot_distance_y = data.get_distance(obj)
     correction = {
         distance.PERFECT.name: True,
@@ -74,7 +74,7 @@ def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict[d
     
     return correction
 
-def closer_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol) -> dict[rotation.name, bool]:
+def closer_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol) -> dict:
     left, right = data.get_sides(obj)
     correction = {
         rotation.PERFECT.name: True,
