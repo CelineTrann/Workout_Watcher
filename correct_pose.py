@@ -6,14 +6,47 @@ class distance(Enum):
     FURTHER_X = "further away horizontally", 
     CLOSER_Y = "closer together vertically",
     FURTHER_Y = "further away vertically",
-    PERFECT = 4
+    PERFECT = "Perfect!"
 
-class rotation(Enum):
-    CLOSER_LEFT = 0,
-    FURTHER_LEFT = 1, 
-    CLOSER_RIGHT = 2,
-    FURTHER_RIGHT = 3,
-    PERFECT = 4
+class rotation(Enum, ):
+    CLOSER_LEFT = "on  your left side closer to your body",
+    FURTHER_LEFT = "on your left side away from your body", 
+    CLOSER_RIGHT = "on your right side closer to your body",
+    FURTHER_RIGHT = "on your right side away from your body",
+    PERFECT = "Perfect!"
+
+def print_distance_results(results: dict[distance.name, bool], obj: pd.limb) -> None:
+    if results[distance.PERFECT.name]:
+        print(f"{distance.PERFECT.value}")
+        return
+    
+    obj_name = obj.get_plural_hand if obj == pd.limb.HAND else obj.get_plural_foot
+
+    if results[distance.CLOSER_X.name]:
+        print(f'Move your {obj_name} {distance.CLOSER_X.value}.')
+    elif results[distance.FURTHER_X.name]:
+        print(f'Move your {obj_name} {distance.FURTHER_X.value}.')
+
+    if results[distance.CLOSER_Y.name]:
+        print(f'Move your {obj_name} {distance.CLOSER_Y.value}.')
+    elif results[distance.FURTHER_Y.name]:
+        print(f'Move your {obj_name} {distance.FURTHER_Y.value}.')
+
+def print_rotation_results(results: dict[distance.name, bool], obj: pd.limb) -> None:
+    if results[rotation.PERFECT.name]:
+        print(f"{rotation.PERFECT.value}")
+        return
+
+    if results[rotation.CLOSER_LEFT.name]:
+        print(f'Rotate your {obj} {rotation.CLOSER_LEFT.value}.')
+    elif results[rotation.FURTHER_LEFT.name]:
+        print(f'Rotate your {obj} {rotation.FURTHER_LEFT.value}.')
+
+    if results[rotation.CLOSER_RIGHT.name]:
+        print(f'Rotate your {obj} {rotation.CLOSER_RIGHT.value}.')
+    elif results[rotation.FURTHER_LEFT.name]:
+        print(f'Rotate your {obj} {rotation.FURTHER_RIGHT.value}.')
+
 
 def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict[distance.name, bool]:
     foot_distance_x, foot_distance_y = data.get_distance(obj)
@@ -71,9 +104,15 @@ def correct_tree(data: pd.Boxes):
     correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
     correct_rotation = closer_rotation(data, pd.limb.FOOT, 0, 0, 5)
 
+    print_distance_results(correct_distance, pd.limb.FOOT)
+    print_rotation_results(correct_rotation, pd.limb.FOOT)
+
 def correct_warrior1(data: pd.Boxes, l_rot, r_rot):
     correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
     correct_rotation = closer_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5)
+
+    print_distance_results(correct_distance, pd.limb.FOOT)
+    print_rotation_results(correct_rotation, pd.limb.FOOT)
 
 def correct_downwardDog(data: pd.Boxes):
     correct_distance_feet = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
@@ -81,8 +120,16 @@ def correct_downwardDog(data: pd.Boxes):
 
     correct_rotation_feet = closer_rotation(data, pd.limb.FOOT, 0, 0, 5)
     correct_rotation_hand = closer_rotation(data, pd.limb.HAND, 0, 0, 5)
+
+    print_distance_results(correct_distance_feet, pd.limb.FOOT)
+    print_distance_results(correct_distance_hands, pd.limb.HAND)
+    print_rotation_results(correct_rotation_feet, pd.limb.FOOT)
+    print_distance_results(correct_distance_hands, pd.limb.HAND)
     
 
 def correct_triangle(data: pd.Boxes, l_rot, r_rot):
     correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
     correct_rotation = closer_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5)
+
+    print_distance_results(correct_distance, pd.limb.FOOT)
+    print_rotation_results(correct_rotation, pd.limb.FOOT)

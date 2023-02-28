@@ -11,6 +11,12 @@ class limb(Enum):
     HAND = 'hand'
     FOOT = 'foot'
 
+    def get_plural_hand(self):
+        return 'hands'
+    
+    def get_plural_foot(self):
+        return 'feet'
+
 class side(Enum):
     RIGHT = 1
     LEFT = 2
