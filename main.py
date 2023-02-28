@@ -1,7 +1,6 @@
+from object_detection import process_img
 import check_pose as check
 import correct_pose as correct
-
-from object_detection import process_img
 
 import pickle
 
