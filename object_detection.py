@@ -6,11 +6,7 @@ import numpy as np
 import pandas as pd
 import pickle
 
-def process_img(base, data, filepath):
-    # Load modelfrom file
-    with open(filepath, 'rb') as file:
-        model = pickle.load(file)
-
+def process_img(base, data, model) -> ipd.Boxes:
     # process data as image
     img = ir.convert_to_img("curr", base, data, threshold=0)
     p_img = ip.process_image(img, threshold=40)
@@ -22,10 +18,11 @@ def process_img(base, data, filepath):
         # Save Data
         box_data = ipd.Bounding_Box(rect)
 
+        # label the data
         label = detect_object(model, box_data)
         box_data.set_label(label)
 
-        # Rotate and Crop Image
+        # Get the pressure of each region
         crop_img = ip.crop_minarearect(img, rect)
         section_mean = ip.get_sections_mean(crop_img)
         box_data.set_mean(section_mean)
@@ -37,10 +34,17 @@ def process_img(base, data, filepath):
 def detect_object(model, object: ipd.Bounding_Box):  
     x = pd.DataFrame({' height': [object.height], ' width': [object.width]})
     result = model.predict(x)
-    print(result)
+    print(result[0])
+
+    return result[0]
      
 # Debugging
 if __name__ == '__main__':
     base_data = np.genfromtxt("Data\Data (02.21)\Left Foot\\baself1.txt", delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
     data = np.genfromtxt("Data\Data (02.21)\Left Foot\leftf1_par.txt", delimiter=",", encoding='UTF-8', unpack=False, usecols=range(24))
-    result = process_img(base_data, data, "C:\\Users\\crona\\Downloads\\4B_tron\\Capstone\\Workout_Watcher\\Model\\or_kneighbour.pkl")
+    
+    # Load model from file
+    with open("C:\\Users\\crona\\Downloads\\4B_tron\\Capstone\\Workout_Watcher\\Model\\or_kneighbour.pkl", 'rb') as file:
+        model = pickle.load(file)
+        
+    result = process_img(base_data, data, model)
