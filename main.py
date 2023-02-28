@@ -8,9 +8,11 @@ import pickle
 def check_pose(pose, data):
     switch = {
         "tree": check.check_tree(data),
-        "warrior1": check.check_warrior1(data),
+        "warrior1_right": check.check_warrior1(data, 0, 45),
+        "warrior1_left": check.check_warrior1(data, 45, 0),
         "downwardDog": check.check_downwardDog(data),
-        "triangle": check.check_triangle(data)
+        "triangle_right": check.check_triangle(data, 0, 90),
+        "triangle_left": check.check_triangle(data, 90, 0)
     }
 
     return switch.get(pose)
