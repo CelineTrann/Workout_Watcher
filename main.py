@@ -3,6 +3,7 @@ import check_pose as check
 import correct_pose as correct
 
 import pickle
+import time
 
 def check_pose(pose, data):
     switch = {
@@ -33,12 +34,17 @@ def main():
     with open("Model\or3_kneighbour.pkl", 'rb') as file:
         model = pickle.load(file)
 
-    # While On:
+    On = True
+    while On:
         # Wait for User to Choose Pose
         pose = "tree"
 
-        holding_pose = True
-        while holding_pose:
+        if pose == 'exit':
+            # send result to phone
+            return
+
+        start_time = time.time()
+        while time.time() - start_time < 20:
             # Get data from mat
             base = 0
             data = 0
@@ -54,11 +60,10 @@ def main():
 
             if not check_pose(pose, object_list):
                 correct_pose(pose)
+            else:
+                # wait 5 seconds before checking pose again
+                time.sleep(5)
 
-
-        # if not continue:
-            # send result to phone
-            # break
         
 if __name__ == "__main__":
     print("working")
