@@ -1,6 +1,7 @@
 from object_detection import process_img
 import check_pose as check
 import correct_pose as correct
+import readData as r
 
 import pickle
 import time
@@ -29,40 +30,42 @@ def correct_pose(pose, data):
 
     return switch.get(pose)
 
+def choose_pose():
+    # bluetooth to get pose
+    pose = 'tree'
+    return pose
+
 def main():
     # Load ML model
     with open("Model\or3_kneighbour.pkl", 'rb') as file:
         model = pickle.load(file)
 
-    On = True
-    while On:
+    while True:
         # Wait for User to Choose Pose
-        pose = "tree"
-
+        pose = choose_pose()
         if pose == 'exit':
-            # send result to phone
-            return
+            break
 
-        start_time = time.time()
-        while time.time() - start_time < 20:
-            # Get data from mat
-            base = 0
-            data = 0
+        start_pose_time = time.time()
+        while time.time() - start_pose_time < 30:
+            # Read data from mat
+            base = r.readData()
+            time.sleep(2)
+            data = r.readData()
             
-            # process and clean data
-            # process data image and get data from object
-            # classify object
-            # compile data (object type, location, rotation, pressure regions) 
+            # Extract Data
             object_list = process_img(base, data, model)
 
             if not object_list.is_valid():
                 break
 
+            # Check and correct pose
             if not check_pose(pose, object_list):
                 correct_pose(pose)
-            else:
-                # wait 5 seconds before checking pose again
                 time.sleep(5)
+            else:
+                print("Hold Pose.")
+                time.sleep(10)
 
         
 if __name__ == "__main__":
