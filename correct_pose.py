@@ -9,7 +9,7 @@ class distance(Enum):
     PERFECT = "Perfect!"
 
 class rotation(Enum):
-    CLOSER_LEFT = "on  your left side closer to your body",
+    CLOSER_LEFT = "on your left side closer to your body",
     FURTHER_LEFT = "on your left side away from your body", 
     CLOSER_RIGHT = "on your right side closer to your body",
     FURTHER_RIGHT = "on your right side away from your body",
@@ -123,8 +123,9 @@ def correct_downwardDog(data: pd.Boxes):
 
     print_distance_results(correct_distance_feet, pd.limb.FOOT)
     print_distance_results(correct_distance_hands, pd.limb.HAND)
+
     print_rotation_results(correct_rotation_feet, pd.limb.FOOT)
-    print_distance_results(correct_distance_hands, pd.limb.HAND)
+    print_rotation_results(correct_rotation_hand, pd.limb.HAND)
     
 
 def correct_triangle(data: pd.Boxes, l_rot, r_rot):
