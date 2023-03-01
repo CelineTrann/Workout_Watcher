@@ -106,10 +106,10 @@ class Boxes:
     
     def get_pressure(self, obj: pressure) -> float:
         obj1, obj2 = self.get_obj(obj)
-        pressure_tl = obj1.centroid_x
-        pressure_tr = obj1.centroid_y
-        pressure_bl = obj1.centroid_x
-        pressure_br = obj1.centroid_x
+        pressure_tl = obj1.ltop_mean
+        pressure_tr = obj1.rtop_mean 
+        pressure_bl = obj1.lbottom_mean
+        pressure_br = obj1.rbottom_mean
         return pressure_tl, pressure_tr, pressure_bl, pressure_br
 
 def create_data_csv(data_list: list[Bounding_Box], filename):
