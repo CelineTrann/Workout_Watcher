@@ -18,9 +18,9 @@ def process_img(base, data, model) -> ipd.Boxes:
         # Save Data
         box_data = ipd.Bounding_Box(rect)
 
-        # label the data
-        label = detect_object(model, box_data)
-        box_data.set_label(label)
+        # # label the data
+        # label = detect_object(model, box_data)
+        # box_data.set_label(label)
 
         # Get the pressure of each region
         crop_img = ip.crop_minarearect(img, rect)

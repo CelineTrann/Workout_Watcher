@@ -20,6 +20,11 @@ def check_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> bool:
 
 # Function returns if pose is 90% correct
 def check_tree(data: pd.Boxes) -> bool:
+    objs = data.no_label
+    if len(objs) > 1:
+        return False
+    
+    objs[0].set_label(pd.limb.FOOT.value)
     data.set_side(pd.limb.FOOT)
 
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):

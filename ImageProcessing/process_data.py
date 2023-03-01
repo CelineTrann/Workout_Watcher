@@ -26,7 +26,7 @@ class Bounding_Box:
         self.rotation = rect[2]
 
     def set_label(self, label) -> None:
-        self.label: limb = label
+        self.label: str = label
 
     def set_filepath(self, filepath) -> None:
         self.filepath = filepath
@@ -55,15 +55,18 @@ class Boxes:
     def __init__(self) -> None:
         self.feet: list[Bounding_Box] = []
         self.hands: list[Bounding_Box] = []
+        self.no_label: list[Bounding_Box] = []
 
     def add_box(self, box: Bounding_Box) -> None:
         if box.label == limb.FOOT.value:
             self.feet.append(box)
-        else:
+        elif box.label == limb.HAND.value:
             self.hands.append(box)
+        else:
+            self.no_label.append(box)
 
     def is_valid(self) -> bool:
-        if len(self.feet) > 2 or len(self.hands) > 2:
+        if len(self.feet) > 2 or len(self.hands) > 2 or len(self.no_label) > 4:
             return False
         
         return True
@@ -72,7 +75,7 @@ class Boxes:
         if obj == limb.FOOT:
             obj1 = self.feet[0]
             obj2 = self.feet[1]
-        else:
+        elif obj == limb.HAND:
             obj1 = self.hands[0]
             obj2 = self.hands[1]
 
