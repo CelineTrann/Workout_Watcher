@@ -103,6 +103,14 @@ class Boxes:
         distance_x = abs(obj1.centroid_x - obj2.centroid_x)
         distance_y = abs(obj1.centroid_y - obj2.centroid_y)
         return distance_x, distance_y
+    
+    def get_pressure(self, obj: pressure) -> float:
+        obj1, obj2 = self.get_obj(obj)
+        pressure_tl = obj1.centroid_x
+        pressure_tr = obj1.centroid_y
+        pressure_bl = obj1.centroid_x
+        pressure_br = obj1.centroid_x
+        return pressure_tl, pressure_tr, pressure_bl, pressure_br
 
 def create_data_csv(data_list: list[Bounding_Box], filename):
     try: 
