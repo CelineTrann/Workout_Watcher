@@ -67,7 +67,7 @@ def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict:
     
     if foot_distance_y + tol > uy:
         correction[distance.PERFECT.name] =  False
-        correction[distance.CLOSER_Y. name] = True
+        correction[distance.CLOSER_Y.name] = True
     elif foot_distance_y - tol < ly:
         correction[distance.PERFECT.name] =  False
         correction[distance.FURTHER_Y.name] = True
