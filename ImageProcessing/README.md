@@ -31,7 +31,12 @@ In the `process.py` folder are helper functions that are steps in the image proc
 
 ## Process Data
 This is, to my knowledge, how the dimensions and means are situated. The height and width might be swapped though...
-![Dimensions](C:\Users\crona\Downloads\4B_tron\Capstone\Workout_Watcher\ImageProcessing\dimensions.png)
+![Dimensions](ImageProcessing\dimensions.png)
+
+This is how the rotation of the Bounding Box works
+![Bounding Box Rotation](ImageProcessing\rotations.png)
+
+Note that the rotation is calculated from the lowest point of the box with the x-axis
 
 `BoundingBox`
 * object containing information about an object
