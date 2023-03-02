@@ -104,7 +104,7 @@ class Boxes:
         distance_y = abs(obj1.centroid_y - obj2.centroid_y)
         return distance_x, distance_y
     
-    def get_pressure(self, obj: pressure) -> float:
+    def get_pressure(self, obj: limb) -> float:
         obj1, obj2 = self.get_obj(obj)
         pressure_tl = obj1.ltop_mean
         pressure_tr = obj1.rtop_mean 
