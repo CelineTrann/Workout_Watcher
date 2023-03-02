@@ -6,22 +6,25 @@ import numpy as np
 import pandas as pd
 import pickle
 
-def process_img(base, data, model) -> ipd.Boxes:
+def process_img(base, data) -> ipd.Boxes:
     # process data as image
     img = ir.convert_to_img("curr", base, data, threshold=0)
     p_img = ip.process_image(img, threshold=40)
-    filtered_c_img, c_img = ip.connect_objects(p_img, kernal=(3,3), min_area=40, min_height=5, min_width=7)
+    filtered_c_img, c_img = ip.connect_objects(p_img, kernal=(2,2), min_area=40, min_height=5, min_width=7)
     bb_img, rects, number = ip.find_min_bounding_box(filtered_c_img, img.copy()) 
-
+    
+    ir.show_img("img", img)
+    ir.show_img("p-img", p_img)
+    ir.show_img("c-img", c_img)
+    ir.show_img("cFilter-img", filtered_c_img)
+    ir.show_img("bb-img", bb_img)
+    print(f"Number of objects {number}")
+    
     boxes = ipd.Boxes()
     for rect in rects:
         # Save Data
         box_data = ipd.Bounding_Box(rect)
-
-        # label the data
-        label = detect_object(model, box_data)
-        box_data.set_label(label)
-
+        
         # Get the pressure of each region
         crop_img = ip.crop_minarearect(img, rect)
         section_mean = ip.get_sections_mean(crop_img)
@@ -30,13 +33,6 @@ def process_img(base, data, model) -> ipd.Boxes:
         boxes.add_box(box_data)
         
     return boxes
-
-def detect_object(model, object: ipd.Bounding_Box):  
-    x = pd.DataFrame({' height': [object.height], ' width': [object.width]})
-    result = model.predict(x)
-    print(result[0])
-
-    return result[0]
      
 # Debugging
 if __name__ == '__main__':

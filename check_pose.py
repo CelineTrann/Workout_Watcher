@@ -18,6 +18,26 @@ def check_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> bool:
     
     return True
 
+def set_label(data: pd.Boxes, expected_obj: int) -> None:
+    objs = data.no_label
+    if len(objs) > expected_obj:
+        return False
+    
+    elif expected_obj > 2:
+
+        objs.sort(key = lambda x: x.centroid_y, reverse=False)
+        for _ in range(2):
+            curr_obj = objs.pop()
+            curr_obj.set_label(pd.limb.HAND.value)
+            data.hands.append(curr_obj)
+
+    for _ in range(len(objs)):
+        curr_obj = objs.pop()
+        curr_obj.set_label(pd.limb.FOOT.value)
+        data.feet.append(curr_obj)
+
+    return True
+
 def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
     left, right = data.get_sides(obj)
     if left.get_rotation > l_rot + tol or left.get_rotation < l_rot - tol:
@@ -25,10 +45,12 @@ def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
     elif right.get_rotation > r_rot + tol or right.get_rotation < r_rot - tol:
         return False
     
-    return True
 
 # Function returns if pose is 90% correct
 def check_tree(data: pd.Boxes) -> bool:
+    if not set_label(data, 1):
+        return
+    
     data.set_side(pd.limb.FOOT)
 
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
@@ -37,7 +59,10 @@ def check_tree(data: pd.Boxes) -> bool:
     elif not check_rotation(data, pd.limb.FOOT, 0, 0, 5):
         return False
 
+
 def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
+    if not set_label(data, 2):
+        return False
     data.set_side(pd.limb.FOOT)
 
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
@@ -47,6 +72,9 @@ def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
         return False
 
 def check_downwardDog(data: pd.Boxes) -> bool:
+    if not set_label(data, 4):
+        return False
+    
     data.set_side(pd.limb.FOOT)
     data.set_side(pd.limb.HAND)
 
@@ -61,6 +89,8 @@ def check_downwardDog(data: pd.Boxes) -> bool:
         return False
 
 def check_triangle(data: pd.Boxes, l_rot, r_rot) -> bool:
+    if not set_label(data, 2):
+        return False
     data.set_side(pd.limb.FOOT)
     
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):

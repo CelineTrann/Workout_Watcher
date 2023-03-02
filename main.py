@@ -3,7 +3,6 @@ import check_pose as check
 import correct_pose as correct
 import readData as r
 
-import pickle
 import time
 
 def check_pose(pose, data):
@@ -36,10 +35,7 @@ def choose_pose():
     return pose
 
 def main():
-    # Load ML model
-    with open("Model\or3_kneighbour.pkl", 'rb') as file:
-        model = pickle.load(file)
-
+    
     while True:
         # Wait for User to Choose Pose
         pose = choose_pose()
@@ -49,14 +45,17 @@ def main():
         start_pose_time = time.time()
         while time.time() - start_pose_time < 30:
             # Read data from mat
+            print('start')
             base = r.readData()
+            print('step on mat')
             time.sleep(2)
             data = r.readData()
             
             # Extract Data
-            object_list = process_img(base, data, model)
+            object_list = process_img(base, data)
 
             if not object_list.is_valid():
+                print('Too Many Objects')
                 break
 
             # Check and correct pose
