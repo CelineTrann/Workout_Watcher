@@ -49,12 +49,12 @@ def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
 # Function returns if pose is 90% correct
 def check_tree(data: pd.Boxes, obj_side: pd.side) -> bool:
     if not set_label(data, 1):
-        return
+        return False
     
     foot = data.feet[0]
     
     foot.set_side(obj_side)
-    if foot.rotation > 0 + 5 or foot.rotation < 90 - 5:
+    if foot.rotation > 0 + 5 or foot.rotation < 0 - 5:
         return False
 
 def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
