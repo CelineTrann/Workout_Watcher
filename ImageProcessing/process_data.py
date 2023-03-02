@@ -11,6 +11,12 @@ class limb(Enum):
     HAND = 'hand'
     FOOT = 'foot'
 
+    def get_plural_hand(self):
+        return 'hands'
+    
+    def get_plural_foot(self):
+        return 'feet'
+
 class side(Enum):
     RIGHT = 1
     LEFT = 2
@@ -50,6 +56,15 @@ class Bounding_Box:
 
     def get_hw_ratio(self):
         return self.height / self.width
+    
+    def get_rotation(self):
+        ratio = self.get_hw_ratio()
+        if ratio > 1 and self.rotation == 90:
+            return self.rotation - 90
+        elif ratio < 1 and self.rotation != 90:
+            return self.rotation + 90
+        
+        return self.rotation
     
 class Boxes:
     def __init__(self) -> None:
@@ -97,6 +112,16 @@ class Boxes:
         else:
             obj1.set_side(top_side)
             obj2.set_side(bottom_side)
+
+    def get_sides(self, obj: limb) -> tuple[Bounding_Box, Bounding_Box]:
+        obj1, obj2 = self.get_obj(obj)
+
+        if obj1.side == side.LEFT:
+            left, right = obj1, obj2
+        elif obj1.side ==side.RIGHT:
+            right, left = obj1, obj2
+
+        return left, right
 
     def get_distance(self, obj: limb) -> float:
         obj1, obj2 = self.get_obj(obj)
