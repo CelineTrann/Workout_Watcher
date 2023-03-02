@@ -36,10 +36,7 @@ def choose_pose():
     return pose
 
 def main():
-    # Load ML model
-    with open("Model\or3_kneighbour.pkl", 'rb') as file:
-        model = pickle.load(file)
-
+    
     while True:
         # Wait for User to Choose Pose
         pose = choose_pose()
@@ -54,7 +51,7 @@ def main():
             data = r.readData()
             
             # Extract Data
-            object_list = process_img(base, data, model)
+            object_list = process_img(base, data)
 
             if not object_list.is_valid():
                 break

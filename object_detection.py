@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pickle
 
-def process_img(base, data, model) -> ipd.Boxes:
+def process_img(base, data) -> ipd.Boxes:
     # process data as image
     img = ir.convert_to_img("curr", base, data, threshold=0)
     p_img = ip.process_image(img, threshold=40)
@@ -26,13 +26,6 @@ def process_img(base, data, model) -> ipd.Boxes:
         boxes.add_box(box_data)
         
     return boxes
-
-def detect_object(model, object: ipd.Bounding_Box):  
-    x = pd.DataFrame({' height': [object.height], ' width': [object.width]})
-    result = model.predict(x)
-    print(result[0])
-
-    return result[0]
      
 # Debugging
 if __name__ == '__main__':
