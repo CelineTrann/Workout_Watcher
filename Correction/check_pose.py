@@ -18,7 +18,7 @@ def check_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> bool:
     
     return True
 
-def check_pressure(data: pd, obj: pd.pressure, up, lp, buff) -> bool:
+def check_pressure(data: pd, obj: pd.limb, up, lp, buff) -> bool:
     '''
     Key Arguments:
     data: current boxes
