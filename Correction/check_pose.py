@@ -28,13 +28,13 @@ def check_pressure(data: pd, obj: pd.pressure, up, lp, buff) -> bool:
     buff: leeway for pressure 
     '''
     foot_pressure_tl, foot_pressure_tr, foot_pressure_bl, foot_pressure_br = data.get_pressure(obj)
-    if foot_pressure_tl + buff > up or foot_pressure_tl - buff < lp:
+    if foot_pressure_tl > up + buff or foot_pressure_tl < lp - buff :
         return False
-    elif foot_pressure_tr + buff > up or foot_pressure_tr - buff < lp:
+    elif foot_pressure_tr > up + buff or foot_pressure_tr < lp - buff:
         return False
-    elif foot_pressure_bl + buff > up or foot_pressure_bl - buff < lp:
+    elif foot_pressure_bl > up + buff or foot_pressure_bl < lp - buff:
         return False
-    elif foot_pressure_br + buff > up or foot_pressure_br - buff < lp:
+    elif foot_pressure_br > up + buff or foot_pressure_br < lp - buff:
         return False
 
     return True    
@@ -45,14 +45,14 @@ def check_tree(data: pd.Boxes) -> bool:
     data.set_side(pd.limb.FOOT)
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
-    if not check_pressure(data, pd.pressure.MEDIUM):
+    if not check_pressure(data, pd.pressure.MEDIUM, 0, 0, 0):
         return False
 
 def check_warrior1(data: pd.Boxes) -> bool:
     data.set_side(pd.limb.FOOT)
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
-    if not check_pressure(data, pd.pressure.MEDIUM):
+    if not check_pressure(data, pd.pressure.MEDIUM, 0, 0, 0):
         return False 
 
 def check_downwardDog(data: pd.Boxes) -> bool:
@@ -63,7 +63,7 @@ def check_downwardDog(data: pd.Boxes) -> bool:
         return False
     elif not check_distance(data, pd.limb.HAND, 0, 0, 0, 0):
         return False
-    if not check_pressure(data, pd.pressure.HIGH):
+    if not check_pressure(data, pd.pressure.HIGH, 0, 0, 0):
         return False 
 
 
@@ -72,5 +72,5 @@ def check_triangle(data: pd.Boxes) -> bool:
     
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
-    if not check_pressure(data, pd.pressure.HIGH):
+    if not check_pressure(data, pd.pressure.HIGH, 0, 0, 0):
         return False 
