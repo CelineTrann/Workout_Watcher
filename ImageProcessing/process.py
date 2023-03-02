@@ -1,6 +1,5 @@
 import cv2 as cv
 import numpy as np
-from read import show_img
 
 def process_image(img, kernal=(3,3), threshold=0):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
