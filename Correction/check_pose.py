@@ -40,7 +40,9 @@ def set_label(data: pd.Boxes, expected_obj: int) -> None:
 
 # Function returns if pose is 90% correct
 def check_tree(data: pd.Boxes) -> bool:
-    set_label(data, 1)
+    if not set_label(data, 1):
+        return
+    
     data.set_side(pd.limb.FOOT)
 
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
