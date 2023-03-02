@@ -3,15 +3,16 @@ import numpy as np
 
 def process_image(img, kernal=(3,3), threshold=0):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    blur = cv.blur(gray, kernal)
-    ret, thresh = cv.threshold(blur, threshold, 255, 0)
-    return thresh
+    #blur = cv.blur(gray, kernal)
+    #ret, thresh = cv.threshold(blur, threshold, 255, 0)
+    return gray
 
 def connect_objects(img, kernal=(10,10), min_area=0, min_height=10, min_width=10):
     # Closing of images
     kernel = np.ones(kernal, np.uint8)
     closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
-
+    ret, closing = cv.threshold(closing, 70, 255, 0)
+    
     # Connected Components
     analysis = cv.connectedComponentsWithStats(closing, 4, stats=cv.CV_32S)
     (totalLabels, label_ids, values, centroid) = analysis

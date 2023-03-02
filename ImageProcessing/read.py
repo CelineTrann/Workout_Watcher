@@ -12,6 +12,8 @@ def show_img(name, img):
 def convert_to_img(name, base_nparray, data_nparray, img_show=False, threshold=0):
     heatmapshow = None
     nparray = data_nparray - base_nparray
+    array_mean = np.mean(nparray, axis = 1)
+    nparray[nparray < array_mean[:,None]] = 0
     nparray[nparray < threshold] = 0
     heatmapshow = cv.normalize(nparray, heatmapshow, alpha=0, beta=255, norm_type=cv.NORM_MINMAX, dtype=cv.CV_8U)
     heatmapshow = cv.applyColorMap(heatmapshow, cv.COLORMAP_BONE)
