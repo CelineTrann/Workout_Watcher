@@ -18,16 +18,32 @@ def check_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> bool:
     
     return True
 
+def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
+    left, right = data.get_sides(obj)
+    if left.get_rotation > l_rot + tol or left.get_rotation < l_rot - tol:
+        return False
+    elif right.get_rotation > r_rot + tol or right.get_rotation < r_rot - tol:
+        return False
+    
+    return True
+
 # Function returns if pose is 90% correct
 def check_tree(data: pd.Boxes) -> bool:
     data.set_side(pd.limb.FOOT)
 
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
         return False
+    
+    elif not check_rotation(data, pd.limb.FOOT, 0, 0, 5):
+        return False
 
-def check_warrior1(data: pd.Boxes) -> bool:
+def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
     data.set_side(pd.limb.FOOT)
+
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
+        return False
+    
+    elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):
         return False
 
 def check_downwardDog(data: pd.Boxes) -> bool:
@@ -38,9 +54,17 @@ def check_downwardDog(data: pd.Boxes) -> bool:
         return False
     elif not check_distance(data, pd.limb.HAND, 0, 0, 0, 0):
         return False
+    
+    elif not check_rotation(data, pd.limb.FOOT, 0, 0, 5):
+        return False
+    elif not check_rotation(data, pd.limb.HAND, 0, 0, 5):
+        return False
 
-def check_triangle(data: pd.Boxes) -> bool:
+def check_triangle(data: pd.Boxes, l_rot, r_rot) -> bool:
     data.set_side(pd.limb.FOOT)
     
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
+        return False
+    
+    elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):
         return False
