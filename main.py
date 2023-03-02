@@ -3,7 +3,6 @@ import check_pose as check
 import correct_pose as correct
 import readData as r
 
-import pickle
 import time
 
 def check_pose(pose, data):
