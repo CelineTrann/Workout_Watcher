@@ -24,7 +24,7 @@ def set_label(data: pd.Boxes, expected_obj: int) -> None:
         return False
     
     elif expected_obj > 2:
-
+        # set hand labels for at the top of the map
         objs.sort(key = lambda x: x.centroid_y, reverse=False)
         for _ in range(2):
             curr_obj = objs.pop()
@@ -47,18 +47,15 @@ def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
     
 
 # Function returns if pose is 90% correct
-def check_tree(data: pd.Boxes) -> bool:
+def check_tree(data: pd.Boxes, obj_side: pd.side) -> bool:
     if not set_label(data, 1):
         return
     
-    data.set_side(pd.limb.FOOT)
-
-    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
-        return False
+    foot = data.feet[0]
     
-    elif not check_rotation(data, pd.limb.FOOT, 0, 0, 5):
+    foot.set_side(obj_side)
+    if foot.rotation > 0 + 5 or foot.rotation < 90 - 5:
         return False
-
 
 def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
     if not set_label(data, 2):

@@ -100,11 +100,32 @@ def closer_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol) -> dict:
     
     return correction
 
-def correct_tree(data: pd.Boxes):
-    correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
-    correct_rotation = closer_rotation(data, pd.limb.FOOT, 0, 0, 5)
+def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
+    correction = {
+        rotation.PERFECT.name: True,
+        rotation.CLOSER_LEFT.name: False, 
+        rotation.FURTHER_LEFT.name: False,
+        rotation.CLOSER_RIGHT.name: False,
+        rotation.FURTHER_RIGHT.name: False
+    }
 
-    print_distance_results(correct_distance, pd.limb.FOOT)
+    foot = data.feet[0]
+    if foot.get_rotation > rot + tol and foot.get_rotation < 90:
+        correction[rotation.PERFECT.name] = False
+        if obj_side == pd.side.LEFT:
+            correction[rotation.CLOSER_LEFT.name] = True
+        else: 
+            correction[rotation.FURTHER_RIGHT.name] = True
+    elif foot.get_rotation > rot + tol and foot.get_rotation < 90:
+        correction[rotation.PERFECT.name] = False
+        if obj_side == pd.side.LEFT:
+            correction[rotation.FURTHER_LEFT.name] = True
+        else: 
+            correction[rotation.CLOSER_RIGHT.name] = True
+
+def correct_tree(data: pd.Boxes, obj_side: pd.side):
+    correct_rotation = closer_rotation_tree(data, pd.limb.FOOT, 0, 5)
+
     print_rotation_results(correct_rotation, pd.limb.FOOT)
 
 def correct_warrior1(data: pd.Boxes, l_rot, r_rot):

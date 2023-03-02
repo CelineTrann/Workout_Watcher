@@ -1,4 +1,5 @@
 from object_detection import process_img
+from ImageProcessing.process_data import side
 import check_pose as check
 import correct_pose as correct
 import readData as r
@@ -7,7 +8,8 @@ import time
 
 def check_pose(pose, data):
     switch = {
-        "tree": check.check_tree(data),
+        "tree_right": check.check_tree(data, side.RIGHT),
+        "tree_left": check.check_tree(data, side.LEFT),
         "warrior1_right": check.check_warrior1(data, 0, 45),
         "warrior1_left": check.check_warrior1(data, 45, 0),
         "downwardDog": check.check_downwardDog(data),
