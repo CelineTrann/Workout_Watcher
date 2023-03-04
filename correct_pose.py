@@ -182,20 +182,20 @@ def closer_pressure(data: pd.Boxes, obj: pd.limb, up, lp, buff) -> dict:
 def correct_tree(data: pd.Boxes):
     correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
     correct_rotation = closer_rotation(data, pd.limb.FOOT, 0, 0, 5)
-    correct_pressure = closer_pressure(data, pd.limb, 0, 0, 0)
+    correct_pressure = closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
 
     print_distance_results(correct_distance, pd.limb.FOOT)
     print_rotation_results(correct_rotation, pd.limb.FOOT)
-    print_pressure_results(correct_pressure, pd.limb, 0, 0, 0)
+    print_pressure_results(correct_pressure, pd.limb.FOOT, 0, 0, 0)
 
 def correct_warrior1(data: pd.Boxes, l_rot, r_rot):
     correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
     correct_rotation = closer_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5)
-    correct_pressure = closer_pressure(data, pd.limb, 0, 0, 0)
+    correct_pressure = closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
 
     print_distance_results(correct_distance, pd.limb.FOOT)
     print_rotation_results(correct_rotation, pd.limb.FOOT)
-    print_pressure_results(correct_pressure, pd.limb, 0, 0, 0)
+    print_pressure_results(correct_pressure, pd.limb.FOOT, 0, 0, 0)
 
 
 def correct_downwardDog(data: pd.Boxes):
@@ -220,8 +220,8 @@ def correct_downwardDog(data: pd.Boxes):
 def correct_triangle(data: pd.Boxes, l_rot, r_rot):
     correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
     correct_rotation = closer_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5)
-    correct_pressure = closer_pressure(data, pd.limb, 0, 0, 0)
+    correct_pressure = closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
 
     print_distance_results(correct_distance, pd.limb.FOOT)
     print_rotation_results(correct_rotation, pd.limb.FOOT)
-    print_pressure_results(correct_pressure, pd.limb, 0, 0, 0)
+    print_pressure_results(correct_pressure, pd.limb.FOOT, 0, 0, 0)
