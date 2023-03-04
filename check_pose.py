@@ -43,15 +43,13 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
             if pressure_tro == pressure.HIGH and pressure_tlo == pressure.HIGH and pressure_bro == pressure.HIGH:
                 return True
             else: 
-                return False
-
-    if pose == 'right warrior1': #right
-        pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure_feet(obj)
-        if pressure_tro == pressure.HIGH and pressure_tlo == pressure.HIGH:
-            if pressure_tr == pressure.HIGH and pressure_tl == pressure.HIGH and pressure_bl == pressure.HIGH:
-                return True
-            else: 
-                return False
+                if pose == 'right warrior1': #right
+                    pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure_feet(obj)
+                    if pressure_tro == pressure.HIGH and pressure_tlo == pressure.HIGH:
+                        if pressure_tr == pressure.HIGH and pressure_tl == pressure.HIGH and pressure_bl == pressure.HIGH:
+                            return True
+                        else: 
+                            return False
 
     if pose == 'downwardDog':
         pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure_feet(obj)
@@ -67,16 +65,14 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
         if pressure_tl == pressure.MEDIUM and pressure_tr == pressure.MEDIUM and pressure_bl == pressure.MEDIUM and pressure_br == pressure.MEDIUM:
             if pressure_br == pressure.HIGH and pressure_bl == pressure.HIGH:
                 return True
-            else:
-                return False  
-            
-    if pose == 'right triangle': #right
-        pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure_feet(obj)
-        if pressure_tl == pressure.MEDIUM and pressure_tr == pressure.MEDIUM and pressure_bl == pressure.MEDIUM and pressure_br == pressure.MEDIUM:
-            if pressure_br == pressure.HIGH and pressure_bl == pressure.HIGH:
-                return True
-            else:
-                return False  
+            else:                             
+                if pose == 'right triangle': #right
+                    pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure_feet(obj)
+                    if pressure_tl == pressure.MEDIUM and pressure_tr == pressure.MEDIUM and pressure_bl == pressure.MEDIUM and pressure_br == pressure.MEDIUM:
+                        if pressure_br == pressure.HIGH and pressure_bl == pressure.HIGH:
+                            return True
+                        else:
+                            return False  
 
                  
 
