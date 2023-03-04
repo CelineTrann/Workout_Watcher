@@ -13,7 +13,9 @@ class rotation(Enum):
     FURTHER_LEFT = "on your left side away from your body", 
     CLOSER_RIGHT = "on your right side closer to your body",
     FURTHER_RIGHT = "on your right side away from your body",
-    PERFECT = "Perfect!"
+    PERFECT = "Perfect!",
+    PERPENDICULAR_LEFT = 'on your left side 90 degrees',
+    PERPENDICULAR_RIGHT = 'on your right side 90 degrees'
 
 def print_distance_results(results: dict, obj: pd.limb) -> None:
     if results[distance.PERFECT.name]:
@@ -38,14 +40,18 @@ def print_rotation_results(results: dict, obj: pd.limb) -> None:
         return
 
     if results[rotation.CLOSER_LEFT.name]:
-        print(f'Rotate your {obj} {rotation.CLOSER_LEFT.value}.')
+        print(f'Rotate your {obj.name} {rotation.CLOSER_LEFT.value}.')
     elif results[rotation.FURTHER_LEFT.name]:
-        print(f'Rotate your {obj} {rotation.FURTHER_LEFT.value}.')
+        print(f'Rotate your {obj.name} {rotation.FURTHER_LEFT.value}.')
+    elif results[rotation.PERPENDICULAR_LEFT.name]:
+        print(f'Rotate your {obj.name} {rotation.PERPENDICULAR_LEFT.value}.')
 
     if results[rotation.CLOSER_RIGHT.name]:
-        print(f'Rotate your {obj} {rotation.CLOSER_RIGHT.value}.')
+        print(f'Rotate your {obj.name} {rotation.CLOSER_RIGHT.value}.')
     elif results[rotation.FURTHER_LEFT.name]:
-        print(f'Rotate your {obj} {rotation.FURTHER_RIGHT.value}.')
+        print(f'Rotate your {obj.name} {rotation.FURTHER_RIGHT.value}.')
+    elif results[rotation.PERPENDICULAR_RIGHT.name]:
+        print(f'Rotate your {obj.name} {rotation.PERPENDICULAR_RIGHT.value}.')
 
 
 def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict:
@@ -81,7 +87,9 @@ def closer_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol) -> dict:
         rotation.CLOSER_LEFT.name: False, 
         rotation.FURTHER_LEFT.name: False,
         rotation.CLOSER_RIGHT.name: False,
-        rotation.FURTHER_RIGHT.name: False
+        rotation.FURTHER_RIGHT.name: False,
+        rotation.PERPENDICULAR_RIGHT.name: False,
+        rotation.PERPENDICULAR_LEFT.name: False
     }
 
     if left.get_rotation > l_rot + tol:
@@ -106,7 +114,9 @@ def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
         rotation.CLOSER_LEFT.name: False, 
         rotation.FURTHER_LEFT.name: False,
         rotation.CLOSER_RIGHT.name: False,
-        rotation.FURTHER_RIGHT.name: False
+        rotation.FURTHER_RIGHT.name: False,
+        rotation.PERPENDICULAR_RIGHT.name: False,
+        rotation.PERPENDICULAR_LEFT.name: False
     }
 
     foot = data.feet[0]
@@ -117,12 +127,19 @@ def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
         else: 
             correction[rotation.FURTHER_RIGHT.name] = True
             
-    elif foot.get_rotation() < rot - tol and foot.get_rotation() < 90:
+    elif foot.get_rotation() > rot + tol and foot.get_rotation() > 90:
         correction[rotation.PERFECT.name] = False
         if obj_side == pd.side.LEFT:
             correction[rotation.FURTHER_LEFT.name] = True
         else: 
             correction[rotation.CLOSER_RIGHT.name] = True
+            
+    elif foot.get_rotation() == 90:
+        correction[rotation.PERFECT.name] = False
+        if obj_side == pd.side.LEFT:
+            correction[rotation.PERPENDICULAR_LEFT.name] = True
+        else:
+            correction[rotation.PERPENDICULAR_RIGHT.name] = True
             
     return correction
 

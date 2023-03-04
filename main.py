@@ -8,11 +8,11 @@ import time
 
 def check_pose(pose, data) -> bool:
     if pose == "tree_right": 
-        check.check_tree(data, side.RIGHT)
+        return check.check_tree(data, side.RIGHT)
     elif pose == "tree_left": 
-        check.check_tree(data, side.LEFT)
+        return check.check_tree(data, side.LEFT)
     elif pose ==  "warrior1_right": 
-        check.check_warrior1(data, 0, 45)
+        return check.check_warrior1(data, 0, 45)
     elif pose == "warrior1_left": 
         return check.check_warrior1(data, 45, 0)
     elif pose == "downwardDog": 

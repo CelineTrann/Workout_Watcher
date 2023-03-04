@@ -59,9 +59,9 @@ class Bounding_Box:
     
     def get_rotation(self):
         ratio = self.get_hw_ratio()
-        if ratio > 1 and self.rotation == 90:
+        if ratio < 1 and self.rotation == 90:
             return self.rotation - 90
-        elif ratio < 1 and self.rotation != 90:
+        elif ratio > 1 and self.rotation != 90:
             return self.rotation + 90
         
         return self.rotation

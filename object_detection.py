@@ -16,7 +16,7 @@ def process_img(base, data) -> ipd.Boxes:
     #ir.show_img("img", img)
     #ir.show_img("c-img", c_img)
     #ir.show_img("cFilter-img", filtered_c_img)
-    #ir.show_img("bb-img", bb_img)
+    ir.show_img("bb-img", bb_img)
     print(f"Number of objects {number}")
     
     boxes = ipd.Boxes()
@@ -26,7 +26,7 @@ def process_img(base, data) -> ipd.Boxes:
         
         # Get the pressure of each region
         crop_img = ip.crop_minarearect(img, rect)
-        ir.show_img("crop", crop_img)
+        #ir.show_img("crop", crop_img)
         
         # TODO: For Murphy!
 #         #if bix_data == 
