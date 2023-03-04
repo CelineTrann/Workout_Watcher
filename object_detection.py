@@ -10,11 +10,10 @@ def process_img(base, data) -> ipd.Boxes:
     # process data as image
     img = ir.convert_to_img("curr", base, data, threshold=0)
     p_img = ip.process_image(img, threshold=40)
-    filtered_c_img, c_img = ip.connect_objects(p_img, kernal=(2,2), min_area=40, min_height=5, min_width=7)
+    filtered_c_img, c_img = ip.connect_objects(p_img, kernal=(1,1))
     bb_img, rects, number = ip.find_min_bounding_box(filtered_c_img, img.copy()) 
     
     ir.show_img("img", img)
-    ir.show_img("p-img", p_img)
     ir.show_img("c-img", c_img)
     ir.show_img("cFilter-img", filtered_c_img)
     ir.show_img("bb-img", bb_img)

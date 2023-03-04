@@ -25,8 +25,10 @@ def check_pose(pose, data) -> bool:
     return False
 
 def correct_pose(pose, data) -> None:
-    if pose == "tree": 
-        correct.correct_tree(data)
+    if pose == "tree_right": 
+        correct.correct_tree(data, side.RIGHT)
+    elif pose == "tree_left": 
+        correct.correct_tree(data, side.LEFT)
     elif pose == "warrior1_right": 
         correct.correct_warrior1(data, 0, 45)
     elif pose == "warrior1_left": 
@@ -40,7 +42,7 @@ def correct_pose(pose, data) -> None:
 
 def choose_pose():
     # bluetooth to get pose
-    pose = 'tree'
+    pose = 'tree_left'
     return pose
 
 def main():
@@ -58,6 +60,7 @@ def main():
             base = r.readData()
             print('step on mat')
             time.sleep(2)
+            print('read data')
             data = r.readData()
             
             # Extract Data
@@ -68,8 +71,9 @@ def main():
                 break
 
             # Check and correct pose
+            print(f'{pose}')
             if not check_pose(pose, object_list):
-                correct_pose(pose)
+                correct_pose(pose, object_list)
                 time.sleep(5)
             else:
                 print("Hold Pose.")

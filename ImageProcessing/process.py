@@ -7,11 +7,14 @@ def process_image(img, kernal=(3,3), threshold=0):
     #ret, thresh = cv.threshold(blur, threshold, 255, 0)
     return gray
 
-def connect_objects(img, kernal=(10,10), min_area=0, min_height=10, min_width=10):
+def connect_objects(img, kernal=(10,10), min_area=40, min_height=5, min_width=5):
     # Closing of images
     kernel = np.ones(kernal, np.uint8)
     closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
-    ret, closing = cv.threshold(closing, 70, 255, 0)
+    
+    # threshold and blur
+    ret, closing = cv.threshold(closing, 80, 255, 0)
+    closing = cv.blur(closing, (3, 3))
     
     # Connected Components
     analysis = cv.connectedComponentsWithStats(closing, 4, stats=cv.CV_32S)
@@ -92,6 +95,7 @@ def get_sections_mean(img):
     Rtop = img[0:row_mid, col_mid:cols]
     Lbottom = img[row_mid:rows, 0:col_mid]
     Rbottom = img[row_mid:rows, col_mid:cols]
+    
     return [Ltop.mean(), Rtop.mean(), Lbottom.mean(), Rbottom.mean()]
 
 # For Debugging, see process_data.py
