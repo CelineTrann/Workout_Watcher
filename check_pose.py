@@ -28,6 +28,32 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, up, lp, buff) -> bool:
     buff: leeway for pressure
     '''
     foot_pressure_tl, foot_pressure_tr, foot_pressure_bl, foot_pressure_br = data.get_pressure(obj)
+
+    if check_tree(data: pd.Boxes): #not sure what to put in the parameters of the function calls
+        if pressure.HIGH 
+        # if high pressure in all 4 quadrants
+            # return true
+        # else 
+            # return false  
+
+    if check_warrior1(data: pd.Boxes, 0 or 45, 0 or 45):
+        # if high pressure on front facing foot is on tl and tr
+            # if high pressure on back foot is on (tl and tr), and (br or bl)
+                # return true
+            # else return false 
+
+    if check_downwardDog(data: pd.Boxes):
+        # if high pressure on tl and tr of both feet
+            # if high pressure on bl and br of both hands
+                # return true
+            # else return false
+
+    if check_triangle(data: pd.Boxes, 0 or 90, 0 or 90):
+        # if medium pressure on back foot
+            # if high pressure on bl and br of front foot
+                # return true
+            # return false    
+
     if foot_pressure_tl > up + buff or foot_pressure_tl < lp - buff :
         return False
     elif foot_pressure_tr > up + buff or foot_pressure_tr < lp - buff:
@@ -61,6 +87,8 @@ def check_tree(data: pd.Boxes) -> bool:
     
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 0):
         return False
+  
+    return True 
 
 def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
     data.set_side(pd.limb.FOOT)
