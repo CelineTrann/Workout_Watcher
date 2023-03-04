@@ -17,11 +17,20 @@ def convert_to_img(name, base_nparray, data_nparray, img_show=False, threshold=0
     np.set_printoptions(threshold=sys.maxsize)
     print(f'{nparray}')
     
+        
     nparray[nparray < threshold] = 0
+    
+    nparray[4:63, 4:12] = nparray[4:63, 4:12]*2.5
+    nparray[4:63, 12:20] = nparray[4:63, 12:20]*2
     row_mean = np.mean(nparray, axis = 1)
-    col_mean = np.mean(nparray, axis = 0)
-    nparray[nparray < row_mean[:,None]] = 0
-    nparray[nparray < col_mean[None,:]*1.3] = 0
+    col_mean = np.mean(nparray, axis = 0)  
+    row_co = 1/(col_mean+0.000001)
+    row_co = 0.5*(row_co - np.min(row_co))/(np.max(row_co)-np.min(row_co))
+    print(row_co)
+    nparray[nparray < row_mean[:,None]+row_co] = 0
+    nparray[nparray < col_mean[None,:]*1.5] = 0
+    
+    nparray[41:63, 0:28] = nparray[41:63, 0:28]*1.5
     
     heatmapshow = cv.normalize(nparray, heatmapshow, alpha=0, beta=255, norm_type=cv.NORM_MINMAX, dtype=cv.CV_8U)
     heatmapshow = cv.applyColorMap(heatmapshow, cv.COLORMAP_BONE)

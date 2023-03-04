@@ -68,7 +68,7 @@ def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
         return False
     data.set_side(pd.limb.FOOT)
 
-    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
+    if not check_distance(data, pd.limb.FOOT, 14, 18, 18, 22, 3):
         return False
     
     elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):
@@ -83,9 +83,9 @@ def check_downwardDog(data: pd.Boxes) -> bool:
     data.set_side(pd.limb.FOOT)
     data.set_side(pd.limb.HAND)
 
-    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
+    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0, 0):
         return False
-    elif not check_distance(data, pd.limb.HAND, 0, 0, 0, 0):
+    elif not check_distance(data, pd.limb.HAND, 0, 0, 0, 0, 0):
         return False
     
     elif not check_rotation(data, pd.limb.FOOT, 0, 0, 5):
@@ -100,7 +100,7 @@ def check_triangle(data: pd.Boxes, l_rot, r_rot) -> bool:
         return False
     data.set_side(pd.limb.FOOT)
     
-    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0):
+    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0, 0):
         return False
     
     elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):

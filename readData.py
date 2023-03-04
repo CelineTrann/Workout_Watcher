@@ -75,11 +75,17 @@ def readCu():
     for index in range(8):
         selectChannel(index, readMuxS2, readMuxS1, readMuxS0)
         data0[0][index] = chan0.voltage
+        time.sleep(0.0005)
         data1[0][index] = chan1.voltage
+        time.sleep(0.0005)
         data2[0][index] = chan2.voltage
+        time.sleep(0.0005)
         data3[0][index] = chan3.voltage
+        time.sleep(0.0005)
         data4[0][index] = chan4.voltage
+        time.sleep(0.0005)
         data5[0][index] = chan5.voltage
+        time.sleep(0.0005)
 #         print('ADC voltage Channel 0: ', str(chan0.voltage) + "V")
 #         print('ADC voltage Channel 1: ', str(chan1.voltage) + "V")
 #         print('ADC voltage Channel 2: ', str(chan2.voltage) + "V")

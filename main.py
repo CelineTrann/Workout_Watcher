@@ -42,7 +42,7 @@ def correct_pose(pose, data) -> None:
 
 def choose_pose():
     # bluetooth to get pose
-    pose = 'tree_left'
+    pose = 'tree_right'
     return pose
 
 def main():
@@ -56,11 +56,12 @@ def main():
         start_pose_time = time.time()
         while time.time() - start_pose_time < 30:
             # Read data from mat
-            print('start')
+            # TODO: check if person is off mat (Murphy)
+            print('Please step off the mat.')
+            time.sleep(2)
             base = r.readData()
             print('step on mat')
-            time.sleep(2)
-            print('read data')
+            time.sleep(5)
             data = r.readData()
             
             # Extract Data

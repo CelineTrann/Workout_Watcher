@@ -13,10 +13,10 @@ def process_img(base, data) -> ipd.Boxes:
     filtered_c_img, c_img = ip.connect_objects(p_img, kernal=(1,1))
     bb_img, rects, number = ip.find_min_bounding_box(filtered_c_img, img.copy()) 
     
-    ir.show_img("img", img)
-    ir.show_img("c-img", c_img)
-    ir.show_img("cFilter-img", filtered_c_img)
-    ir.show_img("bb-img", bb_img)
+    #ir.show_img("img", img)
+    #ir.show_img("c-img", c_img)
+    #ir.show_img("cFilter-img", filtered_c_img)
+    #ir.show_img("bb-img", bb_img)
     print(f"Number of objects {number}")
     
     boxes = ipd.Boxes()
@@ -26,6 +26,13 @@ def process_img(base, data) -> ipd.Boxes:
         
         # Get the pressure of each region
         crop_img = ip.crop_minarearect(img, rect)
+        ir.show_img("crop", crop_img)
+        
+        # TODO: For Murphy!
+#         #if bix_data == 
+        #correct_rot = some_fn(crop_img)
+        #box_data.rotation = correct_rot
+        
         section_mean = ip.get_sections_mean(crop_img)
         box_data.set_mean(section_mean)
 

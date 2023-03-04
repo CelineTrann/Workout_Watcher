@@ -3,17 +3,17 @@ import numpy as np
 
 def process_image(img, kernal=(3,3), threshold=0):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    #blur = cv.blur(gray, kernal)
-    #ret, thresh = cv.threshold(blur, threshold, 255, 0)
+    blur = cv.blur(gray, kernal)
+    ret, thresh = cv.threshold(blur, threshold, 255, 0)
     return gray
 
-def connect_objects(img, kernal=(10,10), min_area=40, min_height=5, min_width=5):
+def connect_objects(img, kernal=(10,10), min_area=40, min_height=6, min_width=6):
     # Closing of images
     kernel = np.ones(kernal, np.uint8)
-    closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
+    #closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
     
     # threshold and blur
-    ret, closing = cv.threshold(closing, 80, 255, 0)
+    ret, closing = cv.threshold(img, 80, 255, 0)
     closing = cv.blur(closing, (3, 3))
     
     # Connected Components
@@ -54,6 +54,7 @@ def find_min_bounding_box(analyze_img, view_image):
 
 
     return view_image, rects, number
+
 
 def crop_minarearect(img, rect):
     # Create mask for Bounding Box
