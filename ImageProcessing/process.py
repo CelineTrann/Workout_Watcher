@@ -55,7 +55,6 @@ def find_min_bounding_box(analyze_img, view_image):
 
     return view_image, rects, number
 
-
 def crop_minarearect(img, rect):
     # Create mask for Bounding Box
     mask = np.zeros_like(img)
