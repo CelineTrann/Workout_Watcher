@@ -6,34 +6,43 @@ import readData as r
 
 import time
 
-def check_pose(pose, data):
-    switch = {
-        "tree_right": check.check_tree(data, side.RIGHT),
-        "tree_left": check.check_tree(data, side.LEFT),
-        "warrior1_right": check.check_warrior1(data, 0, 45),
-        "warrior1_left": check.check_warrior1(data, 45, 0),
-        "downwardDog": check.check_downwardDog(data),
-        "triangle_right": check.check_triangle(data, 0, 90),
-        "triangle_left": check.check_triangle(data, 90, 0)
-    }
+def check_pose(pose, data) -> bool:
+    if pose == "tree_right": 
+        check.check_tree(data, side.RIGHT)
+    elif pose == "tree_left": 
+        check.check_tree(data, side.LEFT)
+    elif pose ==  "warrior1_right": 
+        check.check_warrior1(data, 0, 45)
+    elif pose == "warrior1_left": 
+        return check.check_warrior1(data, 45, 0)
+    elif pose == "downwardDog": 
+        return  check.check_downwardDog(data)
+    elif pose == "triangle_right": 
+        return  check.check_triangle(data, 0, 90)
+    elif pose ==  "triangle_left": 
+        return  check.check_triangle(data, 90, 0)
+ 
+    return False
 
-    return switch.get(pose)
-
-def correct_pose(pose, data):
-    switch = {
-        "tree": correct.correct_tree(data),
-        "warrior1_right": correct.correct_warrior1(data, 0, 45),
-        "warrior1_left": correct.correct_warrior1(data, 45, 0),
-        "downwardDog": correct.correct_downwardDog(data),
-        "triangle_right": correct.correct_triangle(data, 0, 90),
-        "triangle_left": correct.correct_triangle(data, 90, 0)
-    }
-
-    return switch.get(pose)
+def correct_pose(pose, data) -> None:
+    if pose == "tree_right": 
+        correct.correct_tree(data, side.RIGHT)
+    elif pose == "tree_left": 
+        correct.correct_tree(data, side.LEFT)
+    elif pose == "warrior1_right": 
+        correct.correct_warrior1(data, 0, 45)
+    elif pose == "warrior1_left": 
+        correct.correct_warrior1(data, 45, 0)
+    elif pose == "downwardDog": 
+        correct.correct_downwardDog(data)
+    elif pose == "triangle_right": 
+        correct.correct_triangle(data, 0, 90)
+    elif pose == "triangle_left": 
+        correct.correct_triangle(data, 90, 0)
 
 def choose_pose():
     # bluetooth to get pose
-    pose = 'tree'
+    pose = 'tree_left'
     return pose
 
 def main():
@@ -51,6 +60,7 @@ def main():
             base = r.readData()
             print('step on mat')
             time.sleep(2)
+            print('read data')
             data = r.readData()
             
             # Extract Data
@@ -61,8 +71,9 @@ def main():
                 break
 
             # Check and correct pose
+            print(f'{pose}')
             if not check_pose(pose, object_list):
-                correct_pose(pose)
+                correct_pose(pose, object_list)
                 time.sleep(5)
             else:
                 print("Hold Pose.")

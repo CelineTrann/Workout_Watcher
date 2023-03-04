@@ -27,11 +27,13 @@ def set_label(data: pd.Boxes, expected_obj: int) -> None:
         # set hand labels for at the top of the map
         objs.sort(key = lambda x: x.centroid_y, reverse=False)
         for _ in range(2):
+            print('label hand')
             curr_obj = objs.pop()
             curr_obj.set_label(pd.limb.HAND.value)
             data.hands.append(curr_obj)
 
     for _ in range(len(objs)):
+        print('label foot')
         curr_obj = objs.pop()
         curr_obj.set_label(pd.limb.FOOT.value)
         data.feet.append(curr_obj)
@@ -45,7 +47,8 @@ def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
     elif right.get_rotation > r_rot + tol or right.get_rotation < r_rot - tol:
         return False
     
-
+    return True
+    
 # Function returns if pose is 90% correct
 def check_tree(data: pd.Boxes, obj_side: pd.side) -> bool:
     if not set_label(data, 1):
@@ -54,8 +57,11 @@ def check_tree(data: pd.Boxes, obj_side: pd.side) -> bool:
     foot = data.feet[0]
     
     foot.set_side(obj_side)
-    if foot.rotation > 0 + 5 or foot.rotation < 0 - 5:
+    print(foot.get_rotation())
+    if foot.get_rotation() > 0 + 5 or foot.get_rotation() < 0 - 5:
         return False
+    
+    return True
 
 def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
     if not set_label(data, 2):
@@ -67,6 +73,8 @@ def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
     
     elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):
         return False
+    
+    return True
 
 def check_downwardDog(data: pd.Boxes) -> bool:
     if not set_label(data, 4):
@@ -84,6 +92,8 @@ def check_downwardDog(data: pd.Boxes) -> bool:
         return False
     elif not check_rotation(data, pd.limb.HAND, 0, 0, 5):
         return False
+    
+    return True
 
 def check_triangle(data: pd.Boxes, l_rot, r_rot) -> bool:
     if not set_label(data, 2):
@@ -95,3 +105,5 @@ def check_triangle(data: pd.Boxes, l_rot, r_rot) -> bool:
     
     elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):
         return False
+    
+    return True

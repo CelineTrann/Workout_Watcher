@@ -110,18 +110,21 @@ def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
     }
 
     foot = data.feet[0]
-    if foot.get_rotation > rot + tol and foot.get_rotation < 90:
+    if foot.get_rotation() > rot + tol and foot.get_rotation() < 90:
         correction[rotation.PERFECT.name] = False
         if obj_side == pd.side.LEFT:
             correction[rotation.CLOSER_LEFT.name] = True
         else: 
             correction[rotation.FURTHER_RIGHT.name] = True
-    elif foot.get_rotation > rot + tol and foot.get_rotation < 90:
+            
+    elif foot.get_rotation() < rot - tol and foot.get_rotation() < 90:
         correction[rotation.PERFECT.name] = False
         if obj_side == pd.side.LEFT:
             correction[rotation.FURTHER_LEFT.name] = True
         else: 
             correction[rotation.CLOSER_RIGHT.name] = True
+            
+    return correction
 
 def correct_tree(data: pd.Boxes, obj_side: pd.side):
     correct_rotation = closer_rotation_tree(data, pd.limb.FOOT, 0, 5)
