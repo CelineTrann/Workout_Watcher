@@ -131,11 +131,32 @@ class Boxes:
     
     def get_pressure(self, obj: limb) -> float:
         obj1, obj2 = self.get_obj(obj)
+        #foot 1
         pressure_tl = obj1.ltop_mean
         pressure_tr = obj1.rtop_mean 
         pressure_bl = obj1.lbottom_mean
         pressure_br = obj1.rbottom_mean
-        return pressure_tl, pressure_tr, pressure_bl, pressure_br
+
+        #foot 2
+        pressure_tlo = obj2.ltop_mean
+        pressure_tro = obj2.rtop_mean 
+        pressure_blo = obj2.lbottom_mean
+        pressure_bro = obj2.rbottom_mean
+        
+        obj3, obj4 = self.get_obj(obj) 
+        #hand 1
+        pressure_tla = obj3.ltop_mean
+        pressure_tra = obj3.rtop_mean 
+        pressure_bla = obj3.lbottom_mean
+        pressure_bra = obj3.rbottom_mean
+
+        #hand 2
+        pressure_tlb = obj4.ltop_mean
+        pressure_trb = obj4.rtop_mean 
+        pressure_blb = obj4.lbottom_mean
+        pressure_brb = obj4.rbottom_mean
+
+        return pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro, pressure_tla, pressure_tra, pressure_bla, pressure_bra, pressure_tlb, pressure_trb, pressure_blb, pressure_brb
 
 def create_data_csv(data_list: list[Bounding_Box], filename):
     try: 

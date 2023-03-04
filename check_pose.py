@@ -27,34 +27,50 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
     lp: lower limit of pressure 
     buff: leeway for pressure
     '''
-    foot_pressure_tl, foot_pressure_tr, foot_pressure_bl, foot_pressure_br = data.get_pressure(obj)
+    pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro, pressure_tla, pressure_tra, pressure_bla, pressure_bra, pressure_tlb, pressure_trb, pressure_blb, pressure_brb = data.get_pressure(obj)
 
     if pose == 'tree':
-        if foot_pressure_tl == pressure.HIGH and foot_pressure_tr == pressure.HIGH and foot_pressure_bl == pressure.HIGH and foot_pressure_br == pressure.HIGH:
+        if pressure_tl == pressure.HIGH and pressure_tr == pressure.HIGH and pressure_bl == pressure.HIGH and pressure_br == pressure.HIGH:
             return True
         else: 
             return False
               
-    if pose == 'warrior1':
-        if foot_pressure_tr == pressure.HIGH and foot_pressure_tl == pressure.HIGH:
-            if (foot_pressure_tr == pressure.HIGH and foot_pressure_tl == pressure.HIGH) and (foot_pressure_br == pressure.HIGH or foot_pressure_bl == pressure.HIGH):
+    if pose == 'left warrior1': #left
+        if  pressure_tr == pressure.HIGH and pressure_tl == pressure.HIGH:
+            if pressure_tro == pressure.HIGH and pressure_tlo == pressure.HIGH and pressure_bro == pressure.HIGH:
+                return True
+            else: 
+                return False
+
+    if pose == 'right warrior1': #right
+        if pressure_tro == pressure.HIGH and pressure_tlo == pressure.HIGH:
+            if pressure_tr == pressure.HIGH and pressure_tl == pressure.HIGH and pressure_bl == pressure.HIGH:
                 return True
             else: 
                 return False
 
     if pose == 'downwardDog':
-        if foot_pressure_tr == pressure.HIGH and foot_pressure_tl == pressure.HIGH:
-            if foot_pressure_br == pressure.HIGH and foot_pressure_bl == pressure.HIGH:
+        if pressure_tr == pressure.HIGH and pressure_tl == pressure.HIGH and pressure_tro == pressure.HIGH and pressure_tlo == pressure.HIGH: 
+            if pressure_bla == pressure.HIGH and pressure_bra == pressure.HIGH and pressure_blb and pressure_brb:
                 return True
             else:
                 return False
 
-    if pose == 'triangle':
-        if foot_pressure_tl == pressure.MEDIUM and foot_pressure_tr == pressure.MEDIUM and foot_pressure_bl == pressure.MEDIUM and foot_pressure_br == pressure.MEDIUM:
-            if foot_pressure_br == pressure.HIGH and foot_pressure_bl == pressure.HIGH:
+    if pose == 'left triangle': #left
+        if pressure_tl == pressure.MEDIUM and pressure_tr == pressure.MEDIUM and pressure_bl == pressure.MEDIUM and pressure_br == pressure.MEDIUM:
+            if pressure_br == pressure.HIGH and pressure_bl == pressure.HIGH:
                 return True
             else:
-                return False               
+                return False  
+            
+    if pose == 'right triangle': #right
+        if pressure_tl == pressure.MEDIUM and pressure_tr == pressure.MEDIUM and pressure_bl == pressure.MEDIUM and pressure_br == pressure.MEDIUM:
+            if pressure_br == pressure.HIGH and pressure_bl == pressure.HIGH:
+                return True
+            else:
+                return False  
+
+                 
 
 def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
     left, right = data.get_sides(obj)
@@ -90,8 +106,11 @@ def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
     elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):
         return False
     
-    elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'warrior1'):
+    elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'left warrior1'):
         return False 
+    
+    elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'right warrior1'):
+        return False
 
 def check_downwardDog(data: pd.Boxes) -> bool:
     data.set_side(pd.limb.FOOT)
@@ -125,5 +144,8 @@ def check_triangle(data: pd.Boxes, l_rot, r_rot) -> bool:
     elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):
         return False
 
-    elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'triangle'):
+    elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'left triangle'):
+        return False
+    
+    elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'right triangle'):
         return False
