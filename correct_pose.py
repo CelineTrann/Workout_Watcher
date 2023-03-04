@@ -16,14 +16,14 @@ class rotation(Enum):
     PERFECT = "Perfect!"
 
 class pressure(Enum):
-    LESS_PRESSURE_LEFTTOP = "on your top left side, apply less pressure",
-    MORE_PRESSURE_LEFTTOP = "on your top left side, apply more pressure", 
-    LESS_PRESSURE_LEFTBOTTOM = "on your bottom left side, apply less pressure",
-    MORE_PRESSURE_LEFTBOTTOM = "on your bottom left side, apply more pressure",
-    LESS_PRESSURE_RIGHTTOP = "on your top right side, apply less pressure",
-    MORE_PRESSURE_RIGHTTOP = "on your top right side, apply more pressure",
-    LESS_PRESSURE_RIGHTBOTTOM = "on your bottom right side, apply less pressure",
-    MORE_PRESSURE_RIGHTBOTTOM = "on your bottom right side, apply more pressure",
+    LESS_PRESSURE_LEFTTOP = "on your top left side of your ",
+    MORE_PRESSURE_LEFTTOP = "on your top left side of your", 
+    LESS_PRESSURE_LEFTBOTTOM = "on your bottom left side of your",
+    MORE_PRESSURE_LEFTBOTTOM = "on your bottom left side of your",
+    LESS_PRESSURE_RIGHTTOP = "on your top right side of your",
+    MORE_PRESSURE_RIGHTTOP = "on your top right side of your",
+    LESS_PRESSURE_RIGHTBOTTOM = "on your bottom right side of your",
+    MORE_PRESSURE_RIGHTBOTTOM = "on your bottom right side of your",
     PERFECT = "Perfect!"
 
 def print_distance_results(results: dict, obj: pd.limb) -> None:
@@ -66,22 +66,22 @@ def print_pressure_results(results: dict, obj: pd.limb) -> None:
         return
 
     if results[pressure.LESS_PRESSURE_LEFTTOP.name]:
-        print(f'Apply top left pressure of: {obj} {pressure.LESS_PRESSURE_LEFTTOP.value}.')
+        print(f'{pressure.LESS_PRESSURE_LEFTTOP.value} {obj}, apply less pressure.')
     elif results[pressure.MORE_PRESSURE_LEFTTOP.name]:
-        print(f'Apply top left pressure of: {obj} {pressure.MORE_PRESSURE_LEFTTOP.value}.')
+        print(f'{pressure.MORE_PRESSURE_LEFTTOP.value} {obj}, apply more pressure.')
     elif results[pressure.LESS_PRESSURE_LEFTBOTTOM.name]:
-        print(f'Apply bottom left pressure of: {obj} {pressure.LESS_PRESSURE_LEFTBOTTOM.value}.')
+        print(f'{pressure.LESS_PRESSURE_LEFTBOTTOM.value} {obj}, apply less pressure.')
     elif results[pressure.MORE_PRESSURE_LEFTBOTTOM.name]:
-        print(f'Apply bottom left pressure of: {obj} {pressure.MORE_PRESSURE_LEFTBOTTOM.value}.')
+        print(f'{pressure.MORE_PRESSURE_LEFTBOTTOM.value} {obj}, apply more pressure.')
 
     if results[pressure.LESS_PRESSURE_RIGHTTOP.name]:
-        print(f'Apply top right pressure of: {obj} {pressure.LESS_PRESSURE_RIGHTTOP.value}.')
+        print(f'{pressure.LESS_PRESSURE_RIGHTTOP.value} {obj} apply less pressure.')
     elif results[pressure.MORE_PRESSURE_RIGHTTOP.name]:
-        print(f'Apply top right pressure of: {obj} {pressure.MORE_PRESSURE_RIGHTTOP.value}.')
+        print(f'{pressure.MORE_PRESSURE_RIGHTTOP.value} {obj}, apply more pressure. ')
     elif results[pressure.LESS_PRESSURE_RIGHTBOTTOM.name]:
-        print(f'Apply bottom right pressure of: {obj} {pressure.LESS_PRESSURE_RIGHTBOTTOM.value}.')
+        print(f'{pressure.LESS_PRESSURE_RIGHTBOTTOM.value} {obj} apply less pressure.')
     elif results[pressure.MORE_PRESSURE_RIGHTBOTTOM.name]:
-        print(f'Apply bottom right pressure of: {obj} {pressure.MORE_PRESSURE_RIGHTBOTTOM.value}.')
+        print(f'{pressure.MORE_PRESSURE_RIGHTBOTTOM.value} {obj}, apply more pressure.')
 
 def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict:
     foot_distance_x, foot_distance_y = data.get_distance(obj)
