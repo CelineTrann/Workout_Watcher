@@ -1,4 +1,6 @@
 import ImageProcessing.process_data as pd
+import correct_pose as cp
+import time
 
 def check_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> bool:
     '''
@@ -102,75 +104,130 @@ def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
     return True
     
 # Function returns if pose is 90% correct
-def check_tree(data: pd.Boxes, obj_side: pd.side) -> bool:
+def check_tree(data: pd.Boxes, obj_side: pd.side) -> None:
     if not set_label(data, 1):
-        return False
+        return 
     
     foot = data.feet[0]
-    
     foot.set_side(obj_side)
-    print(foot.get_rotation())
-    if foot.get_rotation() > 0 + 5 or foot.get_rotation() < 0 - 5:
-        return False
-    
-    elif not check_pressure(data, pd.limb.FOOT, 0, 0, 0, 'tree'):
-        return False
-  
-    return True 
 
-def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> bool:
+    hold_pose = True
+
+    if foot.get_rotation() > 0 + 5 or foot.get_rotation() < 0 - 5:
+        correct_rotation = cp.closer_rotation_tree(data, pd.limb.FOOT, 0, 5)
+        cp.print_rotation_results(correct_rotation, pd.limb.FOOT)
+        hold_pose = False
+  
+    elif not check_pressure(data, pd.limb.FOOT, 0, 0, 0, 'tree'):
+        correct_pressure = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
+        cp.print_pressure_results(correct_pressure, pd.limb.FOOT)
+        hold_pose = False
+
+
+    if hold_pose:
+        print("Hold pose")
+        time.sleep(10)
+    else:
+        time.sleep(5)
+
+
+def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> None:
     if not set_label(data, 2):
         return False
+    
     data.set_side(pd.limb.FOOT)
 
+    hold_pose = True
     if not check_distance(data, pd.limb.FOOT, 14, 18, 18, 22, 3):
-        return False
+        correct_distance = cp.closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
+        cp.print_distance_results(correct_distance, pd.limb.FOOT)
+        hold_pose = False
     
     elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):
-        return False
+        correct_rotation = cp.closer_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5)
+        cp.print_rotation_results(correct_rotation, pd.limb.FOOT)
+        hold_pose = False
     
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'left warrior1' or 'right warrior1'):
-        return False 
+        correct_pressure = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
+        cp.print_pressure_results(correct_pressure, pd.limb.FOOT)
+        hold_pose = False
 
-    return True
-
-def check_downwardDog(data: pd.Boxes) -> bool:
+    if hold_pose:
+        print("Hold pose")
+        time.sleep(10)
+    else:
+        time.sleep(5)
+ 
+def check_downwardDog(data: pd.Boxes) -> None:
     if not set_label(data, 4):
-        return False
+        return 
     
     data.set_side(pd.limb.FOOT)
     data.set_side(pd.limb.HAND)
 
-    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0, 0):
-        return False
+    hold_pose = True
 
+    if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0, 0):
+        correct_distance_feet = cp.closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
+        cp.print_distance_results(correct_distance_feet, pd.limb.FOOT)
+        hold_pose = False
     elif not check_distance(data, pd.limb.HAND, 0, 0, 0, 0, 0):
-        return False
+        correct_distance_hands = cp.closer_distance(data, pd.limb.HAND, 0, 0, 0, 0)
+        cp.print_distance_results(correct_distance_hands, pd.limb.HAND)
+        hold_pose = False
     
     elif not check_rotation(data, pd.limb.FOOT, 0, 0, 5):
-        return False
-    
+        correct_rotation_feet = cp.closer_rotation(data, pd.limb.FOOT, 0, 0, 5)
+        cp.print_rotation_results(correct_rotation_feet, pd.limb.FOOT)
+        hold_pose = False
     elif not check_rotation(data, pd.limb.HAND, 0, 0, 5):
-        return False
+        correct_rotation_hand = cp.closer_rotation(data, pd.limb.HAND, 0, 0, 5)
+        cp.print_rotation_results(correct_rotation_hand, pd.limb.HAND)
+        hold_pose = False
 
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'downwardDog'):
-        return False
+        correct_pressure_feet = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
+        cp.print_pressure_results(correct_pressure_feet, pd.limb.FOOT)
+        hold_pose = False
+    elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'downwardDog'):
+        correct_pressure_hand = cp.closer_pressure(data, pd.limb.HAND, 0, 0, 0)
+        cp.print_pressure_results(correct_pressure_hand, pd.limb.HAND)
+        hold_pose = False
+    
+    if hold_pose:
+        print("Hold pose")
+        time.sleep(10)
+    else:
+        time.sleep(5)
 
-    return True
 
-
-def check_triangle(data: pd.Boxes, l_rot, r_rot) -> bool:
+def check_triangle(data: pd.Boxes, l_rot, r_rot) -> None:
     if not set_label(data, 2):
-        return False
+        return 
+    
     data.set_side(pd.limb.FOOT)
     
+    hold_pose = True
     if not check_distance(data, pd.limb.FOOT, 0, 0, 0, 0, 0):
-        return False
+        correct_distance = cp.closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
+        cp.print_distance_results(correct_distance, pd.limb.FOOT)
+        hold_pose = False
     
     elif not check_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5):
-        return False
+        correct_rotation = cp.closer_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5)
+        cp.print_rotation_results(correct_rotation, pd.limb.FOOT)
+        hold_pose = False
 
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'left triangle' or 'right triangle'):
-        return False
+        correct_pressure = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
+        cp.print_pressure_results(correct_pressure, pd.limb.FOOT)
+        hold_pose = False
     
-    return True
+    if hold_pose:
+        print("Hold pose")
+        time.sleep(10)
+    else:
+        time.sleep(5)
+    
+    

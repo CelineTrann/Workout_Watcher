@@ -45,7 +45,6 @@ def print_distance_results(results: dict, obj: pd.limb) -> None:
     elif results[distance.FURTHER_Y.name]:
         print(f'Move your {obj_name} {distance.FURTHER_Y.value}.')
 
-    
 def print_rotation_results(results: dict, obj: pd.limb) -> None:
     if results[rotation.PERFECT.name]:
         print(f"{rotation.PERFECT.value}")
@@ -186,11 +185,6 @@ def closer_pressure(data: pd.Boxes, obj: pd.limb, up, lp, buff) -> dict:
 
     return correction
 
-def correct_tree(data: pd.Boxes):
-    correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
-    correct_rotation = closer_rotation(data, pd.limb.FOOT, 0, 0, 5)
-    correct_pressure = closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
-
 def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
     correction = {
         rotation.PERFECT.name: True,
@@ -225,50 +219,3 @@ def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
             correction[rotation.PERPENDICULAR_RIGHT.name] = True
             
     return correction
-
-def correct_tree(data: pd.Boxes, obj_side: pd.side):
-    
-    
-    correct_rotation = closer_rotation_tree(data, pd.limb.FOOT, 0, 5)
-    correct_pressure = closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
-    
-    print_rotation_results(correct_rotation, pd.limb.FOOT)
-    print_pressure_results(correct_pressure, pd.limb.FOOT)
-
-def correct_warrior1(data: pd.Boxes, l_rot, r_rot):
-    correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0, 1)
-    correct_rotation = closer_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5)
-    correct_pressure = closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
-
-    print_distance_results(correct_distance, pd.limb.FOOT)
-    print_rotation_results(correct_rotation, pd.limb.FOOT)
-    print_pressure_results(correct_pressure, pd.limb.FOOT)
-
-
-def correct_downwardDog(data: pd.Boxes):
-    correct_distance_feet = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0, 1)
-    correct_distance_hands = closer_distance(data, pd.limb.HAND, 0, 0, 0, 0, 1)
-
-    correct_rotation_feet = closer_rotation(data, pd.limb.FOOT, 0, 0, 5)
-    correct_rotation_hand = closer_rotation(data, pd.limb.HAND, 0, 0, 5)
-
-    correct_pressure_feet = closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
-    correct_pressure_hand = closer_pressure(data, pd.limb.HAND, 0, 0, 0)
-
-    print_distance_results(correct_distance_feet, pd.limb.FOOT)
-    print_distance_results(correct_distance_hands, pd.limb.HAND)
-
-    print_rotation_results(correct_rotation_feet, pd.limb.FOOT)
-    print_rotation_results(correct_rotation_hand, pd.limb.HAND)
-    
-    print_pressure_results(correct_pressure_feet, pd.limb.FOOT)
-    print_pressure_results(correct_pressure_hand, pd.limb.HAND)
-
-def correct_triangle(data: pd.Boxes, l_rot, r_rot):
-    correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0, 1)
-    correct_rotation = closer_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5)
-    correct_pressure = closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
-
-    print_distance_results(correct_distance, pd.limb.FOOT)
-    print_rotation_results(correct_rotation, pd.limb.FOOT)
-    print_pressure_results(correct_pressure, pd.limb.FOOT)

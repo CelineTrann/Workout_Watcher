@@ -24,22 +24,6 @@ def check_pose(pose, data) -> bool:
  
     return False
 
-def correct_pose(pose, data) -> None:
-    if pose == "tree_right": 
-        correct.correct_tree(data, side.RIGHT)
-    elif pose == "tree_left": 
-        correct.correct_tree(data, side.LEFT)
-    elif pose == "warrior1_right": 
-        correct.correct_warrior1(data, 0, 45)
-    elif pose == "warrior1_left": 
-        correct.correct_warrior1(data, 45, 0)
-    elif pose == "downwardDog": 
-        correct.correct_downwardDog(data)
-    elif pose == "triangle_right": 
-        correct.correct_triangle(data, 0, 90)
-    elif pose == "triangle_left": 
-        correct.correct_triangle(data, 90, 0)
-
 def choose_pose():
     # bluetooth to get pose
     pose = 'triangle_right'
@@ -73,12 +57,7 @@ def main():
 
             # Check and correct pose
             print(f'{pose}')
-            if not check_pose(pose, object_list):
-                correct_pose(pose, object_list)
-                time.sleep(5)
-            else:
-                print("Hold Pose.")
-                time.sleep(10)
+            check_pose(pose, object_list)
 
         
 if __name__ == "__main__":
