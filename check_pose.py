@@ -29,7 +29,7 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
     '''
 
     if pose == 'tree' and data.feet[0]:
-        if data.feet[0] == pressure.HIGH:
+        if data.feet[0].ltop_mean == pressure.HIGH and data.feet[0].rtop_mean and data.feet[0].lbottom_mean and data.feet[0].rbottom_mean:
             return True
         else: 
             return False
