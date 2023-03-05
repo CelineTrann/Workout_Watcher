@@ -229,6 +229,8 @@ def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
 
 def correct_tree(data: pd.Boxes, obj_side: pd.side):
     correct_rotation = closer_rotation_tree(data, pd.limb.FOOT, 0, 5)
+    correct_pressure = closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
+
 
     print_rotation_results(correct_rotation, pd.limb.FOOT)
     print_pressure_results(correct_pressure, pd.limb.FOOT, 0, 0, 0)
