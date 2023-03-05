@@ -3,9 +3,9 @@ import numpy as np
 from enum import Enum, IntEnum
 
 class pressure(IntEnum):
-    HIGH = 1
+    HIGH = 3
     MEDIUM = 2
-    LOW = 3
+    LOW = 1
 
 class limb(Enum):
     HAND = 'hand'
@@ -18,8 +18,8 @@ class limb(Enum):
         return 'feet'
 
 class side(Enum):
-    RIGHT = 1
-    LEFT = 2
+    RIGHT = 'right'
+    LEFT = 'left'
 
 # https://theailearner.com/2020/11/03/opencv-minimum-area-rectangle/
 # Clarification of angle_of_rot

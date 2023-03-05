@@ -148,8 +148,9 @@ def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> None:
         hold_pose = False
     
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'left warrior1' or 'right warrior1'):
-        correct_pressure = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
-        cp.print_pressure_results(correct_pressure, pd.limb.FOOT)
+        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
+        cp.print_pressure_results(correct_pressure_left, pd.limb.FOOT, pd.side.LEFT)
+        cp.print_pressure_results(correct_pressure_right, pd.limb.FOOT, pd.side.RIGHT)
         hold_pose = False
 
     if hold_pose:
@@ -186,12 +187,14 @@ def check_downwardDog(data: pd.Boxes) -> None:
         hold_pose = False
 
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'downwardDog'):
-        correct_pressure_feet = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
-        cp.print_pressure_results(correct_pressure_feet, pd.limb.FOOT)
+        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
+        cp.print_pressure_results(correct_pressure_left, pd.limb.FOOT, pd.side.LEFT)
+        cp.print_pressure_results(correct_pressure_right, pd.limb.FOOT, pd.side.RIGHT)
         hold_pose = False
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'downwardDog'):
-        correct_pressure_hand = cp.closer_pressure(data, pd.limb.HAND, 0, 0, 0)
-        cp.print_pressure_results(correct_pressure_hand, pd.limb.HAND)
+        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.HAND, 0, 0, 0)
+        cp.print_pressure_results(correct_pressure_left, pd.limb.HAND, pd.side.LEFT)
+        cp.print_pressure_results(correct_pressure_right, pd.limb.HAND, pd.side.RIGHT)
         hold_pose = False
     
     if hold_pose:
@@ -219,8 +222,9 @@ def check_triangle(data: pd.Boxes, l_rot, r_rot) -> None:
         hold_pose = False
 
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'left triangle' or 'right triangle'):
-        correct_pressure = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
-        cp.print_pressure_results(correct_pressure, pd.limb.FOOT)
+        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
+        cp.print_pressure_results(correct_pressure_left, pd.limb.FOOT, pd.side.LEFT)
+        cp.print_pressure_results(correct_pressure_right, pd.limb.FOOT, pd.side.RIGHT)
         hold_pose = False
     
     if hold_pose:
