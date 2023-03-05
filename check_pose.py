@@ -28,9 +28,7 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
     buff: leeway for pressure
     '''
 
-    obj1 = data.feet[0]
-
-    if pose == 'tree' and obj1:
+    if pose == 'tree' and data.feet[0]:
         pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure_feet(obj)
         if pressure_tl == pressure.HIGH and pressure_tr == pressure.HIGH and pressure_bl == pressure.HIGH and pressure_br == pressure.HIGH:
             return True
@@ -44,7 +42,6 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
                 return True
             else: 
                 if pose == 'right warrior1': #right
-                    pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure_feet(obj)
                     if pressure_tro == pressure.HIGH and pressure_tlo == pressure.HIGH:
                         if pressure_tr == pressure.HIGH and pressure_tl == pressure.HIGH and pressure_bl == pressure.HIGH:
                             return True
@@ -67,7 +64,6 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
                 return True
             else:                             
                 if pose == 'right triangle': #right
-                    pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure_feet(obj)
                     if pressure_tl == pressure.MEDIUM and pressure_tr == pressure.MEDIUM and pressure_bl == pressure.MEDIUM and pressure_br == pressure.MEDIUM:
                         if pressure_br == pressure.HIGH and pressure_bl == pressure.HIGH:
                             return True
