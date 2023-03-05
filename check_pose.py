@@ -118,10 +118,9 @@ def check_tree(data: pd.Boxes, obj_side: pd.side) -> None:
         hold_pose = False
   
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 0, 'tree'):
-        correct_pressure = cp.closer_pressure(data, pd.limb.FOOT, 0, 0, 0)
-        cp.print_pressure_results(correct_pressure, pd.limb.FOOT)
+        correct_pressure = cp.closer_pressure_tree(data)
+        cp.print_pressure_results(correct_pressure, pd.limb.FOOT, obj_side)
         hold_pose = False
-
 
     if hold_pose:
         print("Hold pose")

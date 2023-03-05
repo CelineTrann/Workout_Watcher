@@ -261,3 +261,50 @@ def closer_pressure(data: pd.Boxes, obj: pd.limb, up, lp, buff) -> dict:
 
     return correction_left, correction_right
 
+def closer_pressure_tree(data: pd.Boxes) -> dict:
+    pressure_tl = data.feet[0].ltop_mean
+    pressure_tr = data.feet[0].rtop_mean
+    pressure_bl = data.feet[0].lbottom_mean
+    pressure_br = data.feet[0].rbottom_mean
+    
+    correction = {
+        pressure.PERFECT.name: True,
+        pressure.LESS_PRESSURE_LEFTTOP.name: False, 
+        pressure.MORE_PRESSURE_LEFTTOP.name: False,
+        pressure.LESS_PRESSURE_LEFTBOTTOM.name: False, 
+        pressure.MORE_PRESSURE_LEFTBOTTOM.name: False,
+        pressure.LESS_PRESSURE_RIGHTTOP.name: False,
+        pressure.MORE_PRESSURE_RIGHTTOP.name: False,
+        pressure.LESS_PRESSURE_RIGHTBOTTOM.name: False,
+        pressure.MORE_PRESSURE_RIGHTBOTTOM.name: False
+    }
+
+    if pressure_tl > pd.pressure.HIGH:
+        correction[pressure.PERFECT.name] =  False
+        correction[pressure.LESS_PRESSURE_LEFTTOP.name] = True
+    elif pressure_tl < pd.pressure.LOW:
+        correction[pressure.PERFECT.name] =  False
+        correction[pressure.MORE_PRESSURE_LEFTTOP.name] = True
+    
+    if pressure_tr > pd.pressure.HIGH:
+        correction[pressure.PERFECT.name] =  False
+        correction[pressure.LESS_PRESSURE_RIGHTTOP.name] = True
+    elif pressure_tr < pd.pressure.LOW:
+        correction[pressure.PERFECT.name] =  False
+        correction[pressure.MORE_PRESSURE_RIGHTTOP.name] = True
+
+    if pressure_bl > pd.pressure.HIGH:
+        correction[pressure.PERFECT.name] =  False
+        correction[pressure.LESS_PRESSURE_LEFTBOTTOM.name] = True
+    elif pressure_bl < pd.pressure.LOW:
+        correction[pressure.PERFECT.name] =  False
+        correction[pressure.MORE_PRESSURE_LEFTBOTTOM.name] = True
+
+    if pressure_br > pd.pressure.HIGH:
+        correction[pressure.PERFECT.name] =  False
+        correction[pressure.LESS_PRESSURE_RIGHTBOTTOM.name] = True
+    elif pressure_br < pd.pressure.LOW:
+        correction[pressure.PERFECT.name] =  False
+        correction[pressure.MORE_PRESSURE_RIGHTBOTTOM.name] = True
+
+    return correction
