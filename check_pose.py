@@ -2,6 +2,28 @@ import ImageProcessing.process_data as pd
 import correct_pose as cp
 import time
 
+def set_label(data: pd.Boxes, expected_obj: int) -> None:
+    objs = data.no_label
+    if len(objs) > expected_obj:
+        return False
+    
+    elif expected_obj > 2:
+        # set hand labels for at the top of the map
+        objs.sort(key = lambda x: x.centroid_y, reverse=False)
+        for _ in range(2):
+            print('label hand')
+            curr_obj = objs.pop()
+            curr_obj.set_label(pd.limb.HAND.value)
+            data.hands.append(curr_obj)
+
+    for _ in range(len(objs)):
+        print('label foot')
+        curr_obj = objs.pop()
+        curr_obj.set_label(pd.limb.FOOT.value)
+        data.feet.append(curr_obj)
+
+    return True
+
 def check_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> bool:
     '''
     Key Arguments:
@@ -16,6 +38,16 @@ def check_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> bool:
     if foot_distance_x + tol > ux or foot_distance_x - tol < lx:
         return False
     elif foot_distance_y + tol > uy or foot_distance_y - tol < ly:
+        return False
+    
+    return True
+
+def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
+    left, right = data.get_sides(obj)
+    if left.get_rotation > l_rot + tol or left.get_rotation < l_rot - tol:
+        return False
+    
+    elif right.get_rotation > r_rot + tol or right.get_rotation < r_rot - tol:
         return False
     
     return True
@@ -71,37 +103,6 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
                         else:
                             return False  
                  
-def set_label(data: pd.Boxes, expected_obj: int) -> None:
-    objs = data.no_label
-    if len(objs) > expected_obj:
-        return False
-    
-    elif expected_obj > 2:
-        # set hand labels for at the top of the map
-        objs.sort(key = lambda x: x.centroid_y, reverse=False)
-        for _ in range(2):
-            print('label hand')
-            curr_obj = objs.pop()
-            curr_obj.set_label(pd.limb.HAND.value)
-            data.hands.append(curr_obj)
-
-    for _ in range(len(objs)):
-        print('label foot')
-        curr_obj = objs.pop()
-        curr_obj.set_label(pd.limb.FOOT.value)
-        data.feet.append(curr_obj)
-
-    return True
-
-def check_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol):
-    left, right = data.get_sides(obj)
-    if left.get_rotation > l_rot + tol or left.get_rotation < l_rot - tol:
-        return False
-    
-    elif right.get_rotation > r_rot + tol or right.get_rotation < r_rot - tol:
-        return False
-    
-    return True
     
 # Function returns if pose is 90% correct
 def check_tree(data: pd.Boxes, obj_side: pd.side) -> None:
