@@ -103,8 +103,6 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
                         else:
                             return False  
                  
-    
-# Function returns if pose is 90% correct
 def check_tree(data: pd.Boxes, obj_side: pd.side) -> None:
     if not set_label(data, 1):
         return 

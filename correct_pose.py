@@ -141,6 +141,41 @@ def closer_rotation(data: pd.Boxes, obj: pd.limb, l_rot, r_rot, tol) -> dict:
     
     return correction
 
+def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
+    correction = {
+        rotation.PERFECT.name: True,
+        rotation.CLOSER_LEFT.name: False, 
+        rotation.FURTHER_LEFT.name: False,
+        rotation.CLOSER_RIGHT.name: False,
+        rotation.FURTHER_RIGHT.name: False,
+        rotation.PERPENDICULAR_RIGHT.name: False,
+        rotation.PERPENDICULAR_LEFT.name: False
+    }
+
+    foot = data.feet[0]
+    if foot.get_rotation() > rot + tol and foot.get_rotation() < 90:
+        correction[rotation.PERFECT.name] = False
+        if obj_side == pd.side.LEFT:
+            correction[rotation.CLOSER_LEFT.name] = True
+        else: 
+            correction[rotation.FURTHER_RIGHT.name] = True
+            
+    elif foot.get_rotation() > rot + tol and foot.get_rotation() > 90:
+        correction[rotation.PERFECT.name] = False
+        if obj_side == pd.side.LEFT:
+            correction[rotation.FURTHER_LEFT.name] = True
+        else: 
+            correction[rotation.CLOSER_RIGHT.name] = True
+            
+    elif foot.get_rotation() == 90:
+        correction[rotation.PERFECT.name] = False
+        if obj_side == pd.side.LEFT:
+            correction[rotation.PERPENDICULAR_LEFT.name] = True
+        else:
+            correction[rotation.PERPENDICULAR_RIGHT.name] = True
+            
+    return correction
+
 def closer_pressure(data: pd.Boxes, obj: pd.limb, up, lp, buff) -> dict:
     foot_pressure_tl, foot_pressure_tr, foot_pressure_bl, foot_pressure_br, a, b, c, d = data.get_pressure_feet(obj)
     correction = {
@@ -185,37 +220,3 @@ def closer_pressure(data: pd.Boxes, obj: pd.limb, up, lp, buff) -> dict:
 
     return correction
 
-def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
-    correction = {
-        rotation.PERFECT.name: True,
-        rotation.CLOSER_LEFT.name: False, 
-        rotation.FURTHER_LEFT.name: False,
-        rotation.CLOSER_RIGHT.name: False,
-        rotation.FURTHER_RIGHT.name: False,
-        rotation.PERPENDICULAR_RIGHT.name: False,
-        rotation.PERPENDICULAR_LEFT.name: False
-    }
-
-    foot = data.feet[0]
-    if foot.get_rotation() > rot + tol and foot.get_rotation() < 90:
-        correction[rotation.PERFECT.name] = False
-        if obj_side == pd.side.LEFT:
-            correction[rotation.CLOSER_LEFT.name] = True
-        else: 
-            correction[rotation.FURTHER_RIGHT.name] = True
-            
-    elif foot.get_rotation() > rot + tol and foot.get_rotation() > 90:
-        correction[rotation.PERFECT.name] = False
-        if obj_side == pd.side.LEFT:
-            correction[rotation.FURTHER_LEFT.name] = True
-        else: 
-            correction[rotation.CLOSER_RIGHT.name] = True
-            
-    elif foot.get_rotation() == 90:
-        correction[rotation.PERFECT.name] = False
-        if obj_side == pd.side.LEFT:
-            correction[rotation.PERPENDICULAR_LEFT.name] = True
-        else:
-            correction[rotation.PERPENDICULAR_RIGHT.name] = True
-            
-    return correction
