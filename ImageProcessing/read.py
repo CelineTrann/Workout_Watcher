@@ -1,6 +1,7 @@
 import numpy as np
 import cv2 as cv
 import os
+import sys
 
 def show_img(name, img):
     cv.namedWindow(f"{name}", cv.WINDOW_KEEPRATIO)
@@ -12,7 +13,25 @@ def show_img(name, img):
 def convert_to_img(name, base_nparray, data_nparray, img_show=False, threshold=0):
     heatmapshow = None
     nparray = data_nparray - base_nparray
+    
+    np.set_printoptions(threshold=sys.maxsize)
+    print(f'{nparray}')
+    
+        
     nparray[nparray < threshold] = 0
+    
+    nparray[4:63, 4:12] = nparray[4:63, 4:12]*2.5
+    nparray[4:63, 12:20] = nparray[4:63, 12:20]*2
+    row_mean = np.mean(nparray, axis = 1)
+    col_mean = np.mean(nparray, axis = 0)  
+    row_co = 1/(col_mean+0.000001)
+    row_co = 0.5*(row_co - np.min(row_co))/(np.max(row_co)-np.min(row_co))
+    print(row_co)
+    nparray[nparray < row_mean[:,None]+row_co] = 0
+    nparray[nparray < col_mean[None,:]*1.5] = 0
+    
+    nparray[41:63, 0:28] = nparray[41:63, 0:28]*1.5
+    
     heatmapshow = cv.normalize(nparray, heatmapshow, alpha=0, beta=255, norm_type=cv.NORM_MINMAX, dtype=cv.CV_8U)
     heatmapshow = cv.applyColorMap(heatmapshow, cv.COLORMAP_BONE)
 
@@ -52,4 +71,10 @@ def read_file(base, file, img_show=False, threshold=0):
 
 if __name__ == '__main__':
     # read_file("Python Plotting\\base3.txt", "Python Plotting\\hand3.txt")
-    read_all_file("Data\Data (02.21)\Right Hand", img_show=True)
+    #read_all_file("Data\Data (02.21)\Right Hand", img_show=True)
+    m = np.mean([ 0.3577203,   0.46406958,  0.58330968,  0.5962005,   0.54463722,  0.57041886,
+   0.52530098,  0.52207828,  0.57686427,  0.61553674,  0.62842756,  0.61231403,
+   0.61553674,  0.60264591,  0.58653239,  0.58653239,  0.5962005,   0.63809567,
+   0.72510872,  0.81534447,  0.91524834,  0.87979858,  0.82823529,  0.70254978,
+   0.16113527,  0, 0, 0])
+    print(m)

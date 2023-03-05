@@ -5,13 +5,17 @@ def process_image(img, kernal=(3,3), threshold=0):
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     blur = cv.blur(gray, kernal)
     ret, thresh = cv.threshold(blur, threshold, 255, 0)
-    return thresh
+    return gray
 
-def connect_objects(img, kernal=(10,10), min_area=0, min_height=10, min_width=10):
+def connect_objects(img, kernal=(10,10), min_area=40, min_height=6, min_width=6):
     # Closing of images
     kernel = np.ones(kernal, np.uint8)
-    closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
-
+    #closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
+    
+    # threshold and blur
+    ret, closing = cv.threshold(img, 80, 255, 0)
+    closing = cv.blur(closing, (3, 3))
+    
     # Connected Components
     analysis = cv.connectedComponentsWithStats(closing, 4, stats=cv.CV_32S)
     (totalLabels, label_ids, values, centroid) = analysis
@@ -53,21 +57,36 @@ def find_min_bounding_box(analyze_img, view_image):
 
 
 def crop_minarearect(img, rect):
-    # rotate img
-    angle = rect[2]
-    rows,cols = img.shape[0], img.shape[1]
-    M = cv.getRotationMatrix2D((cols/2,rows/2), angle, 1)
-    img_rot = cv.warpAffine(img,M,(cols,rows))
+    # Create mask for Bounding Box
+    mask = np.zeros_like(img)
 
-    # rotate bounding box
-    box = cv.boxPoints(rect)
-    pts = np.int0(cv.transform(np.array([box]), M))[0]    
-    pts[pts < 0] = 0
+    # draw the rotated bounding box on the mask
+    box = np.int0(cv.boxPoints(rect))
+    points = np.int0(box)
+    cv.fillPoly(mask, [points], color=(255, 255, 255))
 
-    # crop
-    img_crop = img_rot[pts[1][1]:pts[0][1], pts[1][0]:pts[2][0]]
+    # apply the mask to the input image to crop it
+    cropped_img = cv.bitwise_and(img.copy(), mask)
 
-    return img_crop
+    # Get center, size, and angle from rect
+    center, size, angle = rect
+    size  = tuple(x+3 for x in size)
+    size = (size[1], size[0])
+
+    # Convert to int W
+    center, size = tuple(map(int, center)), tuple(map(int, size))
+    
+    if angle % 90 != 0:
+        # Get rotation matrix for rectangle
+        M = cv.getRotationMatrix2D( center, angle, 1)
+        
+        # Perform rotation on src image
+        dst = cv.warpAffine(cropped_img, M, cropped_img.shape[:2])
+        out = cv.getRectSubPix(dst, size, center)
+    else:
+        out = cv.getRectSubPix(cropped_img, size, center)
+
+    return out
 
 def get_sections_mean(img):
     rows, cols = img.shape[0], img.shape[1]
@@ -77,6 +96,7 @@ def get_sections_mean(img):
     Rtop = img[0:row_mid, col_mid:cols]
     Lbottom = img[row_mid:rows, 0:col_mid]
     Rbottom = img[row_mid:rows, col_mid:cols]
+    
     return [Ltop.mean(), Rtop.mean(), Lbottom.mean(), Rbottom.mean()]
 
 # For Debugging, see process_data.py

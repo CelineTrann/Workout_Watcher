@@ -13,7 +13,9 @@ data0 = np.empty([1,8])
 data1 = np.empty([1,8])
 data2 = np.empty([1,8])
 data3 = np.empty([1,8])
-dataAll = np.zeros([32, 32])
+data4 = np.empty([1,8])
+data5 = np.empty([1,8])
+dataAll = np.zeros([48, 28])
 
 # Start serial communication
 spi = busio.SPI(clock=board.SCLK, MISO=board.MISO, MOSI=board.MOSI)
@@ -22,6 +24,9 @@ mcp= MCP.MCP3008(spi, cs)
 chan0 = AnalogIn(mcp, MCP.P0)
 chan1 = AnalogIn(mcp, MCP.P1)
 chan2 = AnalogIn(mcp, MCP.P2)
+chan3 = AnalogIn(mcp, MCP.P3)
+chan4 = AnalogIn(mcp, MCP.P4)
+chan5 = AnalogIn(mcp, MCP.P5)
 
 readMuxS2 = digitalio.DigitalInOut(board.D16)
 readMuxS1 = digitalio.DigitalInOut(board.D20)
@@ -70,18 +75,36 @@ def readCu():
     for index in range(8):
         selectChannel(index, readMuxS2, readMuxS1, readMuxS0)
         data0[0][index] = chan0.voltage
-        time.sleep(0.001)
+        time.sleep(0.0005)
         data1[0][index] = chan1.voltage
-        time.sleep(0.001)
+        time.sleep(0.0005)
         data2[0][index] = chan2.voltage
-        time.sleep(0.001)
-        data3[0][index] = -1
-        print('ADC voltage Channel 0: ', str(chan0.voltage) + "V")
-        print('ADC voltage Channel 1: ', str(chan1.voltage) + "V")
-        print('ADC voltage Channel 2: ', str(chan2.voltage) + "V")
+        time.sleep(0.0005)
+        data3[0][index] = chan3.voltage
+        time.sleep(0.0005)
+        data4[0][index] = chan4.voltage
+        time.sleep(0.0005)
+        data5[0][index] = chan5.voltage
+        time.sleep(0.0005)
+#         print('ADC voltage Channel 0: ', str(chan0.voltage) + "V")
+#         print('ADC voltage Channel 1: ', str(chan1.voltage) + "V")
+#         print('ADC voltage Channel 2: ', str(chan2.voltage) + "V")
+#         print('ADC voltage Channel 4: ', str(chan0.voltage) + "V")
+#         print('ADC voltage Channel 5: ', str(chan1.voltage) + "V")
+#         print('ADC voltage Channel 6: ', str(chan2.voltage) + "V")
     
 # Turn on column copper tape one by one
 def writeCu():          
+    
+    # Activate copper tapes powered by the primary MUX
+    pMuxCount = 6
+    for index in range(4):
+        selectChannel(pMuxCount, priMuxS2, priMuxS1, priMuxS0)
+        readCu()
+        dataTemp = np.vstack((data0.T, data1.T, data2.T, data3.T, data4.T, data5.T))
+        dataAll[:,index] = dataTemp[:,0]
+        pMuxCount -= 1
+    
     # Use primary MUX to select secondary MUX
     for i in range(3):
         # print("Setting secondary MUX")
@@ -93,14 +116,16 @@ def writeCu():
             # print("Setting copper tapes %s"%j)
             selectChannel(jindex, writeMuxS2, writeMuxS1, writeMuxS0)
             readCu()
-            dataTemp = np.vstack((data0.T, data1.T, data2.T, data3.T))
-            dataAll[:,i*8+j] = dataTemp[:,0]
+            dataTemp = np.vstack((data0.T, data1.T, data2.T, data3.T, data4.T, data5.T))
+            dataAll[:,i*8+j+4] = dataTemp[:,0]
             jindex -= 1
+    
+    
 
 def readData():
 
     # Read values repetitively and take the average
-    base_sum = np.zeros([32, 32])
+    base_sum = np.zeros([48, 28])
     for index in range(1):
         writeCu()
         base_sum = base_sum + dataAll
@@ -108,36 +133,61 @@ def readData():
     avg_sum = base_sum / 1
 
     # Reorganize matrix
-    data = np.zeros([22, 24])
+    data = np.zeros([63, 28])
     dataCount = 0
 
     count = 7
     for i in range(8):
-        for j in range(24):
+        for j in range(28):
             data[dataCount][j] = avg_sum[count][j]
         count -= 1
         dataCount += 1
     
     count = 15
     for i in range(8):
-        for j in range(24):
+        for j in range(28):
             data[dataCount][j] = avg_sum[count][j]
         count -= 1
         dataCount += 1
 
     count = 19
     for i in range(4):
-        for j in range(24):
+        for j in range(28):
             data[dataCount][j] = avg_sum[count][j]
         count += 1
         dataCount += 1
     
-    for j in range(24):
+    for j in range(28):
         data[dataCount][j] = avg_sum[18][j]
     dataCount += 1
 
-    for j in range(24):
+    for j in range(28):
         data[dataCount][j] = avg_sum[23][j]
     dataCount += 1
+    
+    dataCount = dataCount + 18
+    
+    count = 31
+    for i in range(8):
+        for j in range(28):
+            data[dataCount][j] = avg_sum[count][j]
+        count -= 1
+        dataCount += 1
+    
+    count = 39
+    for i in range(8):
+        for j in range(28):
+            data[dataCount][j] = avg_sum[count][j]
+        count -= 1
+        dataCount += 1
+        
+    count = 44
+    for i in range(5):
+        for j in range(28):
+            data[dataCount][j] = avg_sum[count][j]
+        count -= 1
+        dataCount += 1
+    
+    data[16,:] = 0
 
     return data
