@@ -13,7 +13,7 @@ def connect_objects(img, kernal=(10,10), min_area=40, min_height=6, min_width=6)
     #closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
     
     # threshold and blur
-    ret, closing = cv.threshold(img, 80, 255, 0)
+    ret, closing = cv.threshold(img, 70, 255, 0)
     closing = cv.blur(closing, (3, 3))
     
     # Connected Components
@@ -86,7 +86,7 @@ def crop_minarearect(img, rect):
     else:
         out = cv.getRectSubPix(cropped_img, size, center)
 
-    return out
+    return out, points
 
 def get_sections_mean(img):
     rows, cols = img.shape[0], img.shape[1]

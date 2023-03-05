@@ -1,8 +1,8 @@
 import csv
 import numpy as np
-from enum import Enum
+from enum import Enum, IntEnum
 
-class pressure(Enum):
+class pressure(IntEnum):
     HIGH = 1
     MEDIUM = 2
     LOW = 3

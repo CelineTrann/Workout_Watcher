@@ -26,7 +26,7 @@ def check_pose(pose, data) -> bool:
 
 def choose_pose():
     # bluetooth to get pose
-    pose = 'tree_right'
+    pose = 'triangle_right'
     return pose
 
 def main():

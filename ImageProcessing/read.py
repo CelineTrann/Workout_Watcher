@@ -30,7 +30,7 @@ def convert_to_img(name, base_nparray, data_nparray, img_show=False, threshold=0
     nparray[nparray < row_mean[:,None]+row_co] = 0
     nparray[nparray < col_mean[None,:]*1.5] = 0
     
-    nparray[41:63, 0:28] = nparray[41:63, 0:28]*1.5
+    nparray[41:63, 0:28] = nparray[41:63, 0:28]*1.2
     
     heatmapshow = cv.normalize(nparray, heatmapshow, alpha=0, beta=255, norm_type=cv.NORM_MINMAX, dtype=cv.CV_8U)
     heatmapshow = cv.applyColorMap(heatmapshow, cv.COLORMAP_BONE)
@@ -38,7 +38,7 @@ def convert_to_img(name, base_nparray, data_nparray, img_show=False, threshold=0
     if img_show:
         show_img(name, heatmapshow)
 
-    return heatmapshow
+    return heatmapshow, nparray
 
 def read_all_file(directory, img_show=False, threshold=40):
     all_files = os.listdir(directory)
