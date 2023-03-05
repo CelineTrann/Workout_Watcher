@@ -147,7 +147,8 @@ def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> None:
         hold_pose = False
     
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'left warrior1' or 'right warrior1'):
-        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.FOOT)
+        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.FOOT,
+            pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH)
         cp.print_pressure_results(correct_pressure_left, pd.limb.FOOT, pd.side.LEFT)
         cp.print_pressure_results(correct_pressure_right, pd.limb.FOOT, pd.side.RIGHT)
         hold_pose = False
@@ -186,12 +187,14 @@ def check_downwardDog(data: pd.Boxes) -> None:
         hold_pose = False
 
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'downwardDog'):
-        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.FOOT)
+        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.FOOT, 
+            pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH)
         cp.print_pressure_results(correct_pressure_left, pd.limb.FOOT, pd.side.LEFT)
         cp.print_pressure_results(correct_pressure_right, pd.limb.FOOT, pd.side.RIGHT)
         hold_pose = False
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'downwardDog'):
-        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.HAND)
+        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.HAND, 
+            pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH)
         cp.print_pressure_results(correct_pressure_left, pd.limb.HAND, pd.side.LEFT)
         cp.print_pressure_results(correct_pressure_right, pd.limb.HAND, pd.side.RIGHT)
         hold_pose = False
@@ -221,7 +224,8 @@ def check_triangle(data: pd.Boxes, l_rot, r_rot) -> None:
         hold_pose = False
 
     elif not check_pressure(data, pd.limb.FOOT, 0, 0, 'left triangle' or 'right triangle'):
-        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.FOOT)
+        correct_pressure_left, correct_pressure_right = cp.closer_pressure(data, pd.limb.FOOT,
+            pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH, pd.pressure.HIGH)
         cp.print_pressure_results(correct_pressure_left, pd.limb.FOOT, pd.side.LEFT)
         cp.print_pressure_results(correct_pressure_right, pd.limb.FOOT, pd.side.RIGHT)
         hold_pose = False
