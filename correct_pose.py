@@ -176,8 +176,8 @@ def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
             
     return correction
 
-def closer_pressure(data: pd.Boxes, obj: pd.limb, up, lp, buff) -> dict:
-    Lfoot_pressure_tl, Lfoot_pressure_tr, Lfoot_pressure_bl, Lfoot_pressure_br, Rfoot_pressure_tl, Rfoot_pressure_tr, Rfoot_pressure_bl, Rfoot_pressure_br = data.get_pressure_feet(obj)
+def closer_pressure(data: pd.Boxes, obj: pd.limb) -> dict:
+    L_pressure_tl, L_pressure_tr, L_pressure_bl, L_pressure_br, R_pressure_tl, R_pressure_tr, R_pressure_bl, R_pressure_br = data.get_pressure_feet(obj)
     
     correction_left = {
         pressure.PERFECT.name: True,
@@ -191,31 +191,31 @@ def closer_pressure(data: pd.Boxes, obj: pd.limb, up, lp, buff) -> dict:
         pressure.MORE_PRESSURE_RIGHTBOTTOM.name: False
     }
 
-    if Lfoot_pressure_tl > pd.pressure.HIGH:
+    if L_pressure_tl > pd.pressure.HIGH:
         correction_left[pressure.PERFECT.name] =  False
         correction_left[pressure.LESS_PRESSURE_LEFTTOP.name] = True
-    elif Lfoot_pressure_tl < pd.pressure.LOW:
+    elif L_pressure_tl < pd.pressure.LOW:
         correction_left[pressure.PERFECT.name] =  False
         correction_left[pressure.MORE_PRESSURE_LEFTTOP.name] = True
     
-    if Lfoot_pressure_tr > pd.pressure.HIGH:
+    if L_pressure_tr > pd.pressure.HIGH:
         correction_left[pressure.PERFECT.name] =  False
         correction_left[pressure.LESS_PRESSURE_RIGHTTOP.name] = True
-    elif Lfoot_pressure_tr < pd.pressure.LOW:
+    elif L_pressure_tr < pd.pressure.LOW:
         correction_left[pressure.PERFECT.name] =  False
         correction_left[pressure.MORE_PRESSURE_RIGHTTOP.name] = True
 
-    if Lfoot_pressure_bl > pd.pressure.HIGH:
+    if L_pressure_bl > pd.pressure.HIGH:
         correction_left[pressure.PERFECT.name] =  False
         correction_left[pressure.LESS_PRESSURE_LEFTBOTTOM.name] = True
-    elif Lfoot_pressure_bl < pd.pressure.LOW:
+    elif L_pressure_bl < pd.pressure.LOW:
         correction_left[pressure.PERFECT.name] =  False
         correction_left[pressure.MORE_PRESSURE_LEFTBOTTOM.name] = True
 
-    if Lfoot_pressure_br > pd.pressure.HIGH:
+    if L_pressure_br > pd.pressure.HIGH:
         correction_left[pressure.PERFECT.name] =  False
         correction_left[pressure.LESS_PRESSURE_RIGHTBOTTOM.name] = True
-    elif Lfoot_pressure_br < pd.pressure.LOW:
+    elif L_pressure_br < pd.pressure.LOW:
         correction_left[pressure.PERFECT.name] =  False
         correction_left[pressure.MORE_PRESSURE_RIGHTBOTTOM.name] = True
 
@@ -231,31 +231,31 @@ def closer_pressure(data: pd.Boxes, obj: pd.limb, up, lp, buff) -> dict:
         pressure.MORE_PRESSURE_RIGHTBOTTOM.name: False
     }
 
-    if Rfoot_pressure_tl > pd.pressure.HIGH:
+    if R_pressure_tl > pd.pressure.HIGH:
         correction_right[pressure.PERFECT.name] =  False
         correction_right[pressure.LESS_PRESSURE_LEFTTOP.name] = True
-    elif Rfoot_pressure_tl < pd.pressure.LOW:
+    elif R_pressure_tl < pd.pressure.LOW:
         correction_right[pressure.PERFECT.name] =  False
         correction_right[pressure.MORE_PRESSURE_LEFTTOP.name] = True
     
-    if Rfoot_pressure_tr > pd.pressure.HIGH:
+    if R_pressure_tr > pd.pressure.HIGH:
         correction_right[pressure.PERFECT.name] =  False
         correction_right[pressure.LESS_PRESSURE_RIGHTTOP.name] = True
-    elif Rfoot_pressure_tr < pd.pressure.LOW:
+    elif R_pressure_tr < pd.pressure.LOW:
         correction_right[pressure.PERFECT.name] =  False
         correction_right[pressure.MORE_PRESSURE_RIGHTTOP.name] = True
 
-    if Rfoot_pressure_bl > pd.pressure.HIGH:
+    if R_pressure_bl > pd.pressure.HIGH:
         correction_right[pressure.PERFECT.name] =  False
         correction_right[pressure.LESS_PRESSURE_LEFTBOTTOM.name] = True
-    elif Rfoot_pressure_bl < pd.pressure.LOW:
+    elif R_pressure_bl < pd.pressure.LOW:
         correction_right[pressure.PERFECT.name] =  False
         correction_right[pressure.MORE_PRESSURE_LEFTBOTTOM.name] = True
 
-    if Rfoot_pressure_br > pd.pressure.HIGH:
+    if R_pressure_br > pd.pressure.HIGH:
         correction_right[pressure.PERFECT.name] =  False
         correction_right[pressure.LESS_PRESSURE_RIGHTBOTTOM.name] = True
-    elif Rfoot_pressure_br < pd.pressure.LOW:
+    elif R_pressure_br < pd.pressure.LOW:
         correction_right[pressure.PERFECT.name] =  False
         correction_right[pressure.MORE_PRESSURE_RIGHTBOTTOM.name] = True
 
