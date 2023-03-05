@@ -42,7 +42,7 @@ def correct_pose(pose, data) -> None:
 
 def choose_pose():
     # bluetooth to get pose
-    pose = 'tree_right'
+    pose = 'triangle_right'
     return pose
 
 def main():
