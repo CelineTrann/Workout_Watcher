@@ -29,8 +29,7 @@ def check_pressure(data: pd.Boxes, obj: pd.limb, pressure, buff, pose) -> bool:
     '''
 
     if pose == 'tree' and data.feet[0]:
-        pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure_feet(obj)
-        if pressure_tl == pressure.HIGH and pressure_tr == pressure.HIGH and pressure_bl == pressure.HIGH and pressure_br == pressure.HIGH:
+        if data.feet[0] == pressure.HIGH:
             return True
         else: 
             return False
