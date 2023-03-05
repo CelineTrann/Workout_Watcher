@@ -143,30 +143,6 @@ def closer_rotation_tree(data: pd.Boxes, obj_side: pd.side, rot, tol):
             
     return correction
 
-def correct_tree(data: pd.Boxes, obj_side: pd.side):
-    correct_rotation = closer_rotation_tree(data, pd.limb.FOOT, 0, 5)
-
-    print_rotation_results(correct_rotation, pd.limb.FOOT)
-
-def correct_warrior1(data: pd.Boxes, l_rot, r_rot):
-    correct_distance = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
-    correct_rotation = closer_rotation(data, pd.limb.FOOT, l_rot, r_rot, 5)
-
-    print_distance_results(correct_distance, pd.limb.FOOT)
-    print_rotation_results(correct_rotation, pd.limb.FOOT)
-
-def correct_downwardDog(data: pd.Boxes):
-    correct_distance_feet = closer_distance(data, pd.limb.FOOT, 0, 0, 0, 0)
-    correct_distance_hands = closer_distance(data, pd.limb.HAND, 0, 0, 0, 0)
-
-    correct_rotation_feet = closer_rotation(data, pd.limb.FOOT, 0, 0, 5)
-    correct_rotation_hand = closer_rotation(data, pd.limb.HAND, 0, 0, 5)
-
-    print_distance_results(correct_distance_feet, pd.limb.FOOT)
-    print_distance_results(correct_distance_hands, pd.limb.HAND)
-
-    print_rotation_results(correct_rotation_feet, pd.limb.FOOT)
-    print_rotation_results(correct_rotation_hand, pd.limb.HAND)
     
 
 def correct_triangle(data: pd.Boxes, l_rot, r_rot):
