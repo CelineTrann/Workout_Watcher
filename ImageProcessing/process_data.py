@@ -3,9 +3,9 @@ import numpy as np
 from enum import Enum, IntEnum
 
 class pressure(IntEnum):
-    HIGH = 1
+    HIGH = 3
     MEDIUM = 2
-    LOW = 3
+    LOW = 1
 
 class limb(Enum):
     HAND = 'hand'
@@ -18,8 +18,8 @@ class limb(Enum):
         return 'feet'
 
 class side(Enum):
-    RIGHT = 1
-    LEFT = 2
+    RIGHT = 'right'
+    LEFT = 'left'
 
 # https://theailearner.com/2020/11/03/opencv-minimum-area-rectangle/
 # Clarification of angle_of_rot
@@ -127,8 +127,8 @@ class Boxes:
         distance_y = abs(obj1.centroid_y - obj2.centroid_y)
         return distance_x, distance_y
     
-    def get_pressure_feet(self, obj: limb) -> float:
-        obj1, obj2 = self.get_obj(limb.FOOT)
+    def get_pressure(self, obj: limb) -> float:
+        obj1, obj2 = self.get_obj(obj)
         #foot 1
         pressure_tl = obj1.ltop_mean
         pressure_tr = obj1.rtop_mean 
@@ -142,22 +142,6 @@ class Boxes:
         pressure_bro = obj2.rbottom_mean
 
         return pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro
-    
-    def get_pressure_hands(self, obj: limb) -> float:
-        obj1, obj2 = self.get_obj(limb.HAND) 
-        #hand 1
-        pressure_tla = obj1.ltop_mean
-        pressure_tra = obj1.rtop_mean 
-        pressure_bla = obj1.lbottom_mean
-        pressure_bra = obj1.rbottom_mean
-
-        #hand 2
-        pressure_tlb = obj2.ltop_mean
-        pressure_trb = obj2.rtop_mean 
-        pressure_blb = obj2.lbottom_mean
-        pressure_brb = obj2.rbottom_mean
-
-        return pressure_tla, pressure_tra, pressure_bla, pressure_bra, pressure_tlb, pressure_trb, pressure_blb, pressure_brb
 
 def create_data_csv(data_list: list[Bounding_Box], filename):
     try: 
