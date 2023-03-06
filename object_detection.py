@@ -35,26 +35,27 @@ def process_img(base, data) -> ipd.Boxes:
             point2 = points[1]
             point3 = points[2]
             
+            print("Position of bounding box: %s %s %s %s"%(point1[1], point3[1]+1, point1[0], point2[0]+1))
             crop_data = data_copy[point1[1]:point3[1]+1, point1[0]:point2[0]+1]
             hei = np.shape(crop_data)[0]
             wid = np.shape(crop_data)[1]
             
             tl = np.mean(crop_data[0:2, 0:2])
-            print("tl: %s"%tl)
+            #print("tl: %s"%tl)
             tr = np.mean(crop_data[0:2, (wid-2):(wid+1)])
-            print("tr: %s"%tr)
+            #print("tr: %s"%tr)
             bl = np.mean(crop_data[(hei-2):(hei+1), 0:2])
-            print(crop_data[(hei-2):(hei+1), 0:2])
-            print("bl: %s"%bl)
+            #print(crop_data[(hei-2):(hei+1), 0:2])
+            #print("bl: %s"%bl)
             br = np.mean(crop_data[hei-2:hei+1, wid-2:wid+1])
-            print(crop_data[hei-2:hei+1, wid-2:wid+1])
-            print("br: %s"%br) 
+            #print(crop_data[hei-2:hei+1, wid-2:wid+1])
+            #print("br: %s"%br) 
             uTop = np.mean(crop_data[0:2, 0:wid])
-            print(uTop)
+            #print(uTop)
             uBottom = np.mean(crop_data[hei-2:hei+1, 0:wid])
-            print(uBottom)
+            #print(uBottom)
             uCrop = np.mean(crop_data)
-            print("mean of all: %s"%uCrop)
+            #print("mean of all: %s"%uCrop)
             
 #             if tl < uTop * 0.7 and br < uBottom * 0.7:
 #                 box_data.rotation = 45
@@ -65,10 +66,10 @@ def process_img(base, data) -> ipd.Boxes:
 #             else:
 #                 print("No angle correction is required.")
             
-            if tl < uCrop * 0.7 and br < uCrop * 0.7:
+            if tl < uCrop * 0.1 and br < uCrop * 0.1:
                 box_data.rotation = 45
                 print("Angle corrected to 45.")
-            elif tr < uCrop * 0.7 and bl < uCrop * 0.7:
+            elif tr < uCrop * 0.1 and bl < uCrop * 0.1:
                 box_data.rotation = 135
                 print("Angle corrected to 135.")
             else:

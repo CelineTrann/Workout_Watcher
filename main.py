@@ -12,9 +12,9 @@ def check_pose(pose, data) -> bool:
     elif pose == "tree_left": 
         return check.check_tree(data, side.LEFT)
     elif pose ==  "warrior1_right": 
-        return check.check_warrior1(data, 0, 45)
-    elif pose == "warrior1_left": 
         return check.check_warrior1(data, 45, 0)
+    elif pose == "warrior1_left": 
+        return check.check_warrior1(data, 0, 45)
     elif pose == "downwardDog": 
         return  check.check_downwardDog(data)
     elif pose == "triangle_right": 

@@ -53,6 +53,11 @@ class Bounding_Box:
         self.rtop_mean = self.map_pressure(means[1])
         self.lbottom_mean = self.map_pressure(means[2])
         self.rbottom_mean = self.map_pressure(means[3])
+        
+        print('left top: %s'%means[0])
+        print('right top: %s'%means[1])
+        print('left bottom: %s'%means[2])
+        print('right bottom: %s'%means[3])
 
     def get_hw_ratio(self):
         return self.height / self.width
@@ -61,8 +66,8 @@ class Bounding_Box:
         ratio = self.get_hw_ratio()
         if ratio < 1 and self.rotation == 90:
             return self.rotation - 90
-        elif ratio > 1 and self.rotation != 90:
-            return self.rotation + 90
+        if ratio > 1 and self.rotation != 90:
+            return self.rotation - 90
         
         return self.rotation
     
