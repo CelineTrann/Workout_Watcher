@@ -1,0 +1,73 @@
+# Power on 
+
+# import and call the calibrate file
+import calibration.txt
+
+# while on
+while on==TRUE:
+
+	# Prompt user to input a posture 
+	posture = input('Which yoga pose are you choosing?')
+
+
+	# If tree pose chosen
+	if posture == 'Tree Pose': 
+		# Prompt user to perform chosen yoga pose 
+		DoTree = input('Do the tree pose!')
+		
+
+	# while tree pose is performed
+	while DoTree:
+		# compare position with ideal pos
+		# if pose is 90% accurate or more
+		# prompt user to hold posture for a minute and store their accuracy  
+		print('Hold your pose for 1min!')
+		# else calculate corrections
+		# output corrections to user
+
+
+	# If warrior 1 chosen
+	if posture == 'Warrior One': 
+		# Prompt user to perform chosen yoga pose 
+		DoWarrior = input('Do the warrior 1 pose!')
+
+	# while yoga pose is performed 
+		# compare position with ideal pos
+		# if pose is 90% accurate or more
+		# prompt user to hold posture for a minute and store their accuracy  
+		print('Hold your pose for 1min!')	
+		# else calculate corrections
+		# output corrections to user
+
+	
+	# If downward dog chosen
+	if posture == 'Downward Dog': 
+		# Prompt user to perform chosen yoga pose 
+		DoDownwarddog = input('Do the downward dog pose!')
+
+	# while yoga pose is performed
+		# compare position with ideal pos
+		# if pose is 90% accurate or more
+		# prompt user to hold posture for a minute and store their accuracy 
+		print('Hold your pose for 1min!') 
+		# else calculate corrections
+		# output corrections to user
+
+
+	# If triangle pose chosen
+	if posture == 'Triangle Pose': 
+		# Prompt user to perform chosen yoga pose 
+		DoTriangle = input('Do the triangle pose!')
+
+
+	# while yoga pose is performed
+		# compare position with ideal pos
+		# if pose is 90% accurate or more
+		# prompt user to hold posture for a minute and store their accuracy  
+		print('Hold your pose for 1min!')
+		# else calculate corrections
+		# output corrections to user
+
+	# if none of these poses are chosen, prompt user to input one of the 4 postures selected
+
+
