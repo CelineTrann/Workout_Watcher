@@ -6,6 +6,21 @@ import readData as r
 
 import time
 
+import firebase_admin
+from firebase_admin import credentials, firestore
+import threading
+from time import sleep
+
+cred = credentials.Certificate("workoutwatcher-654cd-firebase-adminsdk-xkutc-a7c0fc0bc5.json")
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
+# Create an Event for notifying main tread
+callback_done= threading.Event()
+
+boolValue = False
+
 def check_pose(pose, data) -> bool:
     if pose == "tree_right": 
         return check.check_tree(data, side.RIGHT)
@@ -45,11 +60,33 @@ def choose_pose():
     pose = 'tree_right'
     return pose
 
+# Create a callback on_snapshot function to capture changes
+def on_snapshot(doc_snapshot, changes, read_time):
+	for doc in doc_snapshot:
+		docDict = doc.to_dict()
+		choosePose = docDict['choosePose']
+		print(f'Received document snapshot: {doc.id}, choosePose = {choosePose}')
+		global boolValue
+		boolValue = choosePose
+	callback_done.set()
+        
+    return boolValue
+
+doc_ref = db.collection(u'Poses').document(u'posedoc')
+
+# Watch the document
+doc_watch = doc_ref.on_snapshot(on_snapshot)
+while True: 
+	print(boolValue)
+	sleep(0.5)
+        
+
+
 def main():
     
     while True:
         # Wait for User to Choose Pose
-        pose = choose_pose()
+        boolValue = on_snapshot()
         if pose == 'exit':
             break
 
@@ -72,9 +109,9 @@ def main():
                 break
 
             # Check and correct pose
-            print(f'{pose}')
-            if not check_pose(pose, object_list):
-                correct_pose(pose, object_list)
+            print(f'{boolValue}')
+            if not check_pose(boolValue, object_list):
+                correct_pose(boolValue, object_list)
                 time.sleep(5)
             else:
                 print("Hold Pose.")
