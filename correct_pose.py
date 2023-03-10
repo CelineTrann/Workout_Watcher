@@ -1,5 +1,16 @@
 import ImageProcessing.process_data as pd
 from enum import Enum
+import firebase_admin
+from  firebase_admin import credentials
+from firebase_admin import firestore
+#from google.cloud import firestore
+
+# initializations 
+cred = credentials.Certificate("workoutwatcher-654cd-firebase-adminsdk-xkutc-a7c0fc0bc5.json")
+firebase_admin.initialize_app(cred)
+
+#firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 class distance(Enum):
     CLOSER_X = "closer together horizontally",
@@ -31,63 +42,148 @@ class pressure(Enum):
 def print_distance_results(results: dict, obj: pd.limb) -> None:
     if results[distance.PERFECT.name]:
         print(f"{distance.PERFECT.value}")
+        doc_ref = db.collection('distance').document('distdoc')
+        doc_ref.set({
+            'distance':'Perfect!'
+        })
         return
     
     obj_name = obj.get_plural_hand if obj == pd.limb.HAND else obj.get_plural_foot
 
     if results[distance.CLOSER_X.name]:
         print(f'Move your {obj_name} {distance.CLOSER_X.value}.')
+        doc_ref = db.collection('distance').document('distdoc')
+        doc_ref.set({
+            'distance':'Feet closer horizontally'
+        })
     elif results[distance.FURTHER_X.name]:
         print(f'Move your {obj_name} {distance.FURTHER_X.value}.')
+        doc_ref = db.collection('distance').document('distdoc')
+        doc_ref.set({
+            'distance':'Feet further horizontally'
+        })
 
     if results[distance.CLOSER_Y.name]:
         print(f'Move your {obj_name} {distance.CLOSER_Y.value}.')
+        doc_ref = db.collection('distance').document('distdoc')
+        doc_ref.set({
+            'distance':'Feet closer vertically'
+        })
     elif results[distance.FURTHER_Y.name]:
         print(f'Move your {obj_name} {distance.FURTHER_Y.value}.')
-
-    
+        doc_ref = db.collection('distance').document('distdoc')
+        doc_ref.set({
+            'distance':'Feet further vertically'
+        })
 
 def print_rotation_results(results: dict, obj: pd.limb) -> None:
     if results[rotation.PERFECT.name]:
         print(f"{rotation.PERFECT.value}")
+        doc_ref = db.collection('rotation').document('rotatdoc')
+        doc_ref.set({
+            'rotation':'Perfect!'
+        })
         return
 
     if results[rotation.CLOSER_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.CLOSER_LEFT.value}.')
+        doc_ref = db.collection('rotation').document('rotatdoc')
+        doc_ref.set({
+            'rotation':'Rotate left foot closer to body'
+        })
+
     elif results[rotation.FURTHER_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.FURTHER_LEFT.value}.')
+        doc_ref = db.collection('rotation').document('rotatdoc')
+        doc_ref.set({
+            'rotation':'Rotate left foot away from body'
+        })
     elif results[rotation.PERPENDICULAR_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.PERPENDICULAR_LEFT.value}.')
+        doc_ref = db.collection('rotation').document('rotatdoc')
+        doc_ref.set({
+            'rotation':'Put left foot at 90 degrees'
+        })
 
     if results[rotation.CLOSER_RIGHT.name]:
         print(f'Rotate your {obj.name} {rotation.CLOSER_RIGHT.value}.')
+        doc_ref = db.collection('rotation').document('rotatdoc')
+        doc_ref.set({
+            'rotation':'Rotate right foot closer to body'
+        })
+
     elif results[rotation.FURTHER_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.FURTHER_RIGHT.value}.')
+        doc_ref = db.collection('rotation').document('rotatdoc')
+        doc_ref.set({
+            'rotation':'Rotate left foot away from body'
+        })
     elif results[rotation.PERPENDICULAR_RIGHT.name]:
         print(f'Rotate your {obj.name} {rotation.PERPENDICULAR_RIGHT.value}.')
+        doc_ref = db.collection('rotation').document('rotatdoc')
+        doc_ref.set({
+            'rotation':'Put left foot at 90 degrees'
+        })
 
 def print_pressure_results(results: dict, obj: pd.limb) -> None:
     if results[pressure.PERFECT.name]:
         print(f"{pressure.PERFECT.value}")
+        doc_ref = db.collection('pressure').document('pressdoc')
+        doc_ref.set({
+            'pressure':'Perfect!'
+        })
         return
 
     if results[pressure.LESS_PRESSURE_LEFTTOP.name]:
         print(f'{pressure.LESS_PRESSURE_LEFTTOP.value} {obj}.')
+        doc_ref = db.collection('pressure').document('pressdoc')
+        doc_ref.set({
+            'pressure':'Less pressure on top left'
+        })
     elif results[pressure.MORE_PRESSURE_LEFTTOP.name]:
         print(f'{pressure.MORE_PRESSURE_LEFTTOP.value} {obj}.')
+        doc_ref = db.collection('pressure').document('pressdoc')
+        doc_ref.set({
+            'pressure':'More pressure on top left'
+        })
     elif results[pressure.LESS_PRESSURE_LEFTBOTTOM.name]:
         print(f'{pressure.LESS_PRESSURE_LEFTBOTTOM.value} {obj}.')
+        doc_ref = db.collection('pressure').document('pressdoc')
+        doc_ref.set({
+            'pressure':'Less pressure on bottom left'
+        })
+
     elif results[pressure.MORE_PRESSURE_LEFTBOTTOM.name]:
         print(f'{pressure.MORE_PRESSURE_LEFTBOTTOM.value} {obj}.')
-
+        doc_ref = db.collection('pressure').document('pressdoc')
+        doc_ref.set({
+            'pressure':'More pressure on bottom left'
+        })
     if results[pressure.LESS_PRESSURE_RIGHTTOP.name]:
         print(f'{pressure.LESS_PRESSURE_RIGHTTOP.value} {obj}.')
+        doc_ref = db.collection('pressure').document('pressdoc')
+        doc_ref.set({
+            'pressure':'Less pressure on top right'
+        })
     elif results[pressure.MORE_PRESSURE_RIGHTTOP.name]:
         print(f'{pressure.MORE_PRESSURE_RIGHTTOP.value} {obj}.')
+        doc_ref = db.collection('pressure').document('pressdoc')
+        doc_ref.set({
+            'pressure':'More pressure on top right'
+        })
     elif results[pressure.LESS_PRESSURE_RIGHTBOTTOM.name]:
         print(f'{pressure.LESS_PRESSURE_RIGHTBOTTOM.value} {obj}.')
+        doc_ref = db.collection('pressure').document('pressdoc')
+        doc_ref.set({
+            'pressure':'Less pressure on bottom right'
+        })
+
     elif results[pressure.MORE_PRESSURE_RIGHTBOTTOM.name]:
         print(f'{pressure.MORE_PRESSURE_RIGHTBOTTOM.value} {obj}.')
+        doc_ref = db.collection('pressure').document('pressdoc')
+        doc_ref.set({
+            'pressure':'More pressure on bottom right'
+        })
 
 def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict:
     foot_distance_x, foot_distance_y = data.get_distance(obj)
