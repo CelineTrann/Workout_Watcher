@@ -16,6 +16,7 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
+
 # Create an Event for notifying main tread
 callback_done= threading.Event()
 

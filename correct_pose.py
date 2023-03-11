@@ -7,9 +7,8 @@ from firebase_admin import firestore
 
 # initializations 
 cred = credentials.Certificate("workoutwatcher-654cd-firebase-adminsdk-xkutc-a7c0fc0bc5.json")
-firebase_admin.initialize_app(cred)
-
 #firebase_admin.initialize_app(cred)
+
 db = firestore.client()
 
 class distance(Enum):
