@@ -17,13 +17,13 @@ boolValue = False
 def on_snapshot(doc_snapshot, changes, read_time):
 	for doc in doc_snapshot:
 		docDict = doc.to_dict()
-		isTrue = docDict['isTrue']
-		print(f'Received document snapshot: {doc.id}, isTrue = {isTrue}')
+		poseSelected = docDict['poseSelected']
+		print(f'Received document snapshot: {doc.id}, poseSelected = {poseSelected}')
 		global boolValue
-		boolValue = isTrue
+		boolValue = poseSelected
 	callback_done.set()
 
-doc_ref = db.collection(u'testC').document(u'testD')
+doc_ref = db.collection(u'users').document(u'Oxh3TSSqc1YUcuLIgc6ggw0y3ib2')
 
 # Watch the document
 doc_watch = doc_ref.on_snapshot(on_snapshot)
