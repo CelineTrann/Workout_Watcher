@@ -40,8 +40,6 @@ def check_pose(pose, data) -> bool:
  
     return False
 
-
-
 def on_snapshot(doc_snapshot):
     for doc in doc_snapshot:
         docDict = doc.to_dict()
