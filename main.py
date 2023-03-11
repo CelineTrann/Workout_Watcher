@@ -41,16 +41,20 @@ def check_pose(pose, data) -> bool:
 
 def choose_pose():
     # bluetooth to get pose
-    pose = 'triangle_right'
+    pose = "triangle_right"
+
     def on_snapshot(doc_snapshot, changes, read_time):
-	    for doc in doc_snapshot:
-		    docDict = doc.to_dict()
-		    poseSelected = docDict['poseSelected']
-		    print(f'Received document snapshot: {doc.id}, poseSelected = {poseSelected}')
-		    global boolValue
-		    boolValue = poseSelected
-	    callback_done.set()
-        return boolValue
+        for doc in doc_snapshot:
+            docDict = doc.to_dict()
+            poseSelected = docDict["poseSelected"]
+            print(
+                f"Received document snapshot: {doc.id}, poseSelected = {poseSelected}"
+            )
+            global boolValue
+            boolValue = poseSelected
+        callback_done.set()
+
+    return boolValue
 
 doc_ref = db.collection(u'users').document(u'Oxh3TSSqc1YUcuLIgc6ggw0y3ib2')
 
