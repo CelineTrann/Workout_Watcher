@@ -55,13 +55,7 @@ def correct_pose(pose, data) -> None:
     elif pose == "triangle_left": 
         correct.correct_triangle(data, 90, 0)
 
-def choose_pose():
-    # bluetooth to get pose
-    pose = 'tree_right'
-    return pose
-
-# Create a callback on_snapshot function to capture changes
-def on_snapshot(doc_snapshot, changes, read_time):
+def choose_pose(doc_snapshot, changes, read_time):
 	for doc in doc_snapshot:
 		docDict = doc.to_dict()
 		choosePose = docDict['choosePose']
@@ -69,24 +63,42 @@ def on_snapshot(doc_snapshot, changes, read_time):
 		global boolValue
 		boolValue = choosePose
 	callback_done.set()
-        
     return boolValue
-
+        
 doc_ref = db.collection(u'Poses').document(u'posedoc')
 
-# Watch the document
 doc_watch = doc_ref.on_snapshot(on_snapshot)
 while True: 
 	print(boolValue)
 	sleep(0.5)
         
+    # bluetooth to get pose
+    #pose = 'tree_right'
+    #return pose
 
+# Create a callback on_snapshot function to capture changes
+#def on_snapshot(doc_snapshot, changes, read_time):
+#	for doc in doc_snapshot:
+#		docDict = doc.to_dict()
+#		choosePose = docDict['choosePose']
+#		print(f'Received document snapshot: {doc.id}, choosePose = {choosePose}')
+#		global boolValue
+#		boolValue = choosePose
+#	callback_done.set()    
+
+#doc_ref = db.collection(u'Poses').document(u'posedoc')
+
+# Watch the document
+#doc_watch = doc_ref.on_snapshot(on_snapshot)
+#while True: 
+#	print(boolValue)
+#	sleep(0.5)
 
 def main():
     
     while True:
         # Wait for User to Choose Pose
-        boolValue = on_snapshot()
+        boolValue = choose_pose()
         if pose == 'exit':
             break
 
