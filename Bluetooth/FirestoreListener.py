@@ -3,7 +3,7 @@ from firebase_admin import credentials, firestore
 import threading
 from time import sleep
 
-cred = credentials.Certificate("path/to/serviceAccountKey.json")
+cred = credentials.Certificate("workoutwatcher-654cd-firebase-adminsdk-xkutc-a7c0fc0bc5.json")
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
