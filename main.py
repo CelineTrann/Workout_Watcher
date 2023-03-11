@@ -54,13 +54,14 @@ def choose_pose():
             global boolValue
             boolValue = poseSelected
         callback_done.set()
+        doc_watch = doc_ref.on_snapshot(on_snapshot)
+
 
     return boolValue
 
 doc_ref = db.collection(u'users').document(u'Oxh3TSSqc1YUcuLIgc6ggw0y3ib2')
 
 # Watch the document
-doc_watch = doc_ref.on_snapshot(on_snapshot)
 while True: 
 	print(boolValue)
 	sleep(0.5)
