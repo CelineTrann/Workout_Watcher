@@ -3,7 +3,6 @@ from ImageProcessing.process_data import side
 import check_pose as check
 import correct_pose as correct
 import readData as r
-#import cv2 as cv
 
 import time
 
@@ -20,7 +19,6 @@ db = firestore.client()
 # Create an Event for notifying main tread
 callback_done= threading.Event()
 
-
 def check_pose(pose, data) -> bool:
     if pose == "tree_right": 
         return check.check_tree(data, side.RIGHT)
@@ -33,12 +31,11 @@ def check_pose(pose, data) -> bool:
     elif pose == "downwardDog": 
         return  check.check_downwardDog(data)
     elif pose == "triangle_right": 
-        return check.check_triangle(data, 0, 90)
-    elif pose ==  "triangle_left": 
         return  check.check_triangle(data, 90, 0)
+    elif pose ==  "triangle_left": 
+        return  check.check_triangle(data, 0, 90)
  
     return False
-
 
 def on_snapshot(doc_snapshot, changes, read_time):
     for doc in doc_snapshot:

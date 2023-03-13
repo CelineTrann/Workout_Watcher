@@ -10,12 +10,13 @@ def show_img(name, img):
     cv.waitKey(0)
 
 
-def convert_to_img(name, base_nparray, data_nparray, img_show=True, threshold=0):
+def convert_to_img(name, base_nparray, data_nparray, img_show=False, threshold=0):
     heatmapshow = None
     nparray = data_nparray - base_nparray
     
-    #np.set_printoptions(threshold=sys.maxsize)
-    #print(f'{nparray}')   
+    np.set_printoptions(threshold=sys.maxsize)
+    print(f'{nparray}')
+    
         
     nparray[nparray < threshold] = 0
     
@@ -24,11 +25,12 @@ def convert_to_img(name, base_nparray, data_nparray, img_show=True, threshold=0)
     row_mean = np.mean(nparray, axis = 1)
     col_mean = np.mean(nparray, axis = 0)  
     row_co = 1/(col_mean+0.000001)
-    row_co = 0.5*(row_co - np.min(row_co))/(np.max(row_co)-np.min(row_co)+0.0001)
+    row_co = 0.5*(row_co - np.min(row_co))/(np.max(row_co)-np.min(row_co))
+    print(row_co)
     nparray[nparray < row_mean[:,None]+row_co] = 0
     nparray[nparray < col_mean[None,:]*1.5] = 0
     
-    nparray[41:63, 0:28] = nparray[41:63, 0:28]*1.5
+    nparray[41:63, 0:28] = nparray[41:63, 0:28]*1.2
     
     heatmapshow = cv.normalize(nparray, heatmapshow, alpha=0, beta=255, norm_type=cv.NORM_MINMAX, dtype=cv.CV_8U)
     heatmapshow = cv.applyColorMap(heatmapshow, cv.COLORMAP_BONE)

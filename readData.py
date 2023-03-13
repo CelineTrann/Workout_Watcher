@@ -129,7 +129,7 @@ def readData():
     for index in range(1):
         writeCu()
         base_sum = base_sum + dataAll
-        # print("Read iteration #%s completed"%str(index+1))
+        print("Read iteration #%s completed"%str(index+1))
     avg_sum = base_sum / 1
 
     # Reorganize matrix
@@ -191,3 +191,10 @@ def readData():
     data[16,:] = 0
 
     return data
+
+def main():
+    readData()
+
+if __name__ == "__main__":
+    print("working")
+    main()
