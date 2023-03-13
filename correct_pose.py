@@ -7,8 +7,9 @@ from firebase_admin import firestore
 
 # initializations 
 cred = credentials.Certificate("workoutwatcher-654cd-firebase-adminsdk-xkutc-a7c0fc0bc5.json")
-#firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred)
 
+#firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 class distance(Enum):
@@ -125,9 +126,10 @@ def print_rotation_results(results: dict, obj: pd.limb) -> None:
         })
 
 def print_pressure_results(results: dict, obj: pd.limb) -> None:
+    doc_ref = db.collection('pressure').document('pressdoc')
     if results[pressure.PERFECT.name]:
         print(f"{pressure.PERFECT.value}")
-        doc_ref = db.collection('pressure').document('pressdoc')
+        
         doc_ref.set({
             'pressure':'Perfect!'
         })
@@ -135,51 +137,43 @@ def print_pressure_results(results: dict, obj: pd.limb) -> None:
 
     if results[pressure.LESS_PRESSURE_LEFTTOP.name]:
         print(f'{pressure.LESS_PRESSURE_LEFTTOP.value} {obj}.')
-        doc_ref = db.collection('pressure').document('pressdoc')
         doc_ref.set({
             'pressure':'Less pressure on top left'
         })
     elif results[pressure.MORE_PRESSURE_LEFTTOP.name]:
         print(f'{pressure.MORE_PRESSURE_LEFTTOP.value} {obj}.')
-        doc_ref = db.collection('pressure').document('pressdoc')
         doc_ref.set({
             'pressure':'More pressure on top left'
         })
     elif results[pressure.LESS_PRESSURE_LEFTBOTTOM.name]:
         print(f'{pressure.LESS_PRESSURE_LEFTBOTTOM.value} {obj}.')
-        doc_ref = db.collection('pressure').document('pressdoc')
         doc_ref.set({
             'pressure':'Less pressure on bottom left'
         })
 
     elif results[pressure.MORE_PRESSURE_LEFTBOTTOM.name]:
         print(f'{pressure.MORE_PRESSURE_LEFTBOTTOM.value} {obj}.')
-        doc_ref = db.collection('pressure').document('pressdoc')
         doc_ref.set({
             'pressure':'More pressure on bottom left'
         })
     if results[pressure.LESS_PRESSURE_RIGHTTOP.name]:
         print(f'{pressure.LESS_PRESSURE_RIGHTTOP.value} {obj}.')
-        doc_ref = db.collection('pressure').document('pressdoc')
         doc_ref.set({
             'pressure':'Less pressure on top right'
         })
     elif results[pressure.MORE_PRESSURE_RIGHTTOP.name]:
         print(f'{pressure.MORE_PRESSURE_RIGHTTOP.value} {obj}.')
-        doc_ref = db.collection('pressure').document('pressdoc')
         doc_ref.set({
             'pressure':'More pressure on top right'
         })
     elif results[pressure.LESS_PRESSURE_RIGHTBOTTOM.name]:
         print(f'{pressure.LESS_PRESSURE_RIGHTBOTTOM.value} {obj}.')
-        doc_ref = db.collection('pressure').document('pressdoc')
         doc_ref.set({
             'pressure':'Less pressure on bottom right'
         })
 
     elif results[pressure.MORE_PRESSURE_RIGHTBOTTOM.name]:
         print(f'{pressure.MORE_PRESSURE_RIGHTBOTTOM.value} {obj}.')
-        doc_ref = db.collection('pressure').document('pressdoc')
         doc_ref.set({
             'pressure':'More pressure on bottom right'
         })

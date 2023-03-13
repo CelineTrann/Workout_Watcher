@@ -8,6 +8,8 @@ import numpy as np
 import adafruit_mcp3xxx.mcp3008 as MCP
 from adafruit_mcp3xxx.analog_in import AnalogIn
 
+from object_detection import process_img
+
 # Declare some useful variables
 data0 = np.empty([1,8])
 data1 = np.empty([1,8])
@@ -122,15 +124,15 @@ def writeCu():
     
     
 
-def readData():
+def get_base():
 
     # Read values repetitively and take the average
     base_sum = np.zeros([48, 28])
-    for index in range(1):
+    for index in range(10):
         writeCu()
         base_sum = base_sum + dataAll
-        # print("Read iteration #%s completed"%str(index+1))
-    avg_sum = base_sum / 1
+        print("Read iteration #%s completed"%str(index+1))
+    avg_sum = base_sum / 10
 
     # Reorganize matrix
     data = np.zeros([63, 28])
@@ -191,3 +193,22 @@ def readData():
     data[16,:] = 0
 
     return data
+
+def check_empty(base, ground):
+    
+    object_list = process_img(ground, base)
+    
+    err_matrix = base-ground
+    err = abs(np.mean(err_matrix))
+    tol = 0.1
+    print("error: %s and tol: %s"%(err, tol))    
+        
+    if object_list.exist():
+        print("Object detected.")
+        return False
+    
+    if err > tol:
+        print("Error is too large.")
+        return False
+
+    return False

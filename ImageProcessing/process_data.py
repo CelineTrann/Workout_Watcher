@@ -74,6 +74,12 @@ class Boxes:
 
     def add_box(self, box: Bounding_Box) -> None:
         self.no_label.append(box)
+    
+    def exist(self) -> bool:
+        if len(self.feet) > 0 or len(self.hands) > 0 or len(self.no_label) > 0:
+            return True
+        
+        return False
 
     def is_valid(self) -> bool:
         if len(self.feet) > 2 or len(self.hands) > 2 or len(self.no_label) > 4:
@@ -126,38 +132,6 @@ class Boxes:
         distance_x = abs(obj1.centroid_x - obj2.centroid_x)
         distance_y = abs(obj1.centroid_y - obj2.centroid_y)
         return distance_x, distance_y
-    
-    def get_pressure_feet(self, obj: limb) -> float:
-        obj1, obj2 = self.get_obj(limb.FOOT)
-        #foot 1
-        pressure_tl = obj1.ltop_mean
-        pressure_tr = obj1.rtop_mean 
-        pressure_bl = obj1.lbottom_mean
-        pressure_br = obj1.rbottom_mean
-
-        #foot 2
-        pressure_tlo = obj2.ltop_mean
-        pressure_tro = obj2.rtop_mean 
-        pressure_blo = obj2.lbottom_mean
-        pressure_bro = obj2.rbottom_mean
-
-        return pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro
-    
-    def get_pressure_hands(self, obj: limb) -> float:
-        obj1, obj2 = self.get_obj(limb.HAND) 
-        #hand 1
-        pressure_tla = obj1.ltop_mean
-        pressure_tra = obj1.rtop_mean 
-        pressure_bla = obj1.lbottom_mean
-        pressure_bra = obj1.rbottom_mean
-
-        #hand 2
-        pressure_tlb = obj2.ltop_mean
-        pressure_trb = obj2.rtop_mean 
-        pressure_blb = obj2.lbottom_mean
-        pressure_brb = obj2.rbottom_mean
-
-        return pressure_tla, pressure_tra, pressure_bla, pressure_bra, pressure_tlb, pressure_trb, pressure_blb, pressure_brb
 
 def create_data_csv(data_list: list[Bounding_Box], filename):
     try: 

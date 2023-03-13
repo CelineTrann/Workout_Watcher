@@ -3,6 +3,7 @@ from ImageProcessing.process_data import side
 import check_pose as check
 import correct_pose as correct
 import readData as r
+#import cv2 as cv
 
 import time
 
@@ -16,11 +17,9 @@ cred = credentials.Certificate("workoutwatcher-654cd-firebase-adminsdk-xkutc-a7c
 
 db = firestore.client()
 
-
 # Create an Event for notifying main tread
 callback_done= threading.Event()
 
-boolValue = False
 
 def check_pose(pose, data) -> bool:
     if pose == "tree_right": 
@@ -34,13 +33,14 @@ def check_pose(pose, data) -> bool:
     elif pose == "downwardDog": 
         return  check.check_downwardDog(data)
     elif pose == "triangle_right": 
-        return  check.check_triangle(data, 0, 90)
+        return check.check_triangle(data, 0, 90)
     elif pose ==  "triangle_left": 
         return  check.check_triangle(data, 90, 0)
  
     return False
 
-def on_snapshot(doc_snapshot):
+
+def on_snapshot(doc_snapshot, changes, read_time):
     for doc in doc_snapshot:
         docDict = doc.to_dict()
         poseSelected = docDict["poseSelected"]
@@ -55,17 +55,16 @@ def on_snapshot(doc_snapshot):
 
 doc_ref = db.collection(u'users').document(u'Oxh3TSSqc1YUcuLIgc6ggw0y3ib2')
 
-# Watch the document
-#doc_watch = doc_ref.on_snapshot(on_snapshot)
-
-print(pose)
-sleep(0.5)
 
 def main():
     
+    prev_pose = ""
     while True:
         # Wait for User to Choose Pose
-        pose = doc_ref.on_snapshot(on_snapshot)
+        doc_ref.on_snapshot(on_snapshot)
+        ref = doc_ref.get()
+        pose = ref.get("poseSelected")
+                    
         if pose == 'exit':
             break
 

@@ -13,7 +13,7 @@ def connect_objects(img, kernal=(10,10), min_area=40, min_height=6, min_width=6)
     #closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
     
     # threshold and blur
-    ret, closing = cv.threshold(img, 80, 255, 0)
+    ret, closing = cv.threshold(img, 90, 255, 0)
     closing = cv.blur(closing, (3, 3))
     
     # Connected Components
@@ -78,7 +78,7 @@ def crop_minarearect(img, rect):
     
     if angle % 90 != 0:
         # Get rotation matrix for rectangle
-        M = cv.getRotationMatrix2D( center, angle, 1)
+        M = cv.getRotationMatrix2D(center, angle, 1)
         
         # Perform rotation on src image
         dst = cv.warpAffine(cropped_img, M, cropped_img.shape[:2])
@@ -86,7 +86,7 @@ def crop_minarearect(img, rect):
     else:
         out = cv.getRectSubPix(cropped_img, size, center)
 
-    return out
+    return out, points
 
 def get_sections_mean(img):
     rows, cols = img.shape[0], img.shape[1]
