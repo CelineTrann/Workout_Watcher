@@ -1,5 +1,18 @@
 import ImageProcessing.process_data as pd
 from enum import Enum, IntEnum
+import firebase_admin
+from  firebase_admin import credentials
+from firebase_admin import firestore
+import time
+
+#from google.cloud import firestore
+
+# initializations 
+cred = credentials.Certificate("workoutwatcher-654cd-firebase-adminsdk-xkutc-a7c0fc0bc5.json")
+firebase_admin.initialize_app(cred)
+
+#firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 class distance(Enum):
     CLOSER_X = "closer together horizontally",
@@ -30,62 +43,184 @@ class pressure(Enum):
 
 def print_distance_results(results: dict, obj: pd.limb) -> None:
     if results[distance.PERFECT.name]:
-        print(f"{distance.PERFECT.value} distance.")
+        print(f"{distance.PERFECT.value}")
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'leftFoot':['Left foot is perfect!']
+        })
         return
     
     obj_name = obj.get_plural_hand if obj == pd.limb.HAND else obj.get_plural_foot
 
     if results[distance.CLOSER_X.name]:
-        print(f'Move your {obj.name} {distance.CLOSER_X.value}.')
+        print(f'Move your {obj_name} {distance.CLOSER_X.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            u'leftFoot':firestore.ArrayUnion([u'Feet closer horizontally'])            
+        })
     elif results[distance.FURTHER_X.name]:
-        print(f'Move your {obj.name} {distance.FURTHER_X.value}.')
+        print(f'Move your {obj_name} {distance.FURTHER_X.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            u'leftFoot':firestore.ArrayUnion([u'Feet further horizontally'])            
+        })
 
     if results[distance.CLOSER_Y.name]:
-        print(f'Move your {obj.name} {distance.CLOSER_Y.value}.')
+        print(f'Move your {obj_name} {distance.CLOSER_Y.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            u'leftFoot':firestore.ArrayUnion([u'Feet closer vertically'])            
+        })
     elif results[distance.FURTHER_Y.name]:
         print(f'Move your {obj_name} {distance.FURTHER_Y.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            u'leftFoot':firestore.ArrayUnion([u'Feet further vertically'])            
+        })
 
 def print_rotation_results(results: dict, obj: pd.limb) -> None:
     if results[rotation.PERFECT.name]:
-        print(f"{rotation.PERFECT.value} rotation.")
+        print(f"{rotation.PERFECT.value}")
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'leftFoot':['Left foot is perfect!'],
+            'rightFoot':['Right foot is perfect!']
+        })
         return
+    
+    if not results[rotation.CLOSER_RIGHT.name] and not results[rotation.FURTHER_RIGHT.name] and not results[rotation.PERPENDICULAR_RIGHT.name]:
+        doc_ref = db.collection(u'users').document(u'1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        doc_ref.update({
+        'rightFoot':['Right foot is perfect!']
+        })
+    if not results[rotation.CLOSER_LEFT.name] and not results[rotation.FURTHER_LEFT.name] and not results[rotation.PERPENDICULAR_LEFT.name]:
+        doc_ref = db.collection(u'users').document(u'1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        doc_ref.update({
+        'leftFoot':['Left foot is perfect!']
+        })
 
     if results[rotation.CLOSER_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.CLOSER_LEFT.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'leftFoot':['Rotate left foot closer to body']
+        })
+
     elif results[rotation.FURTHER_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.FURTHER_LEFT.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'leftFoot':['Rotate left foot away from body']
+        })
     elif results[rotation.PERPENDICULAR_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.PERPENDICULAR_LEFT.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'leftFoot':['Put left foot at 90 degrees']
+        })
 
     if results[rotation.CLOSER_RIGHT.name]:
         print(f'Rotate your {obj.name} {rotation.CLOSER_RIGHT.value}.')
-    elif results[rotation.FURTHER_LEFT.name]:
-        print(f'Rotate your {obj.name} {rotation.FURTHER_LEFT.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'rightFoot':['Rotate right foot closer to body']
+        })
+
+    elif results[rotation.FURTHER_RIGHT.name]:
+        print(f'Rotate your {obj.name} {rotation.FURTHER_RIGHT.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'rightFoot':['Rotate right foot away from body']
+        })
     elif results[rotation.PERPENDICULAR_RIGHT.name]:
         print(f'Rotate your {obj.name} {rotation.PERPENDICULAR_RIGHT.value}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        
+        doc_ref.update({
+            'rightFoot':['Put right foot at 90 degrees']
+        })
 
-def print_pressure_results(results: dict, obj: pd.limb, side: pd.side) -> None:
+def print_pressure_results(results: dict, obj: pd.limb, obj2: pd.side) -> None:
     if results[pressure.PERFECT.name]:
-        print(f"{pressure.PERFECT.value} pressure on the {side.value} {obj.name}.")
+        print(f"{pressure.PERFECT.value}")
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'pressureLeftFoot':['Left foot pressure is perfect!'],
+            'pressureRightFoot':['Right foot pressure is perfect!']
+        })
         return
 
     if results[pressure.LESS_PRESSURE_LEFTTOP.name]:
-        print(f'{pressure.LESS_PRESSURE_LEFTTOP.value} {side.value} {obj.name}.')
+        print(f'{pressure.LESS_PRESSURE_LEFTTOP.value} {obj2} {obj}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'pressureLeftFoot':['Less pressure on top left']
+        })
     elif results[pressure.MORE_PRESSURE_LEFTTOP.name]:
-        print(f'{pressure.MORE_PRESSURE_LEFTTOP.value} {side.value} {obj.name}.')
+        print(f'{pressure.MORE_PRESSURE_LEFTTOP.value} {obj2} {obj}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+             'pressureLeftFoot':['More pressure on top left']
+        })
     elif results[pressure.LESS_PRESSURE_LEFTBOTTOM.name]:
-        print(f'{pressure.LESS_PRESSURE_LEFTBOTTOM.value} {side.value} {obj.name}.')
-    elif results[pressure.MORE_PRESSURE_LEFTBOTTOM.name]:
-        print(f'{pressure.MORE_PRESSURE_LEFTBOTTOM.value} {side.value} {obj.name}.')
+        print(f'{pressure.LESS_PRESSURE_LEFTBOTTOM.value} {obj2} {obj}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+             'pressureLeftFoot':['Less pressure on bottom left']
+        })
 
+    elif results[pressure.MORE_PRESSURE_LEFTBOTTOM.name]:
+        print(f'{pressure.MORE_PRESSURE_LEFTBOTTOM.value} {obj2} {obj}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+             'pressureLeftFoot':['More pressure on bottom left']
+        })
     if results[pressure.LESS_PRESSURE_RIGHTTOP.name]:
-        print(f'{pressure.LESS_PRESSURE_RIGHTTOP.value} {side.value} {obj.name}.')
+        print(f'{pressure.LESS_PRESSURE_RIGHTTOP.value} {obj2} {obj}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'pressureRightFoot':['Less pressure on top right']
+        })
     elif results[pressure.MORE_PRESSURE_RIGHTTOP.name]:
-        print(f'{pressure.MORE_PRESSURE_RIGHTTOP.value} {side.value} {obj.name}.')
+        print(f'{pressure.MORE_PRESSURE_RIGHTTOP.value} {obj2} {obj}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            u'pressureRightFoot':firestore.ArrayUnion([u'More pressure on top right'])
+        })
     elif results[pressure.LESS_PRESSURE_RIGHTBOTTOM.name]:
-        print(f'{pressure.LESS_PRESSURE_RIGHTBOTTOM.value} {side.value} {obj.name}.')
+        print(f'{pressure.LESS_PRESSURE_RIGHTBOTTOM.value} {obj2} {obj}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'pressureRightFoot':['Less pressure on bottom right']
+        })
+
     elif results[pressure.MORE_PRESSURE_RIGHTBOTTOM.name]:
-        print(f'{pressure.MORE_PRESSURE_RIGHTBOTTOM.value} {side.value} {obj.name}.')
+        print(f'{pressure.MORE_PRESSURE_RIGHTBOTTOM.value} {obj2} {obj}.')
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        time.sleep(0.3)
+        doc_ref.update({
+            'pressureRightFoot':['More pressure on bottom right']
+        })
 
 def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict:
     foot_distance_x, foot_distance_y = data.get_distance(obj)

@@ -1,6 +1,17 @@
 import ImageProcessing.process_data as pd
 import correct_pose as cp
 import time
+import firebase_admin
+from  firebase_admin import credentials
+from firebase_admin import firestore
+#from google.cloud import firestore
+
+# initializations 
+cred = credentials.Certificate("workoutwatcher-654cd-firebase-adminsdk-xkutc-a7c0fc0bc5.json")
+# firebase_admin.initialize_app(cred)
+
+#firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 def set_label(data: pd.Boxes, expected_obj: int) -> None:
     objs = data.no_label
@@ -63,22 +74,26 @@ def check_pressure(data: pd.Boxes, pressure, pose) -> bool:
     buff: leeway for pressure
     '''
 
-    if pose == 'tree' and data.feet[0]:
+    if pose == 'Right Tree Pose' and data.feet[0]:
         if data.feet[0].rtop_mean > data.feet[0].ltop_mean and data.feet[0].rtop_mean > data.feet[0].rbottom_mean and data.feet[0].rtop_mean > data.feet[0].lbottom_mean:
             return True
-        else: 
-            return False
-              
-    if pose == 'left warrior1': #left
-        pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure(pd.limb.FOOT)        
-        if pressure_bro < pressure_tro and pressure_bro < pressure_tlo and pressure_bro < pressure_blo:
-            return True
-        else: 
-            if pose == 'right warrior1': #right
-                if pressure_blo < pressure_tlo and pressure_blo < pressure_tro and pressure_blo < pressure_bro:
+        else:  
+            if pose == 'Left Tree Pose' and data.feet[0]:
+                if data.feet[0].rtop_mean < data.feet[0].ltop_mean and data.feet[0].rtop_mean < data.feet[0].rbottom_mean and data.feet[0].rtop_mean < data.feet[0].lbottom_mean:
                     return True
                 else: 
                     return False
+              
+    if pose == 'Left Warrior 1 Pose': #left
+        pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure(pd.limb.FOOT)        
+        if pressure_bro < pressure_tro and pressure_bro < pressure_tlo and pressure_bro < pressure_blo:
+            return True
+    else: 
+        if pose == 'Right Warrior 1 Pose': #right
+            if pressure_blo < pressure_tlo and pressure_blo < pressure_tro and pressure_blo < pressure_bro:
+                return True
+            else: 
+                return False
 
  #   if pose == 'downwardDog':
  #       pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure(pd.limb.FOOT)
@@ -89,16 +104,16 @@ def check_pressure(data: pd.Boxes, pressure, pose) -> bool:
  #           else:
  #               return False
 
-    if pose == 'left triangle': #left
+    if pose == 'Left Triangle Pose': #left
         pressure_tl, pressure_tr, pressure_bl, pressure_br, pressure_tlo, pressure_tro, pressure_blo, pressure_bro = data.get_pressure(pd.limb.FOOT)
         if pressure_bro < pressure_blo and pressure_bro < pressure_tro and pressure_bro < pressure_tlo:
             return True
-        else:                             
-            if pose == 'right triangle': #right
-                if pressure_blo < pressure_bro and pressure_blo < pressure_tlo and pressure_blo < pressure_tro:
-                    return True
-                else:
-                    return False  
+    else:                             
+        if pose == 'Right Triangle Pose': #right
+            if pressure_blo < pressure_bro and pressure_blo < pressure_tlo and pressure_blo < pressure_tro:
+                return True
+            else:
+                return False  
                  
 def check_tree(data: pd.Boxes, obj_side: pd.side) -> None:
     if not set_label(data, 1):
@@ -123,6 +138,10 @@ def check_tree(data: pd.Boxes, obj_side: pd.side) -> None:
         hold_pose = False
 
     if hold_pose:
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        doc_ref.update({
+       'isPoseCorrect': True
+       })
         print("Hold pose")
         time.sleep(10)
     else:
@@ -154,6 +173,10 @@ def check_warrior1(data: pd.Boxes, l_rot, r_rot) -> None:
         cp.print_pressure_results(correct_pressure_right, pd.limb.FOOT, pd.side.RIGHT)
 
     if hold_pose:
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        doc_ref.update({
+       'isPoseCorrect': True
+       })
         print("Hold pose")
         time.sleep(10)
     else:
@@ -200,6 +223,10 @@ def check_downwardDog(data: pd.Boxes) -> None:
         hold_pose = False
     
     if hold_pose:
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        doc_ref.update({
+       'isPoseCorrect': True
+       })
         print("Hold pose")
         time.sleep(10)
     else:
@@ -231,6 +258,10 @@ def check_triangle(data: pd.Boxes, l_rot, r_rot) -> None:
         hold_pose = False
     
     if hold_pose:
+        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        doc_ref.update({
+       'isPoseCorrect': True
+       })
         print("Hold pose")
         time.sleep(10)
     else:

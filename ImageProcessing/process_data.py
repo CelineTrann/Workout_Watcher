@@ -8,8 +8,8 @@ class pressure(IntEnum):
     LOW = 1
 
 class limb(Enum):
-    HAND = 'hand'
-    FOOT = 'foot'
+    HAND = 'Hand'
+    FOOT = 'Foot'
 
     def get_plural_hand(self):
         return 'hands'
@@ -18,8 +18,8 @@ class limb(Enum):
         return 'feet'
 
 class side(Enum):
-    RIGHT = 'right'
-    LEFT = 'left'
+    RIGHT = 'Right'
+    LEFT = 'Left'
 
 # https://theailearner.com/2020/11/03/opencv-minimum-area-rectangle/
 # Clarification of angle_of_rot

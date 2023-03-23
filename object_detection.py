@@ -66,11 +66,11 @@ def process_img(base, data) -> ipd.Boxes:
 #             else:
 #                 print("No angle correction is required.")
             
-            if tl < uCrop * 0.1 and br < uCrop * 0.1:
-                box_data.rotation = 45
+            if tl < uCrop * 0.3 and br < uCrop * 0.3:
+                # box_data.rotation = 135
                 print("Angle corrected to 45.")
-            elif tr < uCrop * 0.1 and bl < uCrop * 0.1:
-                box_data.rotation = 135
+            elif tr < uCrop * 0.3 and bl < uCrop * 0.3:
+                # box_data.rotation = 225
                 print("Angle corrected to 135.")
             else:
                 print("No angle correction is required.")

@@ -191,3 +191,10 @@ def readData():
     data[16,:] = 0
 
     return data
+
+def main():
+    readData()
+
+if __name__ == "__main__":
+    print("working")
+    main()
