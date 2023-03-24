@@ -139,74 +139,46 @@ def print_rotation_results(results: dict, obj: pd.limb, sides = 'both') -> None:
         })
 
 def print_pressure_results(results: dict, obj: pd.limb, obj2: pd.side) -> None:
-    if results[pressure.PERFECT.name]:
-        print(f"{pressure.PERFECT.value}")
-        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
-        time.sleep(0.3)
-        doc_ref.update({
-            'pressureLeftFoot':['Left foot pressure is perfect!'],
-            'pressureRightFoot':['Right foot pressure is perfect!']
-        })
-        return
+    if obj2 == pd.side.RIGHT:
+        location = 'pressureRightFoot'
+    else:
+        location = 'pressureLeftFoot'
 
     if results[pressure.LESS_PRESSURE_LEFTTOP.name]:
         print(f'{pressure.LESS_PRESSURE_LEFTTOP.value} {obj2} {obj}.')
         doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
         time.sleep(0.3)
         doc_ref.update({
-            'pressureLeftFoot':['Less pressure on top left']
+            location: ['Less pressure on top left']
         })
     elif results[pressure.MORE_PRESSURE_LEFTTOP.name]:
         print(f'{pressure.MORE_PRESSURE_LEFTTOP.value} {obj2} {obj}.')
         doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
         time.sleep(0.3)
         doc_ref.update({
-             'pressureLeftFoot':['More pressure on top left']
+            location: ['More pressure on top left']
         })
     elif results[pressure.LESS_PRESSURE_LEFTBOTTOM.name]:
         print(f'{pressure.LESS_PRESSURE_LEFTBOTTOM.value} {obj2} {obj}.')
         doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
         time.sleep(0.3)
         doc_ref.update({
-             'pressureLeftFoot':['Less pressure on bottom left']
+            location: ['Less pressure on bottom left']
         })
-
     elif results[pressure.MORE_PRESSURE_LEFTBOTTOM.name]:
         print(f'{pressure.MORE_PRESSURE_LEFTBOTTOM.value} {obj2} {obj}.')
         doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
         time.sleep(0.3)
         doc_ref.update({
-             'pressureLeftFoot':['More pressure on bottom left']
+            location: ['More pressure on bottom left']
         })
-    if results[pressure.LESS_PRESSURE_RIGHTTOP.name]:
-        print(f'{pressure.LESS_PRESSURE_RIGHTTOP.value} {obj2} {obj}.')
+    else: 
         doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
         time.sleep(0.3)
         doc_ref.update({
-            'pressureRightFoot':['Less pressure on top right']
-        })
-    elif results[pressure.MORE_PRESSURE_RIGHTTOP.name]:
-        print(f'{pressure.MORE_PRESSURE_RIGHTTOP.value} {obj2} {obj}.')
-        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
-        time.sleep(0.3)
-        doc_ref.update({
-            u'pressureRightFoot':firestore.ArrayUnion([u'More pressure on top right'])
-        })
-    elif results[pressure.LESS_PRESSURE_RIGHTBOTTOM.name]:
-        print(f'{pressure.LESS_PRESSURE_RIGHTBOTTOM.value} {obj2} {obj}.')
-        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
-        time.sleep(0.3)
-        doc_ref.update({
-            'pressureRightFoot':['Less pressure on bottom right']
+            location:[f'{obj2.value} foot pressure is perfect!']
         })
 
-    elif results[pressure.MORE_PRESSURE_RIGHTBOTTOM.name]:
-        print(f'{pressure.MORE_PRESSURE_RIGHTBOTTOM.value} {obj2} {obj}.')
-        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
-        time.sleep(0.3)
-        doc_ref.update({
-            'pressureRightFoot':['More pressure on bottom right']
-        })
 
 def closer_distance(data: pd.Boxes, obj: pd.limb, ux, lx, uy, ly, tol) -> dict:
     foot_distance_x, foot_distance_y = data.get_distance(obj)
