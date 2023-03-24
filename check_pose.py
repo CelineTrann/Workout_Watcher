@@ -129,11 +129,13 @@ def check_tree(data: pd.Boxes, obj_side: pd.side) -> None:
     if foot.get_rotation() > 0 + 5 or foot.get_rotation() < 0 - 5:
         print("Rotation is incorrect.")
         correct_rotation = cp.closer_rotation_tree(data, pd.limb.FOOT, 0, 5)
+        cp.print_rotation_clear()
         cp.print_rotation_results(correct_rotation, pd.limb.FOOT, sides=obj_side.value)
         hold_pose = False
   
     if not check_pressure(data, pd.limb.FOOT, 'tree'):
         correct_pressure = cp.closer_pressure_tree(data)
+        cp.print_pressure_clear()
         cp.print_pressure_results(correct_pressure, pd.limb.FOOT, obj_side)
         hold_pose = False
 

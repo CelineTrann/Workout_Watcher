@@ -83,6 +83,14 @@ def print_distance_results(results: dict, obj: pd.limb) -> None:
             u'leftFoot':firestore.ArrayUnion([u'Feet further vertically'])            
         })
 
+def print_rotation_clear() -> None:
+    doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+    time.sleep(0.3)
+    doc_ref.update({
+        'leftFoot':[''],
+        'rightFoot':['']
+    })
+
 def print_rotation_results(results: dict, obj: pd.limb, sides = 'both') -> None:
     if results[rotation.CLOSER_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.CLOSER_LEFT.value}.')
@@ -108,7 +116,7 @@ def print_rotation_results(results: dict, obj: pd.limb, sides = 'both') -> None:
     elif sides == 'Left' or sides == 'both':
         doc_ref = db.collection(u'users').document(u'1y8SFUDXOZbx03bxUPRlXPkvgeq1')
         doc_ref.update({
-        'leftFoot':['Left foot is perfect!']
+            'leftFoot':['Left foot is perfect!']
         })
 
     if results[rotation.CLOSER_RIGHT.name]:
@@ -137,6 +145,14 @@ def print_rotation_results(results: dict, obj: pd.limb, sides = 'both') -> None:
         doc_ref.update({
         'rightFoot':['Right foot is perfect!']
         })
+
+def print_pressure_clear() -> None:
+    doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+    time.sleep(0.3)
+    doc_ref.update({
+        'pressureRightFoot': [''],
+        'pressureLeftFoot': ['']
+    })
 
 def print_pressure_results(results: dict, obj: pd.limb, obj2: pd.side) -> None:
     if obj2 == pd.side.RIGHT:
