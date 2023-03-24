@@ -83,28 +83,7 @@ def print_distance_results(results: dict, obj: pd.limb) -> None:
             u'leftFoot':firestore.ArrayUnion([u'Feet further vertically'])            
         })
 
-def print_rotation_results(results: dict, obj: pd.limb) -> None:
-    if results[rotation.PERFECT.name]:
-        print(f"{rotation.PERFECT.value}")
-        doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
-        time.sleep(0.3)
-        doc_ref.update({
-            'leftFoot':['Left foot is perfect!'],
-            'rightFoot':['Right foot is perfect!']
-        })
-        return
-    
-    if not results[rotation.CLOSER_RIGHT.name] and not results[rotation.FURTHER_RIGHT.name] and not results[rotation.PERPENDICULAR_RIGHT.name]:
-        doc_ref = db.collection(u'users').document(u'1y8SFUDXOZbx03bxUPRlXPkvgeq1')
-        doc_ref.update({
-        'rightFoot':['Right foot is perfect!']
-        })
-    if not results[rotation.CLOSER_LEFT.name] and not results[rotation.FURTHER_LEFT.name] and not results[rotation.PERPENDICULAR_LEFT.name]:
-        doc_ref = db.collection(u'users').document(u'1y8SFUDXOZbx03bxUPRlXPkvgeq1')
-        doc_ref.update({
-        'leftFoot':['Left foot is perfect!']
-        })
-
+def print_rotation_results(results: dict, obj: pd.limb, sides = 'both') -> None:
     if results[rotation.CLOSER_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.CLOSER_LEFT.value}.')
         doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
@@ -112,7 +91,6 @@ def print_rotation_results(results: dict, obj: pd.limb) -> None:
         doc_ref.update({
             'leftFoot':['Rotate left foot closer to body']
         })
-
     elif results[rotation.FURTHER_LEFT.name]:
         print(f'Rotate your {obj.name} {rotation.FURTHER_LEFT.value}.')
         doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
@@ -127,6 +105,11 @@ def print_rotation_results(results: dict, obj: pd.limb) -> None:
         doc_ref.update({
             'leftFoot':['Put left foot at 90 degrees']
         })
+    elif sides == 'Left' or sides == 'both':
+        doc_ref = db.collection(u'users').document(u'1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        doc_ref.update({
+        'leftFoot':['Left foot is perfect!']
+        })
 
     if results[rotation.CLOSER_RIGHT.name]:
         print(f'Rotate your {obj.name} {rotation.CLOSER_RIGHT.value}.')
@@ -135,7 +118,6 @@ def print_rotation_results(results: dict, obj: pd.limb) -> None:
         doc_ref.update({
             'rightFoot':['Rotate right foot closer to body']
         })
-
     elif results[rotation.FURTHER_RIGHT.name]:
         print(f'Rotate your {obj.name} {rotation.FURTHER_RIGHT.value}.')
         doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
@@ -147,9 +129,13 @@ def print_rotation_results(results: dict, obj: pd.limb) -> None:
         print(f'Rotate your {obj.name} {rotation.PERPENDICULAR_RIGHT.value}.')
         doc_ref = db.collection('users').document('1y8SFUDXOZbx03bxUPRlXPkvgeq1')
         time.sleep(0.3)
-        
         doc_ref.update({
             'rightFoot':['Put right foot at 90 degrees']
+        })
+    elif sides == 'Right' or sides == 'both':
+        doc_ref = db.collection(u'users').document(u'1y8SFUDXOZbx03bxUPRlXPkvgeq1')
+        doc_ref.update({
+        'rightFoot':['Right foot is perfect!']
         })
 
 def print_pressure_results(results: dict, obj: pd.limb, obj2: pd.side) -> None:
